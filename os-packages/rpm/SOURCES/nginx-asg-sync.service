@@ -1,0 +1,16 @@
+[Unit]
+Description=NGINX Plus integration with AWS Auto Scaling groups
+After=nginx.service
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+User=nginx
+Group=nginx
+ExecStartPre=/usr/bin/mkdir -p /var/log/nginx-asg-sync
+ExecStartPre=/usr/bin/chown nginx:nginx /var/log/nginx-asg-sync
+ExecStart=/usr/sbin/nginx-asg-sync -log_path=/var/log/nginx-asg-sync/nginx-asg-sync.log
+ExecStop=/usr/bin/kill $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+nginx-asg-sync (0.1-1-%%CODENAME%%) unstable; urgency=low
+
+  * 0.1-1
+  * First release
+
+ -- Michael Pleshakov <michael@nginx.com>  Fri, 03 Mar 2017 20:58:15 +0000

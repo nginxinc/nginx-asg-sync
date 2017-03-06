@@ -1,0 +1,161 @@
+{
+	"ImportPath": "github.com/nginxinc/nginx-asg-sync/cmd/sync",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v75",
+	"Deps": [
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/awserr",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/awsutil",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/client",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/client/metadata",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/corehandlers",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/endpointcreds",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/stscreds",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/defaults",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/ec2metadata",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/endpoints",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/request",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/session",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/signer/v4",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/ec2query",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query/queryutil",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/rest",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/waiter",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/autoscaling",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/ec2",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/ec2/ec2iface",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/sts",
+			"Comment": "v1.6.15-1-gb84b5a4",
+			"Rev": "b84b5a456f5f281454e9fbe89b38e34d617f4a51"
+		},
+		{
+			"ImportPath": "github.com/go-ini/ini",
+			"Comment": "v1.24.0",
+			"Rev": "e3c2d47c61e5333f9aa2974695dd94396eb69c75"
+		},
+		{
+			"ImportPath": "github.com/jmespath/go-jmespath",
+			"Comment": "0.2.2-14-gbd40a43",
+			"Rev": "bd40a432e4c76585ef6b72d3fd96fb9b6dc7b68d"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "a5b47d31c556af34a302ce5d659e6fea44d90de0"
+		}
+	]
+}

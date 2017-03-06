@@ -1,0 +1,14 @@
+Source: nginx-asg-sync
+Section: misc
+Priority: optional
+Maintainer: Michael Pleshakov <michael@nginx.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://github.com/nginxinc/nginx-asg-sync
+
+Package: nginx-asg-sync
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: NGINX Plus integration with AWS Auto Scaling Groups
+  This package contains software that integrates NGINX Plus
+  with AWS Auto Scaling groups

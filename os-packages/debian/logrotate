@@ -1,0 +1,10 @@
+/var/log/nginx-asg-sync/*.log
+{
+   copytruncate
+   daily
+   compress
+   missingok
+   rotate 5
+   nodateext
+   notifempty
+}

@@ -118,8 +118,8 @@ func checkIfUpstreamConfIsAccessible(httpClient *http.Client, endpoint string) e
 		return fmt.Errorf("upstream_conf endpoint %v is not accessible: %v", endpoint, err)
 	}
 
-	if resp.StatusCode != http.StatusNotFound {
-		return fmt.Errorf("upstream_conf endpoint %v is not accessible: expected 404 response, got %v", endpoint, resp.StatusCode)
+	if resp.StatusCode != http.StatusNotFound && resp.StatusCode != http.StatusBadRequest {
+		return fmt.Errorf("upstream_conf endpoint %v is not accessible: expected 404 or 400 response, got %v", endpoint, resp.StatusCode)
 	}
 
 	bodyStr := string(body)

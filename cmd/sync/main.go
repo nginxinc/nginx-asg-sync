@@ -20,7 +20,7 @@ import (
 
 var configFile = flag.String("config_path", "/etc/nginx/aws.yaml", "Path to the config file")
 var logFile = flag.String("log_path", "", "Path to the log file. If the file doesn't exist, it will be created")
-var version = "0.1-1"
+var version = "0.1-2"
 
 const connTimeoutInSecs = 10
 

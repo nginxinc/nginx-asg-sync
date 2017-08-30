@@ -4,7 +4,7 @@
 Summary: NGINX Plus integration with AWS Auto Scaling groups
 Name: nginx-asg-sync
 Version: 0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Vendor: Nginx Software, Inc.
 URL: https://github.com/nginxinc/nginx-asg-sync
 Packager: Nginx Software, Inc. <https://www.nginx.com>
@@ -110,6 +110,10 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
+* Wed Aug 30 2017 Michael Pleshakov <michael@nginx.com>
+- 0.1-2
+- Make sure nginx-asg-sync works with NGINX Plus R13
+
 * Fri Mar 03 2017 Michael Pleshakov <michael@nginx.com>
 - 0.1-1
 - First release

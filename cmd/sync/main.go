@@ -14,7 +14,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/autoscaling"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
@@ -68,13 +67,6 @@ func main() {
 			log.Printf("Problem with the NGINX configuration: %v", err)
 			os.Exit(10)
 		}
-		exists, err := awsClient.CheckIfAutoscalingGroupExists(ups.AutoscalingGroup)
-		if err != nil {
-			log.Printf("Couldn't check if an Auto Scaling group exists: %v", err)
-			os.Exit(10)
-		} else if !exists {
-			log.Printf("Warning: Auto Scaling group %v doesn't exists", ups.AutoscalingGroup)
-		}
 	}
 
 	sigterm := make(chan os.Signal, 1)
@@ -123,7 +115,6 @@ func createAWSClient(region string) *AWSClient {
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
 	cfg := &aws.Config{Region: aws.String(region), HTTPClient: httpClient}
 	session := session.New(cfg)
-	svcAutoscaling := autoscaling.New(session)
 	svcEC2 := ec2.New(session)
-	return NewAWSClient(svcEC2, svcAutoscaling)
+	return NewAWSClient(svcEC2)
 }

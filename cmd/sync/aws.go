@@ -39,7 +39,7 @@ func (client *AWSClient) GetPrivateIPsOfInstancesOfAutoscalingGroup(name string)
 		return nil, fmt.Errorf("autoscaling group %v doesn't exists", name)
 	}
 
-	instances, err := client.getInstancesOfResverations(resverations)
+	instances, err := client.getInstancesOfReservations(resverations)
 
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (client *AWSClient) GetPrivateIPsOfInstancesOfAutoscalingGroup(name string)
 }
 
 
-func (client *AWSClient) getInstancesOfResverations(group *ec2.DescribeInstancesOutput) ([]*ec2.Instance, error) {
+func (client *AWSClient) getInstancesOfReservations(group *ec2.DescribeInstancesOutput) ([]*ec2.Instance, error) {
 	var result []*ec2.Instance
 
 	if len(group.Reservations) == 0 {

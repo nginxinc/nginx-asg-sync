@@ -50,7 +50,9 @@ func main() {
 		os.Exit(10)
 	}
 
-	nginx, err := NewNginxClient(cfg.UpstreamConfEndpont, cfg.StatusEndpoint, connTimeoutInSecs*time.Second)
+	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
+	nginx, err := NewNginxClient(httpClient, cfg.APIEndpoint)
+
 	if err != nil {
 		log.Printf("Couldn't create NGINX client: %v", err)
 		os.Exit(10)
@@ -60,10 +62,11 @@ func main() {
 
 	for _, ups := range cfg.Upstreams {
 		if ups.Kind == "http" {
-			err = nginx.CheckIfHTTPUpstreamExists(ups.Name)
+			err = nginx.CheckIfUpstreamExists(ups.Name)
 		} else {
 			err = nginx.CheckIfStreamUpstreamExists(ups.Name)
 		}
+
 		if err != nil {
 			log.Printf("Problem with the NGINX configuration: %v", err)
 			os.Exit(10)
@@ -81,33 +84,53 @@ func main() {
 	signal.Notify(sigterm, syscall.SIGTERM)
 
 	for {
-		for _, ups := range cfg.Upstreams {
-			ips, err := awsClient.GetPrivateIPsOfInstancesOfAutoscalingGroup(ups.AutoscalingGroup)
+		for _, upstream := range cfg.Upstreams {
+			ips, err := awsClient.GetPrivateIPsOfInstancesOfAutoscalingGroup(upstream.AutoscalingGroup)
 			if err != nil {
-				log.Printf("Couldn't get the IP addresses of instances of the Auto Scaling group %v: %v", ups.AutoscalingGroup, err)
+				log.Printf("Couldn't get the IP addresses of instances of the Auto Scaling group %v: %v", upstream.AutoscalingGroup, err)
 				continue
 			}
 
-			var backends []string
-			for _, ip := range ips {
-				backend := fmt.Sprintf("%v:%v", ip, ups.Port)
-				backends = append(backends, backend)
-			}
+			if upstream.Kind == "http" {
+				var upsServers []UpstreamServer
+				for _, ip := range ips {
+					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
+					upsServers = append(upsServers, UpstreamServer{
+						Server:   backend,
+						MaxFails: 1,
+					})
+				}
 
-			var added, removed []string
+				added, removed, err := nginx.UpdateHTTPServers(upstream.Name, upsServers)
+				if err != nil {
+					log.Printf("Couldn't update HTTP servers in NGINX: %v", err)
+					continue
+				}
 
-			if ups.Kind == "http" {
-				added, removed, err = nginx.UpdateHTTPServers(ups.Name, backends)
+				if len(added) > 0 || len(removed) > 0 {
+					log.Printf("Updated HTTP servers of %v; Added: %v, Removed: %v", upstream, added, removed)
+				}
 			} else {
-				added, removed, err = nginx.UpdateStreamServers(ups.Name, backends)
+				var upsServers []StreamUpstreamServer
+				for _, ip := range ips {
+					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
+					upsServers = append(upsServers, StreamUpstreamServer{
+						Server:   backend,
+						MaxFails: 1,
+					})
+				}
+
+				added, removed, err := nginx.UpdateStreamServers(upstream.Name, upsServers)
+				if err != nil {
+					log.Printf("Couldn't update Steam servers in NGINX: %v", err)
+					continue
+				}
+
+				if len(added) > 0 || len(removed) > 0 {
+					log.Printf("Updated Stream servers of %v; Added: %v, Removed: %v", upstream, added, removed)
+				}
 			}
-			if err != nil {
-				log.Printf("Couldn't update servers in NGINX: %v", err)
-				continue
-			}
-			if len(removed) > 0 || len(added) > 0 {
-				log.Printf("Upstream: %v has been updated; Added: %v; Removed: %v\n", ups.Name, added, removed)
-			}
+
 		}
 
 		select {

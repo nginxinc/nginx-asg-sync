@@ -1,5 +1,5 @@
 GO_DOCKER_RUN = docker run --rm -v $(shell pwd)/cmd/sync:/go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync -v $(shell pwd)/build:/build -w /go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync
-GOLANG_CONTAINER = golang:1.8
+GOLANG_CONTAINER = golang:1.10
 
 all: amazon centos7 ubuntu-trusty ubuntu-xenial
 

@@ -9,8 +9,7 @@ import (
 
 type config struct {
 	Region                string
-	UpstreamConfEndpont   string        `yaml:"upstream_conf_endpoint"`
-	StatusEndpoint        string        `yaml:"status_endpoint"`
+	APIEndpoint           string        `yaml:"api_endpoint"`
 	SyncIntervalInSeconds time.Duration `yaml:"sync_interval_in_seconds"`
 	Upstreams             []upstream
 }
@@ -58,11 +57,8 @@ func validateConfig(cfg *config) error {
 	if cfg.Region == "" {
 		return fmt.Errorf(errorMsgFormat, "region")
 	}
-	if cfg.UpstreamConfEndpont == "" {
-		return fmt.Errorf(errorMsgFormat, "upstream_conf_endpoint")
-	}
-	if cfg.StatusEndpoint == "" {
-		return fmt.Errorf(errorMsgFormat, "status_endpoint")
+	if cfg.APIEndpoint == "" {
+		return fmt.Errorf(errorMsgFormat, "api_endpoint")
 	}
 	if cfg.SyncIntervalInSeconds == 0 {
 		return fmt.Errorf(intervalErrorMsg)

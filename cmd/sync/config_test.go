@@ -3,8 +3,7 @@ package main
 import "testing"
 
 var validYaml = []byte(`region: us-west-2
-upstream_conf_endpoint: http://127.0.0.1:8080/upstream_conf
-status_endpoint: http://127.0.0.1:8080/status
+api_endpoint: http://127.0.0.1:8080/api
 sync_interval_in_seconds: 5
 upstreams:
   - name: backend1
@@ -33,8 +32,7 @@ func getValidConfig() *config {
 	}
 	cfg := config{
 		Region:                "us-west-2",
-		UpstreamConfEndpont:   "http://127.0.0.1:8080/upstream_conf",
-		StatusEndpoint:        "http://127.0.0.1:8080/status",
+		APIEndpoint:           "http://127.0.0.1:8080/api",
 		SyncIntervalInSeconds: 1,
 		Upstreams:             upstreams,
 	}
@@ -49,13 +47,9 @@ func getInvalidConfigInput() []*testInput {
 	invalidRegionCfg.Region = ""
 	input = append(input, &testInput{invalidRegionCfg, "invalid region"})
 
-	invalidUpstreamConfEndponCfg := getValidConfig()
-	invalidUpstreamConfEndponCfg.UpstreamConfEndpont = ""
-	input = append(input, &testInput{invalidUpstreamConfEndponCfg, "invalid upstream_conf_endpoint"})
-
-	invalidStatusEndpointCfg := getValidConfig()
-	invalidStatusEndpointCfg.StatusEndpoint = ""
-	input = append(input, &testInput{invalidStatusEndpointCfg, "invalid status_endpoint"})
+	invalidAPIEndpointCfg := getValidConfig()
+	invalidAPIEndpointCfg.APIEndpoint = ""
+	input = append(input, &testInput{invalidAPIEndpointCfg, "invalid api_endpoint"})
 
 	invalidSyncIntervalInSecondsCfg := getValidConfig()
 	invalidSyncIntervalInSecondsCfg.SyncIntervalInSeconds = 0

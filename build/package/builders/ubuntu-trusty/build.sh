@@ -7,4 +7,4 @@ sed -i 's/%%CODENAME%%/trusty/g' debian/changelog
 rm debian/nginx-asg-sync.service
 dpkg-buildpackage -us -uc
 cd ..
-mv *.deb /build/
+mv *.deb /build_output/

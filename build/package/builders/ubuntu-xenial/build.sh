@@ -8,4 +8,4 @@ sed -i 's/%%CODENAME%%/xenial/g' debian/changelog
 rm debian/nginx-asg-sync.upstart
 dpkg-buildpackage -us -uc
 cd ..
-mv *.deb /build/
+mv *.deb /build_output/

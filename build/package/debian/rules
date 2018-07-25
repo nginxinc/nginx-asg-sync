@@ -5,5 +5,5 @@
 
 override_dh_auto_install:
 	dh_auto_install
-	/usr/bin/install -m 755 /build/nginx-asg-sync debian/nginx-asg-sync/usr/sbin/
+	/usr/bin/install -m 755 /build_output/nginx-asg-sync debian/nginx-asg-sync/usr/sbin/
 	/usr/bin/install -m 644 debian/aws.yaml.example debian/nginx-asg-sync/etc/nginx/

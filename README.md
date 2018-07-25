@@ -1,9 +1,11 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
+
 # NGINX Plus Integration with AWS Auto Scaling groups -- nginx-asg-sync
 
 **nginx-asg-sync** allows [NGINX Plus](https://www.nginx.com/products/) to discover instances of [AWS Auto Scaling groups](http://docs.aws.amazon.com/autoscaling/latest/userguide/WhatIsAutoScaling.html). When the number of instances in an Auto Scaling group changes, nginx-asg-sync adds the new instances to the NGINX Plus configuration and removes the terminated ones.
 
 ## How It Works
-nginx-asg-sync must be installed on the same EC2 instance with NGINX Plus. nginx-asg-sync constantly monitors backend Auto Scaling groups via the AWS Auto Scaling API.
+nginx-asg-sync is an agent process that runs on the same EC2 instance as NGINX Plus. It polls for changes to the backend Auto Scaling groups via the AWS Auto Scaling API.
 When it sees that a scaling event has happened, it adds or removes the corresponding backend instances from the NGINX Plus configuration via the NGINX Plus API.
 
 **Note:** nginx-asg-sync does not scale Auto Scaling groups, it only gets the IP addresses of the instances of Auto Scaling groups.
@@ -114,7 +116,7 @@ server {
 
 ### nginx-asg-sync Configuration
 
-nginx-asg-sync is configured in the file **aws.yaml** in the **/etc/nginx** folder. For our example, we define the following configuration:
+nginx-asg-sync is configured in **/etc/nginx/aws.yaml**. For our example, we define the following configuration:
 
 ```yaml
 region: us-west-2

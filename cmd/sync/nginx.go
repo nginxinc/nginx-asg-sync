@@ -90,7 +90,7 @@ type SSL struct {
 	SessionReuses    uint64 `json:"session_reuses"`
 }
 
-// ServerZones is map of server zone stats by zone name
+// ServerZones is map of server zone stats by zone name.
 type ServerZones map[string]ServerZone
 
 // ServerZone represents server zone related stats.
@@ -103,7 +103,7 @@ type ServerZone struct {
 	Sent       uint64
 }
 
-// Responses represents HTTP reponse related stats.
+// Responses represents HTTP response related stats.
 type Responses struct {
 	Responses1xx uint64 `json:"1xx"`
 	Responses2xx uint64 `json:"2xx"`

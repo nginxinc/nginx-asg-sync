@@ -23,7 +23,7 @@ type testInput struct {
 
 func getValidConfig() *config {
 	upstreams := []upstream{
-		upstream{
+		{
 			Name:             "backend1",
 			AutoscalingGroup: "backend-group",
 			Port:             80,

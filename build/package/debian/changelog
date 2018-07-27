@@ -1,9 +1,18 @@
+nginx-asg-sync (0.2-1-%%CODENAME%%) unstable; urgency=low
+
+  * 0.2-1
+  * Add supporting guides for contributing and changelog
+  * Update package layout
+  * Use new NGINX Plus API
+
+ -- Peter Kelly <peter.kelly@nginx.com>  Fri, 27 Jul 2018 13:48:00 +0000
+
 nginx-asg-sync (0.1-2-%%CODENAME%%) unstable; urgency=low
 
   * 0.1-2
   * Make sure nginx-asg-sync works with NGINX Plus R13
 
- -- Michael Pleshakov <michael@nginx.com>  Wed, 30 Aug 2017 21:03:28 +0000 
+ -- Michael Pleshakov <michael@nginx.com>  Wed, 30 Aug 2017 21:03:28 +0000
 
 nginx-asg-sync (0.1-1-%%CODENAME%%) unstable; urgency=low
 

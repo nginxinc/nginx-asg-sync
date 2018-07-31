@@ -4,7 +4,7 @@
 Summary: NGINX Plus integration with AWS Auto Scaling groups
 Name: nginx-asg-sync
 Version: 0.2
-Release: 2%{?dist}
+Release: 1%{?dist}
 Vendor: Nginx Software, Inc.
 URL: https://github.com/nginxinc/nginx-asg-sync
 Packager: Nginx Software, Inc. <https://www.nginx.com>

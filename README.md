@@ -1,4 +1,4 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
+[![FOSSA Status](https://app.fossa.io/api/projects/custom%2B1062%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync.svg?type=shield)](https://app.fossa.io/projects/custom%2B1062%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync?ref=badge_shield)  [![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
 
 # NGINX Plus Integration with AWS Auto Scaling groups -- nginx-asg-sync
 

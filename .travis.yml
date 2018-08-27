@@ -4,6 +4,9 @@ services:
 - docker
 go:
 - "1.10"
+script:
+- echo "Nginx ASG sync - commit:${TRAVIS_COMMIT}"
+- make BUILD_IN_CONTAINER=0 all
 before_install:
 - echo "PR Slug:${TRAVIS_PULL_REQUEST_SLUG}"
 - if [[ "${TRAVIS_PULL_REQUEST_SLUG}" == "nginxinc/nginx-asg-sync" || "${TRAVIS_PULL_REQUEST}" == "false" ]]; then

@@ -2,7 +2,7 @@ GO_DOCKER_RUN = docker run --rm -v $(shell pwd):/go/src/github.com/nginxinc/ngin
 GOLANG_CONTAINER = golang:1.10
 BUILD_IN_CONTAINER = 1
 
-all: amazon centos7 ubuntu-trusty ubuntu-xenial
+all: amazon centos7 ubuntu-trusty ubuntu-xenial amazon2
 
 test:
 ifeq ($(BUILD_IN_CONTAINER),1)
@@ -21,6 +21,10 @@ endif
 amazon: compile
 	make -C build/package/builders/amazon/
 	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output amazon-builder
+
+amazon2: compile
+	make -C build/package/builders/amazon2/
+	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output amazon2-builder
 
 centos7: compile
 	make -C build/package/builders/centos7/

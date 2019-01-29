@@ -162,7 +162,8 @@ You can compile nginx-asg-sync and build a software package using the provided M
 
 To build a software package, run: `$ make <os>`
 where `<os>` is the target OS. The following values are allowed:
-* `amazon` for Amazon Linux
+* `amazon` for Amazon Linux 1
+* `amazon2` for Amazon Linux 2
 * `centos7` for CentOS7/RHEL7
 * `ubuntu-trusty` for Ubuntu 14.04
 * `ubuntu-xenial` for Ubuntu 16.04

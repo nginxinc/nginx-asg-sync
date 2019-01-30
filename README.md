@@ -38,7 +38,7 @@ We provide packages for the following operating systems:
 
 * Ubuntu: 14.04 (Trusty), 16.04 (Xenial)
 * CentOS/RHEL: 7
-* Amazon Linux
+* Amazon Linux: 1, 2
 
 Support for other operating systems can be added.
 
@@ -146,9 +146,9 @@ upstreams:
 
 nginx-asg-sync runs as a system service and supports the start/stop/restart commands.
 
-For Ubuntu 14.04 and Amazon Linux, run: `$ sudo start|stop|restart nginx-asg-sync`
+For Ubuntu 14.04 and Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
 
-For Ubuntu 16.04 and CentOS7/RHEL7, run: `$ sudo service nginx-asg-sync start|stop|restart`
+For Ubuntu 16.04, CentOS7/RHEL7 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
 
 ## Troubleshooting
 

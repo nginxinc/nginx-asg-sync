@@ -145,7 +145,12 @@ func main() {
 func createAWSClient(region string) *AWSClient {
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
 	cfg := &aws.Config{Region: aws.String(region), HTTPClient: httpClient}
-	session := session.New(cfg)
+	session, err := session.NewSession(cfg)
+
+	if err != nil {
+		log.Printf("Error while creating AWS Client: %v", err)
+	}
+
 	svcAutoscaling := autoscaling.New(session)
 	svcEC2 := ec2.New(session)
 	return NewAWSClient(svcEC2, svcAutoscaling)

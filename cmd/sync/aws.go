@@ -91,9 +91,7 @@ func (client *AWSClient) getInstancesOfAutoscalingGroup(group *autoscaling.Group
 		return result, err
 	}
 	for _, res := range resp.Reservations {
-		for _, ins := range res.Instances {
-			result = append(result, ins)
-		}
+		result = append(result, res.Instances...)
 	}
 
 	return result, nil

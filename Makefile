@@ -11,6 +11,9 @@ else
 	go test ./...
 endif
 
+lint:
+	golangci-lint run
+
 compile: test
 ifeq ($(BUILD_IN_CONTAINER),1)
 	$(GO_DOCKER_RUN) $(GOLANG_CONTAINER) go build -o /build_output/nginx-asg-sync

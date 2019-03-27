@@ -58,7 +58,11 @@ func main() {
 		os.Exit(10)
 	}
 
-	awsClient := createAWSClient(cfg.Region)
+	awsClient, err := createAWSClient(cfg.Region)
+	if err != nil {
+		log.Printf("Couldn't create AWS client: %v", err)
+		os.Exit(10)
+	}
 
 	for _, ups := range cfg.Upstreams {
 		if ups.Kind == "http" {
@@ -142,11 +146,16 @@ func main() {
 	}
 }
 
-func createAWSClient(region string) *AWSClient {
+func createAWSClient(region string) (*AWSClient, error) {
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
 	cfg := &aws.Config{Region: aws.String(region), HTTPClient: httpClient}
-	session := session.New(cfg)
+
+	session, err := session.NewSession(cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	svcAutoscaling := autoscaling.New(session)
 	svcEC2 := ec2.New(session)
-	return NewAWSClient(svcEC2, svcAutoscaling)
+	return NewAWSClient(svcEC2, svcAutoscaling), nil
 }

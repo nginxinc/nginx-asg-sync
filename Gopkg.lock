@@ -2,6 +2,7 @@
 
 
 [[projects]]
+  digest = "1:12505073f2e8d10308d290bbaf56d58ee0b023a8552e5b451b4d12747a409ab1"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -35,31 +36,55 @@
     "service/autoscaling/autoscalingiface",
     "service/ec2",
     "service/ec2/ec2iface",
-    "service/sts"
+    "service/sts",
   ]
+  pruneopts = "UT"
   revision = "468b9714c11f10b22e533253b35eb9c28f4be691"
   version = "v1.14.32"
 
 [[projects]]
+  digest = "1:fe8a03a8222d5b913f256972933d26d24ad7c8286692a42943bc01633cc8fce3"
   name = "github.com/go-ini/ini"
   packages = ["."]
+  pruneopts = "UT"
   revision = "358ee7663966325963d4e8b2e1fbd570c5195153"
   version = "v1.38.1"
 
 [[projects]]
+  digest = "1:e22af8c7518e1eab6f2eab2b7d7558927f816262586cd6ed9f349c97a6c285c4"
   name = "github.com/jmespath/go-jmespath"
   packages = ["."]
+  pruneopts = "UT"
   revision = "0b12d6b5"
 
 [[projects]]
+  digest = "1:1f97a27bc40b073752d15ee0ff6ed73b8ef42db4798ccd2bfd2c0cc638b74862"
+  name = "github.com/nginxinc/nginx-plus-go-client"
+  packages = ["client"]
+  pruneopts = "UT"
+  revision = "3b3fe2931299496cbf57053486ff5a1b788d1f7f"
+  version = "v0.4.0"
+
+[[projects]]
+  digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
+  pruneopts = "UT"
   revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
   version = "v2.2.1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "06d24efe0460549241622671ce186f8e0c3673521a2eff1e421c7830fdafe402"
+  input-imports = [
+    "github.com/aws/aws-sdk-go/aws",
+    "github.com/aws/aws-sdk-go/aws/session",
+    "github.com/aws/aws-sdk-go/service/autoscaling",
+    "github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface",
+    "github.com/aws/aws-sdk-go/service/ec2",
+    "github.com/aws/aws-sdk-go/service/ec2/ec2iface",
+    "github.com/nginxinc/nginx-plus-go-client/client",
+    "gopkg.in/yaml.v2",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

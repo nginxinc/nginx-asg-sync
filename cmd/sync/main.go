@@ -16,6 +16,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/autoscaling"
 	"github.com/aws/aws-sdk-go/service/ec2"
+
+	nginx "github.com/nginxinc/nginx-plus-go-client/client"
 )
 
 var configFile = flag.String("config_path", "/etc/nginx/aws.yaml", "Path to the config file")
@@ -51,7 +53,7 @@ func main() {
 	}
 
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
-	nginx, err := NewNginxClient(httpClient, cfg.APIEndpoint)
+	nginxClient, err := nginx.NewNginxClient(httpClient, cfg.APIEndpoint)
 
 	if err != nil {
 		log.Printf("Couldn't create NGINX client: %v", err)
@@ -66,9 +68,9 @@ func main() {
 
 	for _, ups := range cfg.Upstreams {
 		if ups.Kind == "http" {
-			err = nginx.CheckIfUpstreamExists(ups.Name)
+			err = nginxClient.CheckIfUpstreamExists(ups.Name)
 		} else {
-			err = nginx.CheckIfStreamUpstreamExists(ups.Name)
+			err = nginxClient.CheckIfStreamUpstreamExists(ups.Name)
 		}
 
 		if err != nil {
@@ -96,16 +98,17 @@ func main() {
 			}
 
 			if upstream.Kind == "http" {
-				var upsServers []UpstreamServer
+
+				var upsServers []nginx.UpstreamServer
 				for _, ip := range ips {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
-					upsServers = append(upsServers, UpstreamServer{
+					upsServers = append(upsServers, nginx.UpstreamServer{
 						Server:   backend,
 						MaxFails: 1,
 					})
 				}
 
-				added, removed, err := nginx.UpdateHTTPServers(upstream.Name, upsServers)
+				added, removed, err := nginxClient.UpdateHTTPServers(upstream.Name, upsServers)
 				if err != nil {
 					log.Printf("Couldn't update HTTP servers in NGINX: %v", err)
 					continue
@@ -115,16 +118,16 @@ func main() {
 					log.Printf("Updated HTTP servers of %v; Added: %v, Removed: %v", upstream, added, removed)
 				}
 			} else {
-				var upsServers []StreamUpstreamServer
+				var upsServers []nginx.StreamUpstreamServer
 				for _, ip := range ips {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
-					upsServers = append(upsServers, StreamUpstreamServer{
+					upsServers = append(upsServers, nginx.StreamUpstreamServer{
 						Server:   backend,
 						MaxFails: 1,
 					})
 				}
 
-				added, removed, err := nginx.UpdateStreamServers(upstream.Name, upsServers)
+				added, removed, err := nginxClient.UpdateStreamServers(upstream.Name, upsServers)
 				if err != nil {
 					log.Printf("Couldn't update Steam servers in NGINX: %v", err)
 					continue

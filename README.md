@@ -1,16 +1,22 @@
 [![Build Status](https://travis-ci.org/nginxinc/nginx-asg-sync.svg?branch=master)](https://travis-ci.org/nginxinc/nginx-asg-sync)  [![FOSSA Status](https://app.fossa.io/api/projects/custom%2B1062%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync.svg?type=shield)](https://app.fossa.io/projects/custom%2B1062%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync?ref=badge_shield)  [![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
 
-# NGINX Plus Integration with AWS Auto Scaling groups -- nginx-asg-sync
+# NGINX Plus Integration with Cloud Autoscaling -- nginx-asg-sync
 
-**nginx-asg-sync** allows [NGINX Plus](https://www.nginx.com/products/) to discover instances of [AWS Auto Scaling groups](http://docs.aws.amazon.com/autoscaling/latest/userguide/WhatIsAutoScaling.html). When the number of instances in an Auto Scaling group changes, nginx-asg-sync adds the new instances to the NGINX Plus configuration and removes the terminated ones.
+**nginx-asg-sync** allows [NGINX Plus](https://www.nginx.com/products/) to discover instances (virtual machines) of a scaling group of a cloud provider. The following providers are supported:
+
+* AWS [Auto Scaling groups](http://docs.aws.amazon.com/autoscaling/latest/userguide/WhatIsAutoScaling.html)
+* Azure [Virtual Machine Scale Sets](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/)
+
+When the number of instances changes, nginx-asg-sync adds the new instances to the NGINX Plus configuration and removes the terminated ones.
 
 ## How It Works
-nginx-asg-sync is an agent process that runs on the same EC2 instance as NGINX Plus. It polls for changes to the backend Auto Scaling groups via the AWS Auto Scaling API.
+nginx-asg-sync is an agent process that runs on the same instance as NGINX Plus. It polls for changes to the backend instance groups via the Cloud Provider API.
+
 When it sees that a scaling event has happened, it adds or removes the corresponding backend instances from the NGINX Plus configuration via the NGINX Plus API.
 
-**Note:** nginx-asg-sync does not scale Auto Scaling groups, it only gets the IP addresses of the instances of Auto Scaling groups.
+**Note:** nginx-asg-sync does not scale cloud scaling groups, it only gets the IP addresses of the instances in the groups.
 
-In the example below, NGINX Plus is configured to load balance among the instances of two Auto Scaling groups -- Backend One and Backend Two.
+In the example below (AWS), NGINX Plus is configured to load balance among the instances of two AWS Auto Scaling groups -- Backend One and Backend Two.
 nginx-asg-sync, running on the same instance as NGINX Plus, ensures that whenever you scale the Auto Scaling groups, the corresponding instances are added (or removed) from the NGINX Plus configuration.
 
 ![nginx-asg-sync-architecture](https://cdn-1.wp.nginx.com/wp-content/uploads/2017/03/aws-auto-scaling-group-asg-sync.png)
@@ -21,15 +27,13 @@ Below you will find documentation on how to use nginx-asg-sync.
 **Note:** the documentation for **the latest stable release** is available via a link in the description of the release. See the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
 
 **Contents:**
-- [NGINX Plus Integration with AWS Auto Scaling groups -- nginx-asg-sync](#nginx-plus-integration-with-aws-auto-scaling-groups----nginx-asg-sync)
+- [NGINX Plus Integration with Cloud Autoscaling -- nginx-asg-sync](#nginx-plus-integration-with-cloud-autoscaling----nginx-asg-sync)
   - [How It Works](#how-it-works)
   - [Documentation](#documentation)
   - [Supported Operating Systems](#supported-operating-systems)
-  - [Setting up Access to the AWS API](#setting-up-access-to-the-aws-api)
   - [Installation](#installation)
-  - [Configuration](#configuration)
     - [NGINX Plus Configuration](#nginx-plus-configuration)
-    - [nginx-asg-sync Configuration](#nginx-asg-sync-configuration)
+    - [Configuration for Cloud Providers](#configuration-for-cloud-providers)
   - [Usage](#usage)
   - [Troubleshooting](#troubleshooting)
   - [Building a Software Package](#building-a-software-package)
@@ -45,13 +49,6 @@ We provide packages for the following operating systems:
 
 Support for other operating systems can be added.
 
-## Setting up Access to the AWS API
-
-nginx-asg-sync uses the AWS API to get the list of IP addresses of the instances of an Auto Scaling group. To access the AWS API, nginx-asg-sync must have credentials. To provide credentials to nginx-asg-sync:
-
-1. [Create an IAM role](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) and attach the predefined `AmazonEC2ReadOnlyAccess` policy to it. This policy allows read-only access to EC2 APIs.
-1. When you launch the NGINX Plus instance, add this IAM role to the instance.
-
 ## Installation
 
 1. Get a software package for your OS:
@@ -61,16 +58,14 @@ nginx-asg-sync uses the AWS API to get the list of IP addresses of the instances
     * For Amazon Linux or CentOS/RHEL, run: `$ sudo rpm -i <package-name>.rpm`
     * For Ubuntu, run: `$ sudo dpkg -i <package-name>.deb`
 
-## Configuration
+### NGINX Plus Configuration
 
-As an example, we configure NGINX Plus to load balance two AWS Auto Scaling groups -- backend-group-one and backend-group-two. NGINX Plus routes requests to the appropriate Auto Scaling group based on the request URI:
+As an example, we configure NGINX Plus to load balance two groups of instances -- backend-group-one and backend-group-two. NGINX Plus routes requests to the appropriate group based on the request URI:
 
 * Requests for /backend-one go to Backend One group.
 * Requests for /backend-two go to Backend Two group.
 
 This example corresponds to [the diagram](#how-it-works) at the top of this README.
-
-### NGINX Plus Configuration
 
 ```nginx
 upstream backend-one {
@@ -93,9 +88,29 @@ server {
        proxy_pass http://backend-one;
    }
 
+   location @hc-backend-one {
+       internal;
+       proxy_connect_timeout 1s;
+       proxy_read_timeout 1s;
+       proxy_send_timeout 1s;
+
+       proxy_pass http://backend-one;
+       health_check interval=1s mandatory;
+   }
+
    location /backend-two {
        proxy_set_header Host $host;
        proxy_pass http://backend-two;
+   }
+
+   location @hc-backend-two {
+       internal;
+       proxy_connect_timeout 1s;
+       proxy_read_timeout 1s;
+       proxy_send_timeout 1s;
+
+       proxy_pass http://backend-two;
+       health_check interval=1s mandatory;
    }
 }
 
@@ -112,40 +127,18 @@ server {
 }
 ```
 
-* We declare two upstream groups – **backend-one** and **backend-two**, which correspond to our Auto Scaling groups. However, we do not add any servers to the upstream groups, because the servers will be added by nginx-aws-sync. The `state` directive names the file where the dynamically configurable list of servers is stored, enabling it to persist across restarts of NGINX Plus.
+* We declare two upstream groups – **backend-one** and **backend-two**, which correspond to our instance groups. However, we do not add any servers to the upstream groups, because the servers will be added by nginx-aws-sync. The `state` directive names the file where the dynamically configurable list of servers is stored, enabling it to persist across restarts of NGINX Plus.
 * We define a virtual server that listens on port 80. NGINX Plus passes requests for **/backend-one** to the instances of the Backend One group, and requests for **/backend-two** to the instances of the Backend Two group.
 * We define a second virtual server listening on port 8080 and configure the NGINX Plus API on it, which is required by nginx-asg-sync:
   * The API is available at **127.0.0.1:8080/api**
 
-### nginx-asg-sync Configuration
+Because cloud provider APIs return the instances IP addresses before the instances are ready and/or provisioned, we recommend setting up mandatory active [healthchecks](http://nginx.org/en/docs/http/ngx_http_upstream_hc_module.html#health_check) for all upstream groups - **@hc-backend-one** and **@hc-backend-two**. This way, NGINX Plus won't pass any request to an instance that is still being provisioned or has been deleted recently.
 
-nginx-asg-sync is configured in **/etc/nginx/aws.yaml**. For our example, we define the following configuration:
+Small timeouts ensure that a health check will fail fast if the backend instance is not healthy. Also, the mandatory parameter ensures NGINX Plus won't consider a newly added instance healthy until a health check passes.
 
-```yaml
-region: us-west-2
-api_endpoint: http://127.0.0.1:8080/api
-sync_interval_in_seconds: 5
-cloud_provider: AWS
-upstreams:
- - name: backend-one
-   autoscaling_group: backend-one-group
-   port: 80
-   kind: http
- - name: backend-two
-   autoscaling_group: backend-two-group
-   port: 80
-   kind: http
-```
+### Configuration for Cloud Providers
 
-* The `region` key defines the AWS region where we deploy NGINX Plus and the Auto Scaling groups.
-* The `api_endpoint` key defines the NGINX Plus API endpoint.
-* The `sync_interval_in_seconds` key defines the synchronization interval: nginx-asg-sync checks for scaling updates every 5 seconds.
-* The `cloud_provider` key defines a cloud provider that will be used. The default is `AWS`. This means the key can be empty if using AWS.
-* The `upstreams` key defines the list of upstream groups. For each upstream group we specify:
-  * `name` – The name we specified for the upstream block in the NGINX Plus configuration.
-  * `autoscaling_group` – The name of the corresponding Auto Scaling group.
-  * `port` – The port on which our backend applications are exposed.
-  * `kind` – The protocol of the traffic NGINX Plus load balances to the backend application, here `http`. If the application uses TCP/UDP, specify `stream` instead.
+See the example for your cloud provider: [AWS](examples/aws.md), [Azure](examples/azure.md).
 
 ## Usage
 

@@ -12,7 +12,7 @@ A clear and concise description of what the bug is.
 Provide the following files as part of the bug report
 
 * NGINX Plus configuration. Run `sudo nginx -T` to gather the full configuration
-* nginx-asg-sync configuration from `/etc/nginx/aws.yaml`
+* nginx-asg-sync configuration from `/etc/nginx/config.yaml`
 
 Steps to reproduce the behavior, such as:
 1. Scale from 2 to 5 EC2 instances

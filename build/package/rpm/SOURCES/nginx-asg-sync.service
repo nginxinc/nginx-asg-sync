@@ -1,5 +1,5 @@
 [Unit]
-Description=NGINX Plus integration with AWS Auto Scaling groups
+Description=NGINX Plus Integration with Cloud Autoscaling
 After=nginx.service
 
 [Service]

@@ -2,7 +2,40 @@
 
 
 [[projects]]
-  digest = "1:12505073f2e8d10308d290bbaf56d58ee0b023a8552e5b451b4d12747a409ab1"
+  digest = "1:5528a950c822b95fc7108dd7ad2f6e9e0127e0f104808e81ec812953447c7eee"
+  name = "github.com/Azure/azure-sdk-for-go"
+  packages = [
+    "profiles/latest/compute/mgmt/compute",
+    "profiles/latest/network/mgmt/network",
+    "services/compute/mgmt/2019-07-01/compute",
+    "services/network/mgmt/2019-06-01/network",
+    "version",
+  ]
+  pruneopts = "UT"
+  revision = "07e904809009c506339e781db6167dd06e95cde6"
+  version = "v32.5.0"
+
+[[projects]]
+  digest = "1:c39603b93cda6859fa04dc23bffee64dc5db6f6f4fec93539ddef9d7e628a5da"
+  name = "github.com/Azure/go-autorest"
+  packages = [
+    "autorest",
+    "autorest/adal",
+    "autorest/azure",
+    "autorest/azure/auth",
+    "autorest/azure/cli",
+    "autorest/date",
+    "autorest/to",
+    "autorest/validation",
+    "logger",
+    "tracing",
+  ]
+  pruneopts = "UT"
+  revision = "5e7a399d8bbf4953ab0c8e3167d7fd535fd74ce1"
+  version = "v13.0.0"
+
+[[projects]]
+  digest = "1:f0bc571a9a01d55784bb57ab9dbc5d4b7220bed524b59eff66553ac466c87be1"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -14,6 +47,7 @@
     "aws/credentials",
     "aws/credentials/ec2rolecreds",
     "aws/credentials/endpointcreds",
+    "aws/credentials/processcreds",
     "aws/credentials/stscreds",
     "aws/csm",
     "aws/defaults",
@@ -22,12 +56,14 @@
     "aws/request",
     "aws/session",
     "aws/signer/v4",
+    "internal/ini",
     "internal/sdkio",
     "internal/sdkrand",
     "internal/sdkuri",
     "internal/shareddefaults",
     "private/protocol",
     "private/protocol/ec2query",
+    "private/protocol/json/jsonutil",
     "private/protocol/query",
     "private/protocol/query/queryutil",
     "private/protocol/rest",
@@ -37,25 +73,42 @@
     "service/ec2",
     "service/ec2/ec2iface",
     "service/sts",
+    "service/sts/stsiface",
   ]
   pruneopts = "UT"
-  revision = "468b9714c11f10b22e533253b35eb9c28f4be691"
-  version = "v1.14.32"
+  revision = "95d69e28d7d16140dab16d0ef59fff5587e5624f"
+  version = "v1.23.5"
 
 [[projects]]
-  digest = "1:fe8a03a8222d5b913f256972933d26d24ad7c8286692a42943bc01633cc8fce3"
-  name = "github.com/go-ini/ini"
+  digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
+  name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
   pruneopts = "UT"
-  revision = "358ee7663966325963d4e8b2e1fbd570c5195153"
-  version = "v1.38.1"
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+  version = "v3.2.0"
 
 [[projects]]
-  digest = "1:e22af8c7518e1eab6f2eab2b7d7558927f816262586cd6ed9f349c97a6c285c4"
+  digest = "1:cf0d2e435fd4ce45b789e93ef24b5f08e86be0e9807a16beb3694e2d8c9af965"
+  name = "github.com/dimchansky/utfbom"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "d2133a1ce379ef6fa992b0514a77146c60db9d1c"
+  version = "v1.1.0"
+
+[[projects]]
+  digest = "1:bb81097a5b62634f3e9fec1014657855610c82d19b9a40c17612e32651e35dca"
   name = "github.com/jmespath/go-jmespath"
   packages = ["."]
   pruneopts = "UT"
-  revision = "0b12d6b5"
+  revision = "c2b33e84"
+
+[[projects]]
+  digest = "1:5d231480e1c64a726869bc4142d270184c419749d34f167646baa21008eb0a79"
+  name = "github.com/mitchellh/go-homedir"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "af06845cf3004701891bf4fdb884bfe4920b3727"
+  version = "v1.1.0"
 
 [[projects]]
   digest = "1:1f97a27bc40b073752d15ee0ff6ed73b8ef42db4798ccd2bfd2c0cc638b74862"
@@ -66,17 +119,32 @@
   version = "v0.4.0"
 
 [[projects]]
-  digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
+  branch = "master"
+  digest = "1:994c4915a59f821705d08ea77b117ec7a3e6a46cc867fd194d887500dac1c3c2"
+  name = "golang.org/x/crypto"
+  packages = [
+    "pkcs12",
+    "pkcs12/internal/rc2",
+  ]
+  pruneopts = "UT"
+  revision = "60c769a6c58655dab1b9adac0d58967dd517cfba"
+
+[[projects]]
+  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   pruneopts = "UT"
-  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
-  version = "v2.2.1"
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute",
+    "github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network",
+    "github.com/Azure/go-autorest/autorest",
+    "github.com/Azure/go-autorest/autorest/azure/auth",
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/session",
     "github.com/aws/aws-sdk-go/service/autoscaling",

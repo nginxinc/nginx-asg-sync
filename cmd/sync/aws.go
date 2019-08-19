@@ -14,11 +14,6 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-const upstreamNameErrorMsg = "The mandatory field name is either empty or missing for an upstream in the config file"
-const upstreamErrorMsgFormat = "The mandatory field %v is either empty or missing for the upstream %v in the config file"
-const upstreamPortErrorMsgFormat = "The mandatory field port is either zero or missing for the upstream %v in the config file"
-const upstreamKindErrorMsgFormat = "The mandatory field kind is either not equal to http or tcp or missing for the upstream %v in the config file"
-
 // AWSClient allows you to get the list of IP addresses of instanes of an Auto Scaling group. It implements the CloudProvider interface
 type AWSClient struct {
 	svcEC2         ec2iface.EC2API
@@ -101,7 +96,7 @@ func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	return exists, nil
 }
 
-// GetPrivateIPsForScalingGroup returns the list of IP addresses of instanes of the Auto Scaling group
+// GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Auto Scaling group
 func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
 	group, exists, err := client.getAutoscalingGroup(name)
 	if err != nil {

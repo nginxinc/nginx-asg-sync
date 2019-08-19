@@ -1,7 +1,7 @@
 # distribution specific definitions
 %define use_systemd (0%{?rhel} && 0%{?rhel} >= 7)
 
-Summary: NGINX Plus integration with AWS Auto Scaling groups
+Summary: NGINX Plus Integration with Cloud Autoscaling
 Name: nginx-asg-sync
 Version: 0.2
 Release: 1%{?dist}
@@ -9,7 +9,7 @@ Vendor: Nginx Software, Inc.
 URL: https://github.com/nginxinc/nginx-asg-sync
 Packager: Nginx Software, Inc. <https://www.nginx.com>
 
-Source0: aws.yaml.example
+Source0: config.yaml.example
 Source1: COPYRIGHT
 Source2: nginx-asg-sync.conf
 Source3: nginx-asg-sync.logrotate
@@ -26,7 +26,7 @@ Requires: upstart >= 0.6.5
 
 %description
 This package contains software that integrates NGINX Plus
-with AWS Auto Scaling groups
+with AWS Auto Scaling groups and Azure Virtual Machine Scale Sets
 
 %prep
 
@@ -72,7 +72,7 @@ rm -rf %{buildroot}
 %endif
 
 %dir %{_sysconfdir}/nginx
-%config(noreplace) %{_sysconfdir}/nginx/aws.yaml.example
+%config(noreplace) %{_sysconfdir}/nginx/config.yaml.example
 %config(noreplace) %{_sysconfdir}/logrotate.d/nginx-asg-sync
 
 %dir %{_datadir}/doc/nginx-asg-sync

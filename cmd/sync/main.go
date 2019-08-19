@@ -15,7 +15,7 @@ import (
 	nginx "github.com/nginxinc/nginx-plus-go-client/client"
 )
 
-var configFile = flag.String("config_path", "/etc/nginx/aws.yaml", "Path to the config file")
+var configFile = flag.String("config_path", "/etc/nginx/config.yaml", "Path to the config file")
 var logFile = flag.String("log_path", "", "Path to the log file. If the file doesn't exist, it will be created")
 var version = "0.2-1"
 
@@ -48,8 +48,12 @@ func main() {
 	}
 
 	var cloudProviderClient CloudProvider
-	if commonConfig.CloudProvider == "AWS" {
+
+	switch commonConfig.CloudProvider {
+	case "AWS":
 		cloudProviderClient, err = NewAWSClient(cfgData)
+	case "Azure":
+		cloudProviderClient, err = NewAzureClient(cfgData)
 	}
 
 	if err != nil {
@@ -98,6 +102,7 @@ func main() {
 	for {
 		for _, upstream := range upstreams {
 			ips, err := cloudProviderClient.GetPrivateIPsForScalingGroup(upstream.ScalingGroup)
+
 			if err != nil {
 				log.Printf("Couldn't get the IP addresses for %v: %v", upstream.ScalingGroup, err)
 				continue

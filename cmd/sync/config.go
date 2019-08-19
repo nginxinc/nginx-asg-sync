@@ -14,11 +14,6 @@ type commonConfig struct {
 	CloudProvider         string        `yaml:"cloud_provider"`
 }
 
-const errorMsgFormat = "The mandatory field %v is either empty or missing in the config file"
-const intervalErrorMsg = "The mandatory field sync_interval_in_seconds is either 0 or missing in the config file"
-const cloudProviderErrorMsg = "The field cloud_provider has invalid value %v in the config file"
-const defaultCloudProvider = "AWS"
-
 func parseCommonConfig(data []byte) (*commonConfig, error) {
 	cfg := &commonConfig{}
 	err := yaml.Unmarshal(data, cfg)

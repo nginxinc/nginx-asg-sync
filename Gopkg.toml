@@ -40,3 +40,8 @@
 [[constraint]]
   name = "github.com/nginxinc/nginx-plus-go-client"
   version = "0.4.0"
+
+# https://github.com/Azure/go-autorest/issues/439#issuecomment-521732075
+[[override]]
+  name = "github.com/Azure/go-autorest"
+  version = "13.0.0"

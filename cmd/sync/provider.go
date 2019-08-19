@@ -9,7 +9,8 @@ type CloudProvider interface {
 
 func validateCloudProvider(provider string) bool {
 	providers := map[string]bool{
-		"AWS": true,
+		"AWS":   true,
+		"Azure": true,
 	}
 
 	return providers[provider]

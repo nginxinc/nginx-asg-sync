@@ -21,16 +21,19 @@ Below you will find documentation on how to use nginx-asg-sync.
 **Note:** the documentation for **the latest stable release** is available via a link in the description of the release. See the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
 
 **Contents:**
-- [Supported Operating Systems](#supported-operating-systems)
-- [Setting up Access to the AWS API](#setting-up-access-to-the-aws-api)
-- [Installation](#installation)
-- [Configuration](#configuration)
-  - [NGINX Plus Configuration](#nginx-plus-configuration)
-  - [nginx-asg-sync Configuration](#nginx-asg-sync-configuration)
-- [Usage](#usage)
-- [Troubleshooting](#troubleshooting)
-- [Building a Software Package](#building-a-software-package)
-- [Support](#support)
+- [NGINX Plus Integration with AWS Auto Scaling groups -- nginx-asg-sync](#nginx-plus-integration-with-aws-auto-scaling-groups----nginx-asg-sync)
+  - [How It Works](#how-it-works)
+  - [Documentation](#documentation)
+  - [Supported Operating Systems](#supported-operating-systems)
+  - [Setting up Access to the AWS API](#setting-up-access-to-the-aws-api)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+    - [NGINX Plus Configuration](#nginx-plus-configuration)
+    - [nginx-asg-sync Configuration](#nginx-asg-sync-configuration)
+  - [Usage](#usage)
+  - [Troubleshooting](#troubleshooting)
+  - [Building a Software Package](#building-a-software-package)
+  - [Support](#support)
 
 ## Supported Operating Systems
 
@@ -122,6 +125,7 @@ nginx-asg-sync is configured in **/etc/nginx/aws.yaml**. For our example, we def
 region: us-west-2
 api_endpoint: http://127.0.0.1:8080/api
 sync_interval_in_seconds: 5
+cloud_provider: AWS
 upstreams:
  - name: backend-one
    autoscaling_group: backend-one-group
@@ -136,6 +140,7 @@ upstreams:
 * The `region` key defines the AWS region where we deploy NGINX Plus and the Auto Scaling groups.
 * The `api_endpoint` key defines the NGINX Plus API endpoint.
 * The `sync_interval_in_seconds` key defines the synchronization interval: nginx-asg-sync checks for scaling updates every 5 seconds.
+* The `cloud_provider` key defines a cloud provider that will be used. The default is `AWS`. This means the key can be empty if using AWS.
 * The `upstreams` key defines the list of upstream groups. For each upstream group we specify:
   * `name` – The name we specified for the upstream block in the NGINX Plus configuration.
   * `autoscaling_group` – The name of the corresponding Auto Scaling group.

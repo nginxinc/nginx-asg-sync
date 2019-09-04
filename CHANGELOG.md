@@ -1,3 +1,21 @@
+## 0.3-1 (September 4, 2019)
+
+IMPROVEMENTS:
+
+* Add support for Azure Virtual Machine Scale Sets https://github.com/nginxinc/nginx-asg-sync/pull/24
+* Create separate documentation for the configuration for different cloud providers: [aws](examples/aws.md) and [azure](examples/azure.md).
+* Ubuntu 14.04 (Trusty) is no longer supported.
+
+UPGRADE:
+
+The upgrade process requires changing the configuration file name. Below are the recommended steps to follow:
+
+1. Change the name of the configuration file from `/etc/nginx/aws.yaml` to `/etc/nginx/config.yaml`.
+2. Download the Release 0.3 nginx-asg-sync package for your OS and upgrade the package using the OS tools (dpkg or rpm).
+3. Check the logs of nginx-asg-sync to make sure that it is working properly after the upgrade.
+
+Note: the supported versions of NGINX Plus are R18 and higher.
+
 ## 0.2-1 (July 27, 2018)
 
 IMPROVEMENTS:

@@ -3,7 +3,7 @@
 
 Summary: NGINX Plus Integration with Cloud Autoscaling
 Name: nginx-asg-sync
-Version: 0.2
+Version: 0.3
 Release: 1%{?dist}
 Vendor: Nginx Software, Inc.
 URL: https://github.com/nginxinc/nginx-asg-sync
@@ -110,6 +110,10 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
+* Wed Sep 4 2019 Raul Marrero <raul.marrero@nginx.com>
+- 0.3-1
+- Add support for Azure Virtual Machine Scale Sets
+
 * Fri Jul 27 2018 Peter Kelly <peter.kelly@nginx.com>
 - 0.2-1
 - Add supporting guides for contributing and changelog

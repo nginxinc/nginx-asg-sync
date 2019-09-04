@@ -1,3 +1,10 @@
+nginx-asg-sync (0.3-1-%%CODENAME%%) unstable; urgency=low
+
+  * 0.3-1
+  * Add support for Azure Virtual Machine Scale Sets
+
+ -- Raul Marrero <raul.marrero@nginx.com> Wed, 4 Sep 2019 14:06:00 +0000
+
 nginx-asg-sync (0.2-1-%%CODENAME%%) unstable; urgency=low
 
   * 0.2-1

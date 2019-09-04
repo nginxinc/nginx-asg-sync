@@ -2,7 +2,7 @@ GO_DOCKER_RUN = docker run --rm -v $(shell pwd):/go/src/github.com/nginxinc/ngin
 GOLANG_CONTAINER = golang:1.10
 BUILD_IN_CONTAINER = 1
 
-all: amazon centos7 ubuntu-trusty ubuntu-xenial amazon2 ubuntu-bionic
+all: amazon centos7 ubuntu-xenial amazon2 ubuntu-bionic
 
 test:
 ifeq ($(BUILD_IN_CONTAINER),1)
@@ -36,10 +36,6 @@ centos7: compile
 ubuntu-xenial: compile
 	make -C build/package/builders/ubuntu-xenial/
 	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output ubuntu-xenial-builder
-
-ubuntu-trusty: compile
-	make -C build/package/builders/ubuntu-trusty/
-	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output ubuntu-trusty-builder
 
 ubuntu-bionic: compile
 	make -C build/package/builders/ubuntu-bionic/

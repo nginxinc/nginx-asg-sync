@@ -43,7 +43,7 @@ Below you will find documentation on how to use nginx-asg-sync.
 
 We provide packages for the following operating systems:
 
-* Ubuntu: 14.04 (Trusty), 16.04 (Xenial), 18.04 (Bionic)
+* Ubuntu: 16.04 (Xenial), 18.04 (Bionic)
 * CentOS/RHEL: 7
 * Amazon Linux: 1, 2
 
@@ -163,7 +163,6 @@ where `<os>` is the target OS. The following values are allowed:
 * `amazon` for Amazon Linux 1
 * `amazon2` for Amazon Linux 2
 * `centos7` for CentOS7/RHEL7
-* `ubuntu-trusty` for Ubuntu 14.04
 * `ubuntu-xenial` for Ubuntu 16.04
 * `ubuntu-bionic` for Ubuntu 18.04
 

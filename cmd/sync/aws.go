@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/service/autoscaling"
 	"github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface"
 	"github.com/aws/aws-sdk-go/service/ec2"
@@ -27,6 +28,27 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 	cfg, err := parseAWSConfig(data)
 	if err != nil {
 		return nil, fmt.Errorf("error validating config: %v", err)
+	}
+
+	if cfg.Region == "self" {
+		httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
+		params := &aws.Config{HTTPClient: httpClient}
+
+		metaSession, err := session.NewSession(params)
+		if err != nil {
+			return nil, err
+		}
+		
+		metaClient := ec2metadata.New(metaSession)
+		if !metaClient.Available() {
+			return nil, fmt.Errorf("ec2metadata service is unavailable")
+		}
+
+		region, err := metaClient.Region()
+		if err != nil {
+			return nil, fmt.Errorf("unable to retreive region from ec2metadata: %v", err)
+		}
+		cfg.Region = region
 	}
 
 	awsClient.config = cfg

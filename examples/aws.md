@@ -34,6 +34,6 @@ upstreams:
 * The `region` key defines the AWS region where we deploy NGINX Plus and the Auto Scaling groups. Setting `region` to `self` will use the EC2 Metadata service to retreive the region of the current instance.
 * The `upstreams` key defines the list of upstream groups. For each upstream group we specify:
   * `name` – The name we specified for the upstream block in the NGINX Plus configuration.
-  * `autoscaling_group` – The name of the corresponding Auto Scaling group.
+  * `autoscaling_group` – The name of the corresponding Auto Scaling group. Use of wildcards is supported. For example, `backend-*`.
   * `port` – The port on which our backend applications are exposed.
   * `kind` – The protocol of the traffic NGINX Plus load balances to the backend application, here `http`. If the application uses TCP/UDP, specify `stream` instead.

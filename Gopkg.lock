@@ -35,7 +35,7 @@
   version = "v13.0.0"
 
 [[projects]]
-  digest = "1:f0bc571a9a01d55784bb57ab9dbc5d4b7220bed524b59eff66553ac466c87be1"
+  digest = "1:5a589d92206b6c957b353cdcba074141f3fa463dd3e0913e00287214ffb9180f"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -68,8 +68,6 @@
     "private/protocol/query/queryutil",
     "private/protocol/rest",
     "private/protocol/xml/xmlutil",
-    "service/autoscaling",
-    "service/autoscaling/autoscalingiface",
     "service/ec2",
     "service/ec2/ec2iface",
     "service/sts",
@@ -143,12 +141,10 @@
   input-imports = [
     "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute",
     "github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network",
-    "github.com/Azure/go-autorest/autorest",
     "github.com/Azure/go-autorest/autorest/azure/auth",
     "github.com/aws/aws-sdk-go/aws",
+    "github.com/aws/aws-sdk-go/aws/ec2metadata",
     "github.com/aws/aws-sdk-go/aws/session",
-    "github.com/aws/aws-sdk-go/service/autoscaling",
-    "github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface",
     "github.com/aws/aws-sdk-go/service/ec2",
     "github.com/aws/aws-sdk-go/service/ec2/ec2iface",
     "github.com/nginxinc/nginx-plus-go-client/client",

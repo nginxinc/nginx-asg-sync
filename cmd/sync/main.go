@@ -135,8 +135,11 @@ func main() {
 				for _, ip := range ips {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.StreamUpstreamServer{
-						Server:   backend,
-						MaxFails: 1,
+						Server:      backend,
+						MaxConns:    upstream.MaxConns,
+						MaxFails:    upstream.MaxFails,
+						FailTimeout: upstream.FailTimeout,
+						SlowStart:   upstream.SlowStart,
 					})
 				}
 

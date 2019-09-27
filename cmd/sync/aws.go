@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 // AWSClient allows you to get the list of IP addresses of instanes of an Auto Scaling group. It implements the CloudProvider interface
@@ -65,8 +65,12 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 		u := Upstream{
 			Name:         awsU.Name,
 			Port:         awsU.Port,
-			Kind:         awsU.Kind,
 			ScalingGroup: awsU.AutoscalingGroup,
+			Kind:         awsU.Kind,
+			MaxConns:     awsU.MaxConns,
+			MaxFails:     awsU.MaxFails,
+			FailTimeout:  awsU.FailTimeout,
+			SlowStart:    awsU.SlowStart,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -171,6 +175,10 @@ type awsUpstream struct {
 	AutoscalingGroup string `yaml:"autoscaling_group"`
 	Port             int
 	Kind             string
+	MaxConns         int    `yaml:"max_conns"`
+	MaxFails         int    `yaml:"max_fails"`
+	FailTimeout      string `yaml:"fail_timeout"`
+	SlowStart        string `yaml:"slow_start"`
 }
 
 func validateAWSConfig(cfg *awsConfig) error {
@@ -195,6 +203,19 @@ func validateAWSConfig(cfg *awsConfig) error {
 		if ups.Kind == "" || !(ups.Kind == "http" || ups.Kind == "stream") {
 			return fmt.Errorf(upstreamKindErrorMsgFormat, ups.Name)
 		}
+		if ups.MaxConns < 0 {
+			return fmt.Errorf(upstreamMaxConnsErrorMsg, ups.MaxConns)
+		}
+		if ups.MaxFails < 0 {
+			return fmt.Errorf(upstreamMaxFailsErrorMsg, ups.MaxFails)
+		}
+		if validateTime(ups.FailTimeout) != nil {
+			return fmt.Errorf(upstreamFailTimeoutErrorMsg, ups.FailTimeout)
+		}
+		if validateTime(ups.SlowStart) != nil {
+			return fmt.Errorf(upstreamSlowStartErrorMsg, ups.SlowStart)
+		}
+
 	}
 
 	return nil

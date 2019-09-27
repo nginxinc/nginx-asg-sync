@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 // commonConfig stores the configuration parameters common to all providers
@@ -55,4 +55,8 @@ type Upstream struct {
 	Port         int
 	ScalingGroup string
 	Kind         string
+	MaxConns     int
+	MaxFails     int
+	FailTimeout  string
+	SlowStart    string
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 // AzureClient allows you to get the list of IP addresses of VirtualMachines of a VirtualMachine Scale Set. It implements the CloudProvider interface
@@ -134,8 +134,12 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 		u := Upstream{
 			Name:         azureU.Name,
 			Port:         azureU.Port,
-			Kind:         azureU.Kind,
 			ScalingGroup: azureU.VMScaleSet,
+			Kind:         azureU.Kind,
+			MaxConns:     azureU.MaxConns,
+			MaxFails:     azureU.MaxFails,
+			FailTimeout:  azureU.FailTimeout,
+			SlowStart:    azureU.SlowStart,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -149,10 +153,14 @@ type azureConfig struct {
 }
 
 type azureUpstream struct {
-	Name       string
-	VMScaleSet string `yaml:"virtual_machine_scale_set"`
-	Port       int
-	Kind       string
+	Name        string
+	VMScaleSet  string `yaml:"virtual_machine_scale_set"`
+	Port        int
+	Kind        string
+	MaxConns    int    `yaml:"max_conns"`
+	MaxFails    int    `yaml:"max_fails"`
+	FailTimeout string `yaml:"fail_timeout"`
+	SlowStart   string `yaml:"slow_start"`
 }
 
 func validateAzureConfig(cfg *azureConfig) error {
@@ -180,6 +188,18 @@ func validateAzureConfig(cfg *azureConfig) error {
 		}
 		if ups.Kind == "" || !(ups.Kind == "http" || ups.Kind == "stream") {
 			return fmt.Errorf(upstreamKindErrorMsgFormat, ups.Name)
+		}
+		if ups.MaxConns < 0 {
+			return fmt.Errorf(upstreamMaxConnsErrorMsg, ups.MaxConns)
+		}
+		if ups.MaxFails < 0 {
+			return fmt.Errorf(upstreamMaxFailsErrorMsg, ups.MaxFails)
+		}
+		if validateTime(ups.FailTimeout) != nil {
+			return fmt.Errorf(upstreamFailTimeoutErrorMsg, ups.FailTimeout)
+		}
+		if validateTime(ups.SlowStart) != nil {
+			return fmt.Errorf(upstreamSlowStartErrorMsg, ups.SlowStart)
 		}
 	}
 	return nil

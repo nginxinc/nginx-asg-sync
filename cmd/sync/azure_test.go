@@ -14,10 +14,14 @@ type testInputAzure struct {
 func getValidAzureConfig() *azureConfig {
 	upstreams := []azureUpstream{
 		{
-			Name:       "backend1",
-			VMScaleSet: "backend-group",
-			Port:       80,
-			Kind:       "http",
+			Name:        "backend1",
+			VMScaleSet:  "backend-group",
+			Port:        80,
+			Kind:        "http",
+			MaxConns:    1000,
+			MaxFails:    10,
+			FailTimeout: "5s",
+			SlowStart:   "30s",
 		},
 	}
 	cfg := azureConfig{
@@ -59,6 +63,22 @@ func getInvalidAzureConfigInput() []*testInputAzure {
 	invalidUpstreamKindCfg := getValidAzureConfig()
 	invalidUpstreamKindCfg.Upstreams[0].Kind = ""
 	input = append(input, &testInputAzure{invalidUpstreamKindCfg, "invalid kind of the upstream"})
+
+	invalidUpstreamMaxConnsCfg := getValidAzureConfig()
+	invalidUpstreamMaxConnsCfg.Upstreams[0].MaxConns = -10
+	input = append(input, &testInputAzure{invalidUpstreamMaxConnsCfg, "invalid max_conns of the upstream"})
+
+	invalidUpstreamMaxFailsCfg := getValidAzureConfig()
+	invalidUpstreamMaxFailsCfg.Upstreams[0].MaxFails = -10
+	input = append(input, &testInputAzure{invalidUpstreamMaxFailsCfg, "invalid max_fails of the upstream"})
+
+	invalidUpstreamFailTimeoutCfg := getValidAzureConfig()
+	invalidUpstreamFailTimeoutCfg.Upstreams[0].FailTimeout = "-10s"
+	input = append(input, &testInputAzure{invalidUpstreamFailTimeoutCfg, "invalid fail_timeout of the upstream"})
+
+	invalidUpstreamSlowStartCfg := getValidAzureConfig()
+	invalidUpstreamSlowStartCfg.Upstreams[0].SlowStart = "-10s"
+	input = append(input, &testInputAzure{invalidUpstreamSlowStartCfg, "invalid slow_start of the upstream"})
 
 	return input
 }

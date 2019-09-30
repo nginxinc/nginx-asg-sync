@@ -114,10 +114,10 @@ func main() {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.UpstreamServer{
 						Server:      backend,
-						MaxConns:    upstream.MaxConns,
-						MaxFails:    upstream.MaxFails,
-						FailTimeout: upstream.FailTimeout,
-						SlowStart:   upstream.SlowStart,
+						MaxConns:    SetMaxConnsDefaultValueIfAbsent(upstream.MaxConns, 0),
+						MaxFails:    SetMaxFailsDefaultValueIfAbsent(upstream.MaxFails, 1),
+						FailTimeout: SetFailTimeoutDefaultValueIfAbsent(upstream.FailTimeout, "10s"),
+						SlowStart:   SetSlowStartDefaultValueIfAbsent(upstream.SlowStart, "0s"),
 					})
 				}
 
@@ -136,10 +136,10 @@ func main() {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.StreamUpstreamServer{
 						Server:      backend,
-						MaxConns:    upstream.MaxConns,
-						MaxFails:    upstream.MaxFails,
-						FailTimeout: upstream.FailTimeout,
-						SlowStart:   upstream.SlowStart,
+						MaxConns:    SetMaxConnsDefaultValueIfAbsent(upstream.MaxConns, 0),
+						MaxFails:    SetMaxFailsDefaultValueIfAbsent(upstream.MaxFails, 1),
+						FailTimeout: SetFailTimeoutDefaultValueIfAbsent(upstream.FailTimeout, "10s"),
+						SlowStart:   SetSlowStartDefaultValueIfAbsent(upstream.SlowStart, "0s"),
 					})
 				}
 
@@ -163,4 +163,36 @@ func main() {
 			return
 		}
 	}
+}
+
+func SetMaxConnsDefaultValueIfAbsent(maxConns int, defaultValue int) int {
+	if maxConns == 0 {
+		return defaultValue
+	}
+
+	return maxConns
+}
+
+func SetMaxFailsDefaultValueIfAbsent(maxFails int, defaultValue int) int {
+	if maxFails == 0 {
+		return defaultValue
+	}
+
+	return maxFails
+}
+
+func SetFailTimeoutDefaultValueIfAbsent(failTimeout string, defaultValue string) string {
+	if failTimeout == "" {
+		return defaultValue
+	}
+
+	return failTimeout
+}
+
+func SetSlowStartDefaultValueIfAbsent(slowStart string, defaultValue string) string {
+	if slowStart == "" {
+		return defaultValue
+	}
+
+	return slowStart
 }

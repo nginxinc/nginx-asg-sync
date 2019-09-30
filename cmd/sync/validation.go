@@ -26,7 +26,7 @@ func validateTime(time string) error {
 		return nil
 	}
 
-	if _, err := ParseTime(time); err != nil {
+	if _, err := parseTime(time); err != nil {
 		return err
 	}
 
@@ -34,7 +34,7 @@ func validateTime(time string) error {
 }
 
 // ParseTime ensures that the string value in the annotation is a valid time.
-func ParseTime(s string) (string, error) {
+func parseTime(s string) (string, error) {
 	s = strings.TrimSpace(s)
 
 	if validNginxTime.MatchString(s) {
@@ -42,4 +42,3 @@ func ParseTime(s string) (string, error) {
 	}
 	return "", errors.New("Invalid time string")
 }
-

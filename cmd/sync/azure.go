@@ -195,11 +195,11 @@ func validateAzureConfig(cfg *azureConfig) error {
 		if ups.MaxFails < 0 {
 			return fmt.Errorf(upstreamMaxFailsErrorMsg, ups.MaxFails)
 		}
-		if validateTime(ups.FailTimeout) != nil {
-			return fmt.Errorf(upstreamFailTimeoutErrorMsg, ups.FailTimeout)
+		if err := validateTime(ups.FailTimeout); err != nil {
+			return fmt.Errorf(upstreamFailTimeoutErrorMsg, ups.FailTimeout, err)
 		}
-		if validateTime(ups.SlowStart) != nil {
-			return fmt.Errorf(upstreamSlowStartErrorMsg, ups.SlowStart)
+		if err := validateTime(ups.SlowStart); err != nil {
+			return fmt.Errorf(upstreamSlowStartErrorMsg, ups.SlowStart, err)
 		}
 	}
 	return nil

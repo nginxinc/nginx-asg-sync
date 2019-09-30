@@ -114,10 +114,10 @@ func main() {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.UpstreamServer{
 						Server:      backend,
-						MaxConns:    SetMaxConnsDefaultValueIfAbsent(upstream.MaxConns, 0),
-						MaxFails:    SetMaxFailsDefaultValueIfAbsent(upstream.MaxFails, 1),
-						FailTimeout: SetFailTimeoutDefaultValueIfAbsent(upstream.FailTimeout, "10s"),
-						SlowStart:   SetSlowStartDefaultValueIfAbsent(upstream.SlowStart, "0s"),
+						MaxConns:    setPositiveIntOrDefault(upstream.MaxConns, 0),
+						MaxFails:    setPositiveIntOrDefault(upstream.MaxFails, 1),
+						FailTimeout: setTimeOrDefault(upstream.FailTimeout, "10s"),
+						SlowStart:   setTimeOrDefault(upstream.SlowStart, "0s"),
 					})
 				}
 
@@ -136,10 +136,10 @@ func main() {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.StreamUpstreamServer{
 						Server:      backend,
-						MaxConns:    SetMaxConnsDefaultValueIfAbsent(upstream.MaxConns, 0),
-						MaxFails:    SetMaxFailsDefaultValueIfAbsent(upstream.MaxFails, 1),
-						FailTimeout: SetFailTimeoutDefaultValueIfAbsent(upstream.FailTimeout, "10s"),
-						SlowStart:   SetSlowStartDefaultValueIfAbsent(upstream.SlowStart, "0s"),
+						MaxConns:    setPositiveIntOrDefault(upstream.MaxConns, 0),
+						MaxFails:    setPositiveIntOrDefault(upstream.MaxFails, 1),
+						FailTimeout: setTimeOrDefault(upstream.FailTimeout, "10s"),
+						SlowStart:   setTimeOrDefault(upstream.SlowStart, "0s"),
 					})
 				}
 
@@ -165,34 +165,18 @@ func main() {
 	}
 }
 
-func SetMaxConnsDefaultValueIfAbsent(maxConns int, defaultValue int) int {
-	if maxConns == 0 {
+func setPositiveIntOrDefault(value int, defaultValue int) int {
+	if value == 0 {
 		return defaultValue
 	}
 
-	return maxConns
+	return value
 }
 
-func SetMaxFailsDefaultValueIfAbsent(maxFails int, defaultValue int) int {
-	if maxFails == 0 {
-		return defaultValue
+func setTimeOrDefault(time string, defaultTime string) string {
+	if time == "" {
+		return defaultTime
 	}
 
-	return maxFails
-}
-
-func SetFailTimeoutDefaultValueIfAbsent(failTimeout string, defaultValue string) string {
-	if failTimeout == "" {
-		return defaultValue
-	}
-
-	return failTimeout
-}
-
-func SetSlowStartDefaultValueIfAbsent(slowStart string, defaultValue string) string {
-	if slowStart == "" {
-		return defaultValue
-	}
-
-	return slowStart
+	return time
 }

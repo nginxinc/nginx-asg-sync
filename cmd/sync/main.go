@@ -114,10 +114,10 @@ func main() {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.UpstreamServer{
 						Server:      backend,
-						MaxConns:    setPositiveIntOrDefault(upstream.MaxConns, 0),
-						MaxFails:    setPositiveIntOrDefault(upstream.MaxFails, 1),
-						FailTimeout: setTimeOrDefault(upstream.FailTimeout, "10s"),
-						SlowStart:   setTimeOrDefault(upstream.SlowStart, "0s"),
+						MaxConns:    setPositiveInt(upstream.MaxConns, 0),
+						MaxFails:    setPositiveIntOrZeroFromPointer(upstream.MaxFails, 1),
+						FailTimeout: setTime(upstream.FailTimeout, "10s"),
+						SlowStart:   setTime(upstream.SlowStart, "0s"),
 					})
 				}
 
@@ -136,10 +136,10 @@ func main() {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.StreamUpstreamServer{
 						Server:      backend,
-						MaxConns:    setPositiveIntOrDefault(upstream.MaxConns, 0),
-						MaxFails:    setPositiveIntOrDefault(upstream.MaxFails, 1),
-						FailTimeout: setTimeOrDefault(upstream.FailTimeout, "10s"),
-						SlowStart:   setTimeOrDefault(upstream.SlowStart, "0s"),
+						MaxConns:    setPositiveInt(upstream.MaxConns, 0),
+						MaxFails:    setPositiveIntOrZeroFromPointer(upstream.MaxFails, 1),
+						FailTimeout: setTime(upstream.FailTimeout, "10s"),
+						SlowStart:   setTime(upstream.SlowStart, "0s"),
 					})
 				}
 
@@ -165,7 +165,7 @@ func main() {
 	}
 }
 
-func setPositiveIntOrDefault(value int, defaultValue int) int {
+func setPositiveInt(value int, defaultValue int) int {
 	if value == 0 {
 		return defaultValue
 	}
@@ -173,7 +173,15 @@ func setPositiveIntOrDefault(value int, defaultValue int) int {
 	return value
 }
 
-func setTimeOrDefault(time string, defaultTime string) string {
+func setPositiveIntOrZeroFromPointer(value *int, defaultValue int)  int {
+	if value == nil {
+		return defaultValue
+	}
+
+	return *value
+}
+
+func setTime(time string, defaultTime string) string {
 	if time == "" {
 		return defaultTime
 	}

@@ -137,7 +137,7 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 			ScalingGroup: azureU.VMScaleSet,
 			Kind:         azureU.Kind,
 			MaxConns:     azureU.MaxConns,
-			MaxFails:     azureU.MaxFails,
+			MaxFails:     &azureU.MaxFails,
 			FailTimeout:  azureU.FailTimeout,
 			SlowStart:    azureU.SlowStart,
 		}

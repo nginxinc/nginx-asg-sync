@@ -2,32 +2,47 @@ package main
 
 import "testing"
 
-func TestSetPositiveIntOrDefault(t *testing.T) {
+func TestSetPositiveInt(t *testing.T) {
 	defaultValue := 0
-	value := setPositiveIntOrDefault(10, defaultValue)
+	value := setPositiveInt(10, defaultValue)
 	if value == 0 {
-		t.Errorf(" setPositiveIntOrDefault() should return value %v but returned invalid value %v", value, defaultValue)
+		t.Errorf(" setPositiveInt() should return value %v but returned invalid value %v", value, defaultValue)
 	}
 
 	defaultValue = 1
-	value = setPositiveIntOrDefault(0, defaultValue)
+	value = setPositiveInt(0, defaultValue)
 	if value != 1 {
-		t.Errorf(" setPositiveIntOrDefault() should return default value %v but returned invalid value %v", defaultValue, value)
+		t.Errorf(" setPositiveInt() should return default value %v but returned invalid value %v", defaultValue, value)
 	}
 }
 
-func TestSetTimeOrDefault(t *testing.T) {
+func TestSetTime(t *testing.T) {
 	defaultTime := "10s"
-	time := setTimeOrDefault("20s", defaultTime)
+	time := setTime("20s", defaultTime)
 
 	if time != "20s" {
-		t.Errorf(" setTimeOrDefault() should return time %v but returned invalid time %v", time, defaultTime)
+		t.Errorf(" setTime() should return time %v but returned invalid time %v", time, defaultTime)
 	}
 
 	defaultTime = "10s"
-	time = setTimeOrDefault("", defaultTime)
+	time = setTime("", defaultTime)
 
 	if time != "10s" {
-		t.Errorf(" setTimeOrDefault() should return default time %v but returned invalid time %v", defaultTime, time)
+		t.Errorf(" setTime() should return default time %v but returned invalid time %v", defaultTime, time)
+	}
+}
+
+func TestSetPositiveIntOrZeroFromPointer(t *testing.T) {
+	defaultValue := 1
+	v := 10
+	value := setPositiveIntOrZeroFromPointer(&v, defaultValue)
+	if value == 1 {
+		t.Errorf(" setPositiveInt() should return value %v but returned invalid value %v", value, defaultValue)
+	}
+
+	defaultValue = 1
+	value = setPositiveIntOrZeroFromPointer(nil, defaultValue)
+	if value != 1 {
+		t.Errorf(" setPositiveInt() should return default value %v but returned invalid value %v", defaultValue, value)
 	}
 }

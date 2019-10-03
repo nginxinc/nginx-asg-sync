@@ -68,7 +68,7 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 			ScalingGroup: awsU.AutoscalingGroup,
 			Kind:         awsU.Kind,
 			MaxConns:     awsU.MaxConns,
-			MaxFails:     awsU.MaxFails,
+			MaxFails:     &awsU.MaxFails,
 			FailTimeout:  awsU.FailTimeout,
 			SlowStart:    awsU.SlowStart,
 		}

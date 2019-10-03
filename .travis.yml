@@ -3,7 +3,7 @@ sudo: required
 services:
 - docker
 go:
-- "1.12"
+- "1.13"
 script:
 - echo "Nginx ASG sync - commit:${TRAVIS_COMMIT}"
 - make BUILD_IN_CONTAINER=0 all

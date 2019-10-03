@@ -46,7 +46,7 @@ upstreams:
   * `virtual_machine_scale_set` – The name of the corresponding Virtual Machine Scale Set.
   * `port` – The port on which our backend applications are exposed.
   * `kind` – The protocol of the traffic NGINX Plus load balances to the backend application, here `http`. If the application uses TCP/UDP, specify `stream` instead.
-  * `max_conns` – The maximum number of simultaneous active connections to an upstream server.
-  * `max_fails` – The number of unsuccessful attempts to communicate with an upstream server that should happen in the duration set by the `fail-timeout` to consider the server unavailable.
-  * `fail_timeout` – The time during which the specified number of unsuccessful attempts to communicate with an upstream server should happen to consider the server unavailable.
+  * `max_conns` – The maximum number of simultaneous active connections to an upstream server. Default value is 0, meaning there is no limit.
+  * `max_fails` – The number of unsuccessful attempts to communicate with an upstream server that should happen in the duration set by the `fail-timeout` to consider the server unavailable. Default value is 1. The zero value 0 disables the accounting of attempts.
+  * `fail_timeout` – The time during which the specified number of unsuccessful attempts to communicate with an upstream server should happen to consider the server unavailable. Default value is 10s.
   * `slow_start` – The slow start allows an upstream server to gradually recover its weight from 0 to its nominal value after it has been recovered or became available or when the server becomes available after a period of time it was considered unavailable. By default, the slow start is disabled.

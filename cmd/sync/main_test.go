@@ -37,12 +37,12 @@ func TestSetPositiveIntOrZeroFromPointer(t *testing.T) {
 	v := 10
 	value := setPositiveIntOrZeroFromPointer(&v, defaultValue)
 	if value == 1 {
-		t.Errorf(" setPositiveInt() should return value %v but returned invalid value %v", value, defaultValue)
+		t.Errorf(" setPositiveIntOrZeroFromPointer() should return value %v but returned invalid value %v", value, defaultValue)
 	}
 
 	defaultValue = 1
 	value = setPositiveIntOrZeroFromPointer(nil, defaultValue)
 	if value != 1 {
-		t.Errorf(" setPositiveInt() should return default value %v but returned invalid value %v", defaultValue, value)
+		t.Errorf(" setPositiveIntOrZeroFromPointer() should return default value %v but returned invalid value %v", defaultValue, value)
 	}
 }

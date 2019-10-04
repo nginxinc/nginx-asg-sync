@@ -7,7 +7,7 @@ func TestValidateTime(t *testing.T) {
 	err := validateTime(time)
 
 	if err != nil {
-		t.Errorf("validateTime returned errors %v valid input %v", err, time)
+		t.Errorf("validateTime(%v) returned an error %v for valid input", time, err)
 	}
 }
 
@@ -17,16 +17,16 @@ func TestParseTime(t *testing.T) {
 	for _, test := range testsWithValidInput {
 		result, err := parseTime(test)
 		if err != nil {
-			t.Errorf("TestparseTime(%q) returned an error for valid input", test)
+			t.Errorf("parseTime(%q) returned an error for valid input: %v", test, err)
 		}
 		if test != result {
-			t.Errorf("TestparseTime(%q) returned %q expected %q", test, result, test)
+			t.Errorf("parseTime(%q) returned %q expected %q", test, result, test)
 		}
 	}
 	for _, test := range invalidInput {
 		result, err := parseTime(test)
 		if err == nil {
-			t.Errorf("TestparseTime(%q) didn't return error. Returned: %q", test, result)
+			t.Errorf("parseTime(%q) didn't return error. Returned: %q", test, result)
 		}
 	}
 }

@@ -21,8 +21,8 @@
 # example configuration for Azure
 
 # cloud_provider: Azure
-# subscription_id: my_subscription_id 
-# resource_group: my_resource_group
+# subscription_id: my_subscription_id
+# resource_group_name: my_resource_group
 # api_endpoint: http://127.0.0.1:8080/api
 # sync_interval_in_seconds: 5
 # upstreams:

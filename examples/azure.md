@@ -16,7 +16,7 @@ api_endpoint: http://127.0.0.1:8080/api
 sync_interval_in_seconds: 5
 cloud_provider: Azure
 subscription_id: my_subscription_id
-resource_group: my_resource_group
+resource_group_name: my_resource_group
 upstreams:
  - name: backend-one
    virtual_machine_scale_set: backend-one-group
@@ -32,7 +32,7 @@ upstreams:
 * The `sync_interval_in_seconds` key defines the synchronization interval: nginx-asg-sync checks for scaling updates every 5 seconds.
 * The `cloud_provider` key defines a Cloud Provider that will be used. The default is `AWS`. This means the key can be empty if using AWS. Possible values are: `AWS`, `Azure`.
 * The `subscription_id` key defines the Azure unique subscription id that identifies your Azure subscription.
-* The `resource_group` key defines the Azure resource group of your Virtual Machine Scale Set and Virtual Machine for NGINX Plus.
+* The `resource_group_name` key defines the Azure resource group of your Virtual Machine Scale Set and Virtual Machine for NGINX Plus.
 * The `upstreams` key defines the list of upstream groups. For each upstream group we specify:
   * `name` – The name we specified for the upstream block in the NGINX Plus configuration.
   * `virtual_machine_scale_set` – The name of the corresponding Virtual Machine Scale Set.

@@ -136,6 +136,10 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 			Port:         azureU.Port,
 			Kind:         azureU.Kind,
 			ScalingGroup: azureU.VMScaleSet,
+			MaxConns:     &azureU.MaxConns,
+			MaxFails:     &azureU.MaxFails,
+			FailTimeout:  azureU.FailTimeout,
+			SlowStart:    azureU.SlowStart,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -149,10 +153,14 @@ type azureConfig struct {
 }
 
 type azureUpstream struct {
-	Name       string
-	VMScaleSet string `yaml:"virtual_machine_scale_set"`
-	Port       int
-	Kind       string
+	Name        string
+	VMScaleSet  string `yaml:"virtual_machine_scale_set"`
+	Port        int
+	Kind        string
+	MaxConns    int    `yaml:"max_conns"`
+	MaxFails    int    `yaml:"max_fails"`
+	FailTimeout string `yaml:"fail_timeout"`
+	SlowStart   string `yaml:"slow_start"`
 }
 
 func validateAzureConfig(cfg *azureConfig) error {
@@ -165,7 +173,7 @@ func validateAzureConfig(cfg *azureConfig) error {
 	}
 
 	if len(cfg.Upstreams) == 0 {
-		return fmt.Errorf("There is no upstreams found in the config file")
+		return fmt.Errorf("There are no upstreams found in the config file")
 	}
 
 	for _, ups := range cfg.Upstreams {
@@ -180,6 +188,18 @@ func validateAzureConfig(cfg *azureConfig) error {
 		}
 		if ups.Kind == "" || !(ups.Kind == "http" || ups.Kind == "stream") {
 			return fmt.Errorf(upstreamKindErrorMsgFormat, ups.Name)
+		}
+		if ups.MaxConns < 0 {
+			return fmt.Errorf(upstreamMaxConnsErrorMsgFmt, ups.MaxConns)
+		}
+		if ups.MaxFails < 0 {
+			return fmt.Errorf(upstreamMaxFailsErrorMsgFmt, ups.MaxFails)
+		}
+		if !isValidTime(ups.FailTimeout) {
+			return fmt.Errorf(upstreamFailTimeoutErrorMsgFmt, ups.FailTimeout)
+		}
+		if !isValidTime(ups.SlowStart) {
+			return fmt.Errorf(upstreamSlowStartErrorMsgFmt, ups.SlowStart)
 		}
 	}
 	return nil

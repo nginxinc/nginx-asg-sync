@@ -55,4 +55,8 @@ type Upstream struct {
 	Port         int
 	ScalingGroup string
 	Kind         string
+	MaxConns     *int
+	MaxFails     *int
+	FailTimeout  string
+	SlowStart    string
 }

@@ -67,6 +67,10 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 			Port:         awsU.Port,
 			Kind:         awsU.Kind,
 			ScalingGroup: awsU.AutoscalingGroup,
+			MaxConns:     &awsU.MaxConns,
+			MaxFails:     &awsU.MaxFails,
+			FailTimeout:  awsU.FailTimeout,
+			SlowStart:    awsU.SlowStart,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -108,7 +112,7 @@ func parseAWSConfig(data []byte) (*awsConfig, error) {
 func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	params := &ec2.DescribeInstancesInput{
 		Filters: []*ec2.Filter{
-			&ec2.Filter{
+			{
 				Name: aws.String("tag:aws:autoscaling:groupName"),
 				Values: []*string{
 					aws.String(name),
@@ -129,7 +133,7 @@ func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
 	params := &ec2.DescribeInstancesInput{
 		Filters: []*ec2.Filter{
-			&ec2.Filter{
+			{
 				Name: aws.String("tag:aws:autoscaling:groupName"),
 				Values: []*string{
 					aws.String(name),
@@ -171,6 +175,10 @@ type awsUpstream struct {
 	AutoscalingGroup string `yaml:"autoscaling_group"`
 	Port             int
 	Kind             string
+	MaxConns         int    `yaml:"max_conns"`
+	MaxFails         int    `yaml:"max_fails"`
+	FailTimeout      string `yaml:"fail_timeout"`
+	SlowStart        string `yaml:"slow_start"`
 }
 
 func validateAWSConfig(cfg *awsConfig) error {
@@ -194,6 +202,18 @@ func validateAWSConfig(cfg *awsConfig) error {
 		}
 		if ups.Kind == "" || !(ups.Kind == "http" || ups.Kind == "stream") {
 			return fmt.Errorf(upstreamKindErrorMsgFormat, ups.Name)
+		}
+		if ups.MaxConns < 0 {
+			return fmt.Errorf(upstreamMaxConnsErrorMsgFmt, ups.MaxConns)
+		}
+		if ups.MaxFails < 0 {
+			return fmt.Errorf(upstreamMaxFailsErrorMsgFmt, ups.MaxFails)
+		}
+		if !isValidTime(ups.FailTimeout) {
+			return fmt.Errorf(upstreamFailTimeoutErrorMsgFmt, ups.FailTimeout)
+		}
+		if !isValidTime(ups.SlowStart) {
+			return fmt.Errorf(upstreamSlowStartErrorMsgFmt, ups.SlowStart)
 		}
 	}
 

@@ -2,21 +2,21 @@
 
 
 [[projects]]
-  digest = "1:5528a950c822b95fc7108dd7ad2f6e9e0127e0f104808e81ec812953447c7eee"
+  digest = "1:72c4b04a1acbfcf1c294b1301f9cca730ebcdcc3e719e9927ae57a1393bf9cc0"
   name = "github.com/Azure/azure-sdk-for-go"
   packages = [
     "profiles/latest/compute/mgmt/compute",
     "profiles/latest/network/mgmt/network",
     "services/compute/mgmt/2019-07-01/compute",
-    "services/network/mgmt/2019-06-01/network",
+    "services/network/mgmt/2019-09-01/network",
     "version",
   ]
   pruneopts = "UT"
-  revision = "07e904809009c506339e781db6167dd06e95cde6"
-  version = "v32.5.0"
+  revision = "6355969b31502e528a7534fbdcd7cad04496a5fd"
+  version = "v36.1.0"
 
 [[projects]]
-  digest = "1:c39603b93cda6859fa04dc23bffee64dc5db6f6f4fec93539ddef9d7e628a5da"
+  digest = "1:6a638b1a468a4a8b67fc80ae6a075811a932c6aea327cc28b3ef3a29fba31f4a"
   name = "github.com/Azure/go-autorest"
   packages = [
     "autorest",
@@ -31,11 +31,11 @@
     "tracing",
   ]
   pruneopts = "UT"
-  revision = "5e7a399d8bbf4953ab0c8e3167d7fd535fd74ce1"
-  version = "v13.0.0"
+  revision = "3492b2aff5036c67228ab3c7dba3577c871db200"
+  version = "v13.3.0"
 
 [[projects]]
-  digest = "1:5a589d92206b6c957b353cdcba074141f3fa463dd3e0913e00287214ffb9180f"
+  digest = "1:3944f5b1d759838254d8f7454437dc4b67ded438a32bac32516a914577b00a6b"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -58,6 +58,7 @@
     "aws/signer/v4",
     "internal/ini",
     "internal/sdkio",
+    "internal/sdkmath",
     "internal/sdkrand",
     "internal/sdkuri",
     "internal/shareddefaults",
@@ -74,8 +75,8 @@
     "service/sts/stsiface",
   ]
   pruneopts = "UT"
-  revision = "95d69e28d7d16140dab16d0ef59fff5587e5624f"
-  version = "v1.23.5"
+  revision = "e1af1c7236c8be2fd71e8a2a57de65edc01634b4"
+  version = "v1.25.31"
 
 [[projects]]
   digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
@@ -109,31 +110,31 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:1f97a27bc40b073752d15ee0ff6ed73b8ef42db4798ccd2bfd2c0cc638b74862"
+  digest = "1:52bc922e98d321bf2abc10a6ba32cc36b1b7815dcea0380b63ebb6966180b468"
   name = "github.com/nginxinc/nginx-plus-go-client"
   packages = ["client"]
   pruneopts = "UT"
-  revision = "3b3fe2931299496cbf57053486ff5a1b788d1f7f"
-  version = "v0.4.0"
+  revision = "9a147f564d6a7bd5a1e023f1ca93728c2dec8a2c"
+  version = "v0.6.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:994c4915a59f821705d08ea77b117ec7a3e6a46cc867fd194d887500dac1c3c2"
+  digest = "1:f604f5e2ee721b6757d962dfe7bab4f28aae50c456e39cfb2f3819762a44a6ae"
   name = "golang.org/x/crypto"
   packages = [
     "pkcs12",
     "pkcs12/internal/rc2",
   ]
   pruneopts = "UT"
-  revision = "60c769a6c58655dab1b9adac0d58967dd517cfba"
+  revision = "bd318be0434a57050ed475e0f45c3dbb16c09c2e"
 
 [[projects]]
-  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
+  digest = "1:f26a5d382387e03a40d1471dddfba85dfff9bf05352d7e42d37612677c4d3c5c"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   pruneopts = "UT"
-  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
-  version = "v2.2.2"
+  revision = "f90ceb4f409096b60e2e9076b38b304b8246e5fa"
+  version = "v2.2.5"
 
 [solve-meta]
   analyzer-name = "dep"

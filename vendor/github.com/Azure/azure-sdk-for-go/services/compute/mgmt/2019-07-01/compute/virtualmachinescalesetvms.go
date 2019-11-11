@@ -19,12 +19,11 @@ package compute
 
 import (
 	"context"
-	"net/http"
-
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/validation"
 	"github.com/Azure/go-autorest/tracing"
+	"net/http"
 )
 
 // VirtualMachineScaleSetVMsClient is the compute Client
@@ -84,7 +83,7 @@ func (client VirtualMachineScaleSetVMsClient) DeallocatePreparer(ctx context.Con
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -162,7 +161,7 @@ func (client VirtualMachineScaleSetVMsClient) DeletePreparer(ctx context.Context
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -205,7 +204,8 @@ func (client VirtualMachineScaleSetVMsClient) DeleteResponder(resp *http.Respons
 // resourceGroupName - the name of the resource group.
 // VMScaleSetName - the name of the VM scale set.
 // instanceID - the instance ID of the virtual machine.
-func (client VirtualMachineScaleSetVMsClient) Get(ctx context.Context, resourceGroupName string, VMScaleSetName string, instanceID string) (result VirtualMachineScaleSetVM, err error) {
+// expand - the expand expression to apply on the operation.
+func (client VirtualMachineScaleSetVMsClient) Get(ctx context.Context, resourceGroupName string, VMScaleSetName string, instanceID string, expand InstanceViewTypes) (result VirtualMachineScaleSetVM, err error) {
 	if tracing.IsEnabled() {
 		ctx = tracing.StartSpan(ctx, fqdn+"/VirtualMachineScaleSetVMsClient.Get")
 		defer func() {
@@ -216,7 +216,7 @@ func (client VirtualMachineScaleSetVMsClient) Get(ctx context.Context, resourceG
 			tracing.EndSpan(ctx, sc, err)
 		}()
 	}
-	req, err := client.GetPreparer(ctx, resourceGroupName, VMScaleSetName, instanceID)
+	req, err := client.GetPreparer(ctx, resourceGroupName, VMScaleSetName, instanceID, expand)
 	if err != nil {
 		err = autorest.NewErrorWithError(err, "compute.VirtualMachineScaleSetVMsClient", "Get", nil, "Failure preparing request")
 		return
@@ -238,7 +238,7 @@ func (client VirtualMachineScaleSetVMsClient) Get(ctx context.Context, resourceG
 }
 
 // GetPreparer prepares the Get request.
-func (client VirtualMachineScaleSetVMsClient) GetPreparer(ctx context.Context, resourceGroupName string, VMScaleSetName string, instanceID string) (*http.Request, error) {
+func (client VirtualMachineScaleSetVMsClient) GetPreparer(ctx context.Context, resourceGroupName string, VMScaleSetName string, instanceID string, expand InstanceViewTypes) (*http.Request, error) {
 	pathParameters := map[string]interface{}{
 		"instanceId":        autorest.Encode("path", instanceID),
 		"resourceGroupName": autorest.Encode("path", resourceGroupName),
@@ -246,9 +246,12 @@ func (client VirtualMachineScaleSetVMsClient) GetPreparer(ctx context.Context, r
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
+	}
+	if len(string(expand)) > 0 {
+		queryParameters["$expand"] = autorest.Encode("query", expand)
 	}
 
 	preparer := autorest.CreatePreparer(
@@ -325,7 +328,7 @@ func (client VirtualMachineScaleSetVMsClient) GetInstanceViewPreparer(ctx contex
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -387,7 +390,6 @@ func (client VirtualMachineScaleSetVMsClient) List(ctx context.Context, resource
 	if err != nil {
 		result.vmssvlr.Response = autorest.Response{Response: resp}
 		err = autorest.NewErrorWithError(err, "compute.VirtualMachineScaleSetVMsClient", "List", resp, "Failure sending request")
-
 		return
 	}
 
@@ -407,7 +409,7 @@ func (client VirtualMachineScaleSetVMsClient) ListPreparer(ctx context.Context, 
 		"virtualMachineScaleSetName": autorest.Encode("path", virtualMachineScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -526,7 +528,7 @@ func (client VirtualMachineScaleSetVMsClient) PerformMaintenancePreparer(ctx con
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -608,7 +610,7 @@ func (client VirtualMachineScaleSetVMsClient) PowerOffPreparer(ctx context.Conte
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -651,7 +653,8 @@ func (client VirtualMachineScaleSetVMsClient) PowerOffResponder(resp *http.Respo
 	return
 }
 
-// Redeploy redeploys a virtual machine in a VM scale set.
+// Redeploy shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back
+// on.
 // Parameters:
 // resourceGroupName - the name of the resource group.
 // VMScaleSetName - the name of the VM scale set.
@@ -691,7 +694,7 @@ func (client VirtualMachineScaleSetVMsClient) RedeployPreparer(ctx context.Conte
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -770,7 +773,7 @@ func (client VirtualMachineScaleSetVMsClient) ReimagePreparer(ctx context.Contex
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -854,7 +857,7 @@ func (client VirtualMachineScaleSetVMsClient) ReimageAllPreparer(ctx context.Con
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -932,7 +935,7 @@ func (client VirtualMachineScaleSetVMsClient) RestartPreparer(ctx context.Contex
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -1017,7 +1020,7 @@ func (client VirtualMachineScaleSetVMsClient) RunCommandPreparer(ctx context.Con
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -1098,7 +1101,7 @@ func (client VirtualMachineScaleSetVMsClient) StartPreparer(ctx context.Context,
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}
@@ -1198,7 +1201,7 @@ func (client VirtualMachineScaleSetVMsClient) UpdatePreparer(ctx context.Context
 		"vmScaleSetName":    autorest.Encode("path", VMScaleSetName),
 	}
 
-	const APIVersion = "2019-03-01"
+	const APIVersion = "2019-07-01"
 	queryParameters := map[string]interface{}{
 		"api-version": APIVersion,
 	}

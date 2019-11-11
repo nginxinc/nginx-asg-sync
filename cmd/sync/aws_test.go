@@ -51,6 +51,22 @@ func getInvalidAWSConfigInput() []*testInputAWS {
 	invalidUpstreamKindCfg.Upstreams[0].Kind = ""
 	input = append(input, &testInputAWS{invalidUpstreamKindCfg, "invalid kind of the upstream"})
 
+	invalidUpstreamMaxConnsCfg := getValidAWSConfig()
+	invalidUpstreamMaxConnsCfg.Upstreams[0].MaxConns = -10
+	input = append(input, &testInputAWS{invalidUpstreamMaxConnsCfg, "invalid max_conns of the upstream"})
+
+	invalidUpstreamMaxFailsCfg := getValidAWSConfig()
+	invalidUpstreamMaxFailsCfg.Upstreams[0].MaxFails = -10
+	input = append(input, &testInputAWS{invalidUpstreamMaxFailsCfg, "invalid max_fails of the upstream"})
+
+	invalidUpstreamFailTimeoutCfg := getValidAWSConfig()
+	invalidUpstreamFailTimeoutCfg.Upstreams[0].FailTimeout = "-10s"
+	input = append(input, &testInputAWS{invalidUpstreamFailTimeoutCfg, "invalid fail_timeout of the upstream"})
+
+	invalidUpstreamSlowStartCfg := getValidAWSConfig()
+	invalidUpstreamSlowStartCfg.Upstreams[0].SlowStart = "-10s"
+	input = append(input, &testInputAWS{invalidUpstreamSlowStartCfg, "invalid slow_start of the upstream"})
+
 	return input
 }
 

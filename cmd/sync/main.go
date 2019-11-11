@@ -113,38 +113,44 @@ func main() {
 				for _, ip := range ips {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.UpstreamServer{
-						Server:   backend,
-						MaxFails: 1,
+						Server:      backend,
+						MaxConns:    upstream.MaxConns,
+						MaxFails:    upstream.MaxFails,
+						FailTimeout: upstream.FailTimeout,
+						SlowStart:   upstream.SlowStart,
 					})
 				}
 
-				added, removed, err := nginxClient.UpdateHTTPServers(upstream.Name, upsServers)
+				added, removed, updated, err := nginxClient.UpdateHTTPServers(upstream.Name, upsServers)
 				if err != nil {
 					log.Printf("Couldn't update HTTP servers in NGINX: %v", err)
 					continue
 				}
 
-				if len(added) > 0 || len(removed) > 0 {
-					log.Printf("Updated HTTP servers of %v; Added: %v, Removed: %v", upstream, added, removed)
+				if len(added) > 0 || len(removed) > 0 || len(updated) > 0 {
+					log.Printf("Updated HTTP servers of %v; Added: %+v, Removed: %+v, Updated: %+v", upstream, added, removed, updated)
 				}
 			} else {
 				var upsServers []nginx.StreamUpstreamServer
 				for _, ip := range ips {
 					backend := fmt.Sprintf("%v:%v", ip, upstream.Port)
 					upsServers = append(upsServers, nginx.StreamUpstreamServer{
-						Server:   backend,
-						MaxFails: 1,
+						Server:      backend,
+						MaxConns:    upstream.MaxConns,
+						MaxFails:    upstream.MaxFails,
+						FailTimeout: upstream.FailTimeout,
+						SlowStart:   upstream.SlowStart,
 					})
 				}
 
-				added, removed, err := nginxClient.UpdateStreamServers(upstream.Name, upsServers)
+				added, removed, updated, err := nginxClient.UpdateStreamServers(upstream.Name, upsServers)
 				if err != nil {
 					log.Printf("Couldn't update Steam servers in NGINX: %v", err)
 					continue
 				}
 
-				if len(added) > 0 || len(removed) > 0 {
-					log.Printf("Updated Stream servers of %v; Added: %v, Removed: %v", upstream, added, removed)
+				if len(added) > 0 || len(removed) > 0 || len(updated) > 0 {
+					log.Printf("Updated Stream servers of %v; Added: %+v, Removed: %+v, Updated: %+v", upstream, added, removed, updated)
 				}
 			}
 

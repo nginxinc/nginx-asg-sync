@@ -12,7 +12,7 @@ type testInputAzure struct {
 }
 
 func getValidAzureConfig() *azureConfig {
-	upstreams := []azureUpstream{
+	upstreams := []*azureUpstream{
 		{
 			Name:       "backend1",
 			VMScaleSet: "backend-group",
@@ -155,4 +155,69 @@ func TestGetPrimaryIPFromInterfaceIPConfigurationFail(t *testing.T) {
 			t.Errorf("getPrimaryIPFromInterfaceIPConfiguration() returned a non empty string for case: %v", test.msg)
 		}
 	}
+}
+
+func TestGetUpstreamsAzure(t *testing.T) {
+	cfg := getValidAzureConfig()
+	var upstreams = []*azureUpstream{
+		{
+			Name: "127.0.0.1",
+			Port: 80,
+			MaxFails: 1,
+			MaxConns: 2,
+			SlowStart: "5s",
+			FailTimeout: "10s",
+		},
+		{
+			Name: "127.0.0.2",
+			Port: 80,
+			MaxFails: 2,
+			MaxConns: 3,
+			SlowStart: "6s",
+			FailTimeout: "11s",
+		},
+	}
+	cfg.Upstreams = upstreams
+	c := AzureClient{config: cfg}
+
+	ups := c.GetUpstreams()
+	for _, u := range ups {
+		found := false
+		for _, cfgU := range cfg.Upstreams {
+			if u.Name == cfgU.Name {
+				if !areEqualUpstreamsAzure(cfgU, u) {
+					t.Errorf("GetUpstreams() returned a wrong Upstream %+v for the configuration %+v", u, cfgU)
+				}
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("Upstream %+v not found in configuration.", u)
+		}
+	}
+}
+
+func areEqualUpstreamsAzure(u1 *azureUpstream, u2 Upstream) bool {
+	if u1.Port != u2.Port {
+		return false
+	}
+
+	if u1.FailTimeout != u2.FailTimeout {
+		return false
+	}
+
+	if u1.SlowStart != u2.SlowStart {
+		return false
+	}
+
+	if u1.MaxConns != *u2.MaxConns {
+		return false
+	}
+
+	if u1.MaxFails != *u2.MaxFails {
+		return false
+	}
+
+	return true
 }

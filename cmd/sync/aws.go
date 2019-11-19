@@ -61,16 +61,16 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 // GetUpstreams returns the Upstreams list
 func (client *AWSClient) GetUpstreams() []Upstream {
 	var upstreams []Upstream
-	for _, awsU := range client.config.Upstreams {
+	for i := 0; i < len(client.config.Upstreams); i++ {
 		u := Upstream{
-			Name:         awsU.Name,
-			Port:         awsU.Port,
-			Kind:         awsU.Kind,
-			ScalingGroup: awsU.AutoscalingGroup,
-			MaxConns:     &awsU.MaxConns,
-			MaxFails:     &awsU.MaxFails,
-			FailTimeout:  awsU.FailTimeout,
-			SlowStart:    awsU.SlowStart,
+			Name:         client.config.Upstreams[i].Name,
+			Port:         client.config.Upstreams[i].Port,
+			Kind:         client.config.Upstreams[i].Kind,
+			ScalingGroup: client.config.Upstreams[i].AutoscalingGroup,
+			MaxConns:     &client.config.Upstreams[i].MaxConns,
+			MaxFails:     &client.config.Upstreams[i].MaxFails,
+			FailTimeout:  client.config.Upstreams[i].FailTimeout,
+			SlowStart:    client.config.Upstreams[i].SlowStart,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -167,7 +167,7 @@ func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, er
 
 type awsConfig struct {
 	Region    string
-	Upstreams []awsUpstream
+	Upstreams []*awsUpstream
 }
 
 type awsUpstream struct {

@@ -130,16 +130,16 @@ func (client *AzureClient) configure() error {
 // GetUpstreams returns the Upstreams list
 func (client *AzureClient) GetUpstreams() []Upstream {
 	var upstreams []Upstream
-	for _, azureU := range client.config.Upstreams {
+	for i := 0; i < len(client.config.Upstreams); i++ {
 		u := Upstream{
-			Name:         azureU.Name,
-			Port:         azureU.Port,
-			Kind:         azureU.Kind,
-			ScalingGroup: azureU.VMScaleSet,
-			MaxConns:     &azureU.MaxConns,
-			MaxFails:     &azureU.MaxFails,
-			FailTimeout:  azureU.FailTimeout,
-			SlowStart:    azureU.SlowStart,
+			Name:         client.config.Upstreams[i].Name,
+			Port:         client.config.Upstreams[i].Port,
+			Kind:         client.config.Upstreams[i].Kind,
+			ScalingGroup: client.config.Upstreams[i].VMScaleSet,
+			MaxConns:     &client.config.Upstreams[i].MaxConns,
+			MaxFails:     &client.config.Upstreams[i].MaxFails,
+			FailTimeout:  client.config.Upstreams[i].FailTimeout,
+			SlowStart:    client.config.Upstreams[i].SlowStart,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -149,7 +149,7 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 type azureConfig struct {
 	SubscriptionID    string `yaml:"subscription_id"`
 	ResourceGroupName string `yaml:"resource_group_name"`
-	Upstreams         []azureUpstream
+	Upstreams         []*azureUpstream
 }
 
 type azureUpstream struct {

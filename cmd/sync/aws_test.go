@@ -8,7 +8,7 @@ type testInputAWS struct {
 }
 
 func getValidAWSConfig() *awsConfig {
-	upstreams := []*awsUpstream{
+	upstreams := []awsUpstream{
 		{
 			Name:             "backend1",
 			AutoscalingGroup: "backend-group",
@@ -92,21 +92,21 @@ func TestValidateAWSConfigValid(t *testing.T) {
 
 func TestGetUpstreamsAWS(t *testing.T) {
 	cfg := getValidAWSConfig()
-	var upstreams = []*awsUpstream{
+	var upstreams = []awsUpstream{
 		{
-			Name: "127.0.0.1",
-			Port: 80,
-			MaxFails: 1,
-			MaxConns: 2,
-			SlowStart: "5s",
+			Name:        "127.0.0.1",
+			Port:        80,
+			MaxFails:    1,
+			MaxConns:    2,
+			SlowStart:   "5s",
 			FailTimeout: "10s",
 		},
 		{
-			Name: "127.0.0.2",
-			Port: 80,
-			MaxFails: 2,
-			MaxConns: 3,
-			SlowStart: "6s",
+			Name:        "127.0.0.2",
+			Port:        80,
+			MaxFails:    2,
+			MaxConns:    3,
+			SlowStart:   "6s",
 			FailTimeout: "11s",
 		},
 	}
@@ -131,7 +131,7 @@ func TestGetUpstreamsAWS(t *testing.T) {
 	}
 }
 
-func areEqualUpstreamsAWS(u1 *awsUpstream, u2 Upstream) bool {
+func areEqualUpstreamsAWS(u1 awsUpstream, u2 Upstream) bool {
 	if u1.Port != u2.Port {
 		return false
 	}

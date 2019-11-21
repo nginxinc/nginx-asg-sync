@@ -138,8 +138,8 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 			ScalingGroup: client.config.Upstreams[i].VMScaleSet,
 			MaxConns:     &client.config.Upstreams[i].MaxConns,
 			MaxFails:     &client.config.Upstreams[i].MaxFails,
-			FailTimeout:  client.config.Upstreams[i].FailTimeout,
-			SlowStart:    client.config.Upstreams[i].SlowStart,
+			FailTimeout:  getFailTimeoutOrDefault(client.config.Upstreams[i].FailTimeout),
+			SlowStart:    getSlowStartOrDefault(client.config.Upstreams[i].SlowStart),
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -149,7 +149,7 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 type azureConfig struct {
 	SubscriptionID    string `yaml:"subscription_id"`
 	ResourceGroupName string `yaml:"resource_group_name"`
-	Upstreams         []*azureUpstream
+	Upstreams         []azureUpstream
 }
 
 type azureUpstream struct {

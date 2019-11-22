@@ -5,16 +5,16 @@ import (
 )
 
 func TestGetFailTimeoutOrDefault(t *testing.T) {
-	tests := []struct{
-		input string
+	tests := []struct {
+		input    string
 		expected string
 	}{
 		{
-			input: "",
+			input:    "",
 			expected: defaultFailTimeout,
 		},
 		{
-			input: "10s",
+			input:    "10s",
 			expected: "10s",
 		},
 	}
@@ -28,16 +28,16 @@ func TestGetFailTimeoutOrDefault(t *testing.T) {
 }
 
 func TestGetSlowStartOrDefault(t *testing.T) {
-	tests := []struct{
-		input string
+	tests := []struct {
+		input    string
 		expected string
 	}{
 		{
-			input: "",
+			input:    "",
 			expected: defaultSlowStart,
 		},
 		{
-			input: "10s",
+			input:    "10s",
 			expected: "10s",
 		},
 	}

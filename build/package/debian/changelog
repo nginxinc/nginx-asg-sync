@@ -1,3 +1,10 @@
+nginx-asg-sync (0.4-1-%%CODENAME%%) unstable; urgency=low
+
+  * 0.4-1
+  * Add support to set upstream server parameters (max_conns, max_fails, fail_timeout and slow_start)
+  * Add support to use wildcards in AWS autoscaling groups
+  * Allow to use the same AWS region as the instance where the nginx-asg-sync is running
+
 nginx-asg-sync (0.3-1-%%CODENAME%%) unstable; urgency=low
 
   * 0.3-1

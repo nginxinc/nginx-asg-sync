@@ -3,7 +3,7 @@
 
 Summary: NGINX Plus Integration with Cloud Autoscaling
 Name: nginx-asg-sync
-Version: 0.3
+Version: 0.4
 Release: 1%{?dist}
 Vendor: Nginx Software, Inc.
 URL: https://github.com/nginxinc/nginx-asg-sync
@@ -110,6 +110,12 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
+* Fri Nov 22 2019 Raul Marrero <raul.marrero@nginx.com>
+- 0.4-1
+- Add support to set upstream server parameters (max_conns, max_fails, fail_timeout and slow_start)
+- Add support to use wildcards in AWS autoscaling groups
+- Allow to use the same AWS region as the instance where the nginx-asg-sync is running
+
 * Wed Sep 4 2019 Raul Marrero <raul.marrero@nginx.com>
 - 0.3-1
 - Add support for Azure Virtual Machine Scale Sets

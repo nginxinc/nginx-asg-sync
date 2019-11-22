@@ -1,3 +1,11 @@
+## 0.4-1 (November 22, 2019)
+
+IMPROVEMENTS:
+
+* Add support to set upstream server parameters: `max_conns`, `max_fails`, `fail_timeout` and `slow_start` in the configuration file. https://github.com/nginxinc/nginx-asg-sync/pull/33
+* Add support to use wildcards in the names of AWS Auto Scaling groups. https://github.com/nginxinc/nginx-asg-sync/pull/29/
+* Allow nginx-asg-sync to detect the region where it is running (use `region: self` in the configuration file). https://github.com/nginxinc/nginx-asg-sync/pull/27
+
 ## 0.3-1 (September 4, 2019)
 
 IMPROVEMENTS:

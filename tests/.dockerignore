@@ -1,0 +1,2 @@
+# Ignore pytest cache
+.pytest_cache

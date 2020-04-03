@@ -8,6 +8,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/autoscaling"
+	"github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
 	yaml "gopkg.in/yaml.v2"
@@ -15,8 +17,9 @@ import (
 
 // AWSClient allows you to get the list of IP addresses of instanes of an Auto Scaling group. It implements the CloudProvider interface
 type AWSClient struct {
-	svcEC2 ec2iface.EC2API
-	config *awsConfig
+	svcEC2         ec2iface.EC2API
+	svcAutoscaling autoscalingiface.AutoScalingAPI
+	config         *awsConfig
 }
 
 // NewAWSClient creates and configures an AWSClient
@@ -87,8 +90,10 @@ func (client *AWSClient) configure() error {
 		return err
 	}
 
+	svcAutoscaling := autoscaling.New(session)
 	svcEC2 := ec2.New(session)
 	client.svcEC2 = svcEC2
+	client.svcAutoscaling = svcAutoscaling
 	return nil
 }
 
@@ -129,7 +134,7 @@ func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	return len(response.Reservations) > 0, nil
 }
 
-// GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Auto Scaling group
+// GetPrivateIPsForScalingGroup returns the list of IP addresses of InService instances of the Auto Scaling group
 func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
 	params := &ec2.DescribeInstancesInput{
 		Filters: []*ec2.Filter{
@@ -151,16 +156,59 @@ func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, er
 		return nil, fmt.Errorf("autoscaling group %v doesn't exist", name)
 	}
 
-	var result []string
+	instanceIdToPrivateIp := make(map[string]string)
 	for _, res := range response.Reservations {
 		for _, ins := range res.Instances {
 			if len(ins.NetworkInterfaces) > 0 && ins.NetworkInterfaces[0].PrivateIpAddress != nil {
-				result = append(result, *ins.NetworkInterfaces[0].PrivateIpAddress)
+				instanceIdToPrivateIp[*ins.InstanceId] = *ins.NetworkInterfaces[0].PrivateIpAddress
 			}
 		}
 	}
 
+	if len(instanceIdToPrivateIp) == 0 {
+		return nil, fmt.Errorf("no instances with a private IP address for group %v", name)
+	}
+
+	var result []string
+
+	var batchError error
+	var instanceIds []*string
+	for instanceId, _ := range instanceIdToPrivateIp {
+		instanceIds = append(instanceIds, aws.String(instanceId))
+		// Max of 50 instance IDs can be passed to `DescribeAutoScalingInstances`
+		if len(instanceIds) >= 50 {
+			batchError = addInServiceInstancesToResult(client, instanceIdToPrivateIp, instanceIds, &result)
+			if batchError != nil {
+				return nil, batchError
+			}
+			instanceIds = nil
+		}
+	}
+	batchError = addInServiceInstancesToResult(client, instanceIdToPrivateIp, instanceIds, &result)
+	if batchError != nil {
+		return nil, batchError
+	}
+
 	return result, nil
+}
+
+func addInServiceInstancesToResult(client *AWSClient, instanceIdToPrivateIp map[string]string, instanceIds []*string, result *[]string) error {
+	if len(instanceIds) == 0 {
+		return nil
+	}
+	asg_params := &autoscaling.DescribeAutoScalingInstancesInput{
+		InstanceIds: instanceIds,
+	}
+	response, err := client.svcAutoscaling.DescribeAutoScalingInstances(asg_params)
+	if err != nil {
+		return err
+	}
+	for _, autoScalingInstance := range response.AutoScalingInstances {
+		if *autoScalingInstance.LifecycleState == "InService" {
+			*result = append(*result, instanceIdToPrivateIp[*autoScalingInstance.InstanceId])
+		}
+	}
+	return nil
 }
 
 // Configuration for AWS Cloud Provider

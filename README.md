@@ -136,6 +136,10 @@ Because cloud provider APIs return the instances IP addresses before the instanc
 
 Small timeouts ensure that a health check will fail fast if the backend instance is not healthy. Also, the mandatory parameter ensures NGINX Plus won't consider a newly added instance healthy until a health check passes.
 
+When using AWS it's possible to filter out the instances that are not in a `InService` state of the [Lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html) with the parameter `in_service` set to `true`. This will ensure that the IP won't be added until the instance is ready to accept requests.
+This also works when an instance is being terminated: the asg-sync will remove the IP of an instance that went from  the `InService` state to one of the terminating states.
+**Note**: because the asg-sync works on a polling-based model, there will be a delay between the instance  going to a terminating state and the asg-sync removing its IP from NGINX Plus. To guarantee that NGINX Plus doesn't send any requests to a terminated instance, make sure the instance goes to the `Terminating:Wait` state for a period greater than the interval `sync_interval_in_seconds`.
+
 ### Configuration for Cloud Providers
 
 See the example for your cloud provider: [AWS](examples/aws.md), [Azure](examples/azure.md).
@@ -144,7 +148,7 @@ See the example for your cloud provider: [AWS](examples/aws.md), [Azure](example
 
 nginx-asg-sync runs as a system service and supports the start/stop/restart commands.
 
-For Ubuntu 14.04 and Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
+For Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
 
 For Ubuntu 16.04 and 18.04, CentOS7/RHEL7 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
 

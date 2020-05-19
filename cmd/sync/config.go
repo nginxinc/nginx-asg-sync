@@ -59,4 +59,5 @@ type Upstream struct {
 	MaxFails     *int
 	FailTimeout  string
 	SlowStart    string
+	InService    bool
 }

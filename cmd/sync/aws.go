@@ -3,20 +3,24 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"reflect"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/autoscaling"
+	"github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
 	yaml "gopkg.in/yaml.v2"
 )
 
-// AWSClient allows you to get the list of IP addresses of instanes of an Auto Scaling group. It implements the CloudProvider interface
+// AWSClient allows you to get the list of IP addresses of instances of an Auto Scaling group. It implements the CloudProvider interface
 type AWSClient struct {
-	svcEC2 ec2iface.EC2API
-	config *awsConfig
+	svcEC2         ec2iface.EC2API
+	svcAutoscaling autoscalingiface.AutoScalingAPI
+	config         *awsConfig
 }
 
 // NewAWSClient creates and configures an AWSClient
@@ -71,6 +75,7 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 			MaxFails:     &client.config.Upstreams[i].MaxFails,
 			FailTimeout:  getFailTimeoutOrDefault(client.config.Upstreams[i].FailTimeout),
 			SlowStart:    getSlowStartOrDefault(client.config.Upstreams[i].SlowStart),
+			InService:    client.config.Upstreams[i].InService,
 		}
 		upstreams = append(upstreams, u)
 	}
@@ -87,8 +92,9 @@ func (client *AWSClient) configure() error {
 		return err
 	}
 
-	svcEC2 := ec2.New(session)
-	client.svcEC2 = svcEC2
+	client.svcEC2 = ec2.New(session)
+	client.svcAutoscaling = autoscaling.New(session)
+
 	return nil
 }
 
@@ -131,6 +137,13 @@ func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 
 // GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Auto Scaling group
 func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
+	var onlyInService bool
+	for _, u := range client.GetUpstreams() {
+		if u.ScalingGroup == name && u.InService {
+			onlyInService = true
+			break
+		}
+	}
 	params := &ec2.DescribeInstancesInput{
 		Filters: []*ec2.Filter{
 			{
@@ -152,15 +165,74 @@ func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, er
 	}
 
 	var result []string
+	insIDtoIP := make(map[string]string)
+
 	for _, res := range response.Reservations {
 		for _, ins := range res.Instances {
 			if len(ins.NetworkInterfaces) > 0 && ins.NetworkInterfaces[0].PrivateIpAddress != nil {
-				result = append(result, *ins.NetworkInterfaces[0].PrivateIpAddress)
+				if onlyInService {
+					insIDtoIP[*ins.InstanceId] = *ins.NetworkInterfaces[0].PrivateIpAddress
+				} else {
+					result = append(result, *ins.NetworkInterfaces[0].PrivateIpAddress)
+				}
+			}
+		}
+	}
+	if onlyInService {
+		result, err = client.getInstancesInService(insIDtoIP)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
+}
+
+// getInstancesInService returns the list of instances that have LifecycleState == InService
+func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]string, error) {
+	const maxItems = 50
+	var result []string
+	keys := reflect.ValueOf(insIDtoIP).MapKeys()
+	instanceIds := make([]*string, len(keys))
+
+	for i := 0; i < len(keys); i++ {
+		instanceIds[i] = aws.String(keys[i].String())
+	}
+
+	batches := prepareBatches(maxItems, instanceIds)
+	for _, batch := range batches {
+		params := &autoscaling.DescribeAutoScalingInstancesInput{
+			InstanceIds: batch,
+		}
+		response, err := client.svcAutoscaling.DescribeAutoScalingInstances(params)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, ins := range response.AutoScalingInstances {
+			if *ins.LifecycleState == "InService" {
+				result = append(result, insIDtoIP[*ins.InstanceId])
 			}
 		}
 	}
 
 	return result, nil
+}
+
+func prepareBatches(maxItems int, items []*string) [][]*string {
+	var batches [][]*string
+
+	min := func(a, b int) int {
+		if a <= b {
+			return a
+		}
+		return b
+	}
+
+	for i := 0; i < len(items); i += maxItems {
+		batches = append(batches, items[i:min(i+maxItems, len(items))])
+	}
+	return batches
 }
 
 // Configuration for AWS Cloud Provider
@@ -179,6 +251,7 @@ type awsUpstream struct {
 	MaxFails         int    `yaml:"max_fails"`
 	FailTimeout      string `yaml:"fail_timeout"`
 	SlowStart        string `yaml:"slow_start"`
+	InService        bool   `yaml:"in_service"`
 }
 
 func validateAWSConfig(cfg *awsConfig) error {

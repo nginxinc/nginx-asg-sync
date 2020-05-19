@@ -34,6 +34,7 @@ upstreams:
    max_fails: 1
    fail_timeout: 10s
    slow_start: 0s
+   in_service: true
 ```
 
 * The `api_endpoint` key defines the NGINX Plus API endpoint.
@@ -49,3 +50,4 @@ upstreams:
   * `max_fails` – The number of unsuccessful attempts to communicate with an upstream server that should happen in the duration set by the `fail-timeout` to consider the server unavailable. Default value is 1. The zero value disables the accounting of attempts.
   * `fail_timeout` – The time during which the specified number of unsuccessful attempts to communicate with an upstream server should happen to consider the server unavailable. Default value is 10s.
   * `slow_start` – The slow start allows an upstream server to gradually recover its weight from 0 to its nominal value after it has been recovered or became available or when the server becomes available after a period of time it was considered unavailable. By default, the slow start is disabled.
+  * `in_service` – Use only instances that are in the `InService` state of the [Lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html). Default value is false.

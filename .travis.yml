@@ -12,4 +12,4 @@ before_install:
 - if [[ "${TRAVIS_PULL_REQUEST_SLUG}" == "nginxinc/nginx-asg-sync" || "${TRAVIS_PULL_REQUEST}" == "false" ]]; then
   wget https://github.com/fossas/fossa-cli/releases/download/v1.0.27/fossa-cli_1.0.27_linux_amd64.tar.gz && tar xzf fossa-cli_1.0.27_linux_amd64.tar.gz
   && ./fossa init
-  && FOSSA_API_KEY=${fossapush} ./fossa analyze -t nginx-asg-sync -b ${TRAVIS_BRANCH} ; fi
+  && GO111MODULE=on FOSSA_API_KEY=${fossapush} ./fossa analyze -t nginx-asg-sync -b ${TRAVIS_BRANCH} ; fi

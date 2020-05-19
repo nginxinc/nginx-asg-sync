@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 type testInputAWS struct {
 	cfg *awsConfig
@@ -14,6 +16,7 @@ func getValidAWSConfig() *awsConfig {
 			AutoscalingGroup: "backend-group",
 			Port:             80,
 			Kind:             "http",
+			InService:        false,
 		},
 	}
 	cfg := awsConfig{
@@ -100,6 +103,7 @@ func TestGetUpstreamsAWS(t *testing.T) {
 			MaxConns:    2,
 			SlowStart:   "5s",
 			FailTimeout: "10s",
+			InService:   false,
 		},
 		{
 			Name:        "127.0.0.2",
@@ -108,6 +112,7 @@ func TestGetUpstreamsAWS(t *testing.T) {
 			MaxConns:    3,
 			SlowStart:   "6s",
 			FailTimeout: "11s",
+			InService:   true,
 		},
 	}
 	cfg.Upstreams = upstreams
@@ -152,5 +157,32 @@ func areEqualUpstreamsAWS(u1 awsUpstream, u2 Upstream) bool {
 		return false
 	}
 
+	if u1.InService != u2.InService {
+		return false
+	}
+
 	return true
+}
+
+func TestPrepareBatches(t *testing.T) {
+	const maxItems = 3
+	ids := []string{"i-394ujfs", "i-dfdinf", "i-fsfsf", "i-8hr83hfwif", "i-nsnsnan"}
+	instanceIds := make([]*string, len(ids))
+
+	for i := 0; i < len(ids); i++ {
+		instanceIds[i] = &ids[i]
+	}
+
+	batches := prepareBatches(maxItems, instanceIds)
+
+	if len(batches) > len(ids)/maxItems+1 {
+		t.Error("prepareBatches() didn't split the slice correctly")
+	}
+
+	for _, batch := range batches {
+		if len(batch) > maxItems {
+			t.Errorf("prepareBatches() returned a batch with len > %v", maxItems)
+		}
+	}
+
 }

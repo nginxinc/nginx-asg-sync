@@ -1,6 +1,7 @@
 GO_DOCKER_RUN = docker run --rm -v $(shell pwd):/go/src/github.com/nginxinc/nginx-asg-sync -v $(shell pwd)/build_output:/build_output -w /go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync
 GOLANG_CONTAINER = golang:1.14
 BUILD_IN_CONTAINER = 1
+GOFLAGS ?= -mod=vendor
 
 all: amazon centos7 ubuntu-xenial amazon2 ubuntu-bionic
 
@@ -8,7 +9,7 @@ test:
 ifeq ($(BUILD_IN_CONTAINER),1)
 	$(GO_DOCKER_RUN) $(GOLANG_CONTAINER) go test
 else
-	go test ./...
+	GO111MODULE=on GOFLAGS='$(GOFLAGS)' go test ./...
 endif
 
 lint:
@@ -18,7 +19,7 @@ compile: test
 ifeq ($(BUILD_IN_CONTAINER),1)
 	$(GO_DOCKER_RUN) $(GOLANG_CONTAINER) go build -o /build_output/nginx-asg-sync
 else
-	go build -o ./build_output/nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
+	GO111MODULE=on GOFLAGS='$(GOFLAGS)' go build -o ./build_output/nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
 endif
 
 amazon: compile

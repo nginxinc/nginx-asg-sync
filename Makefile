@@ -1,5 +1,5 @@
 GO_DOCKER_RUN = docker run --rm -v $(shell pwd):/go/src/github.com/nginxinc/nginx-asg-sync -v $(shell pwd)/build_output:/build_output -w /go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync
-GOLANG_CONTAINER = golang:1.14
+GOLANG_CONTAINER = golang:1.15
 BUILD_IN_CONTAINER = 1
 GOFLAGS ?= -mod=vendor
 

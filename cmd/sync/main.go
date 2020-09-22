@@ -128,7 +128,11 @@ func main() {
 				}
 
 				if len(added) > 0 || len(removed) > 0 || len(updated) > 0 {
-					log.Printf("Updated HTTP servers of %v for group %v ; Added: %+v, Removed: %+v, Updated: %+v", upstream.Name, upstream.ScalingGroup, getUpstreamServerAddress(added), getUpstreamServerAddress(removed), getUpstreamServerAddress(updated))
+					addedAddresses := getUpstreamServerAddress(added)
+					removedAddresses := getUpstreamServerAddress(removed)
+					updatedAddresses := getUpstreamServerAddress(updated)
+					log.Printf("Updated HTTP servers of %v for group %v ; Added: %+v, Removed: %+v, Updated: %+v",
+						upstream.Name, upstream.ScalingGroup, addedAddresses, removedAddresses, updatedAddresses)
 				}
 			} else {
 				var upsServers []nginx.StreamUpstreamServer
@@ -174,9 +178,9 @@ func getUpstreamServerAddress(server []nginx.UpstreamServer) []string {
 }
 
 func getStreamUpstreamServerAddress(server []nginx.StreamUpstreamServer) []string {
-	var StreamUpstreamServerAddr []string
+	var streamUpstreamServerAddr []string
 	for _, s := range server {
-		StreamUpstreamServerAddr = append(StreamUpstreamServerAddr, s.Server)
+		streamUpstreamServerAddr = append(streamUpstreamServerAddr, s.Server)
 	}
-	return StreamUpstreamServerAddr
+	return streamUpstreamServerAddr
 }

@@ -177,7 +177,7 @@ func getUpstreamServerAddress(server []nginx.UpstreamServer) []string {
 	return upstreamServerAddr
 }
 
-func getStreamUpstreamServerAddress(server []nginx.StreamUpstreamServer) []string {
+func getStreamUpstreamServerAddresses(server []nginx.StreamUpstreamServer) []string {
 	var streamUpstreamServerAddr []string
 	for _, s := range server {
 		streamUpstreamServerAddr = append(streamUpstreamServerAddr, s.Server)

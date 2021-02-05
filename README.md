@@ -170,6 +170,7 @@ where `<os>` is the target OS. The following values are allowed:
 * `ubuntu-xenial` for Ubuntu 16.04
 * `ubuntu-bionic` for Ubuntu 18.04
 * `ubuntu-focal` for Ubuntu 20.04
+* `ubuntu-groovy` for Ubuntu 20.10
 
 If you run make without any arguments, it will build software packages for all supported OSes.
 

@@ -36,7 +36,7 @@ with AWS Auto Scaling groups and Azure Virtual Machine Scale Sets
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sbindir}/
 
-install -m 755 -p /build_output/nginx-asg-sync %{buildroot}%{_sbindir}/
+install -m 755 -p /nginx-asg-sync %{buildroot}%{_sbindir}/
 
 %if %{use_systemd}
 mkdir -p %{buildroot}%{_unitdir}

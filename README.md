@@ -150,7 +150,7 @@ nginx-asg-sync runs as a system service and supports the start/stop/restart comm
 
 For Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
 
-For Ubuntu 16.04 and 18.04, CentOS7/RHEL7 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
+For Ubuntu 16.04, 18.04, 20.04, CentOS7/RHEL7 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
 
 ## Troubleshooting
 
@@ -169,6 +169,7 @@ where `<os>` is the target OS. The following values are allowed:
 * `centos7` for CentOS7/RHEL7
 * `ubuntu-xenial` for Ubuntu 16.04
 * `ubuntu-bionic` for Ubuntu 18.04
+* `ubuntu-focal` for Ubuntu 20.04
 
 If you run make without any arguments, it will build software packages for all supported OSes.
 

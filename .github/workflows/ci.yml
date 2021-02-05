@@ -1,0 +1,225 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths-ignore:
+      - '**.md'
+  create:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+env:
+  DOCKER_BUILDKIT: 1
+  GOLANG_VERSION: 1.15
+
+jobs:
+
+  binary:
+    name: Build Binary
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Fetch Cached Artifacts
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/nginx-asg-sync
+          key: nginx-asg-sync-${{ github.run_id }}-${{ github.run_number }}
+      - name: Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Build Image
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: builder
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: nginx/nginx-asg-sync:${{ github.sha }}
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Golang Environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '${{ env.GOLANG_VERSION }}'
+      - name: Run Tests
+        run: make test
+
+  build:
+    name: Build Image
+    runs-on: ubuntu-18.04
+    needs: [binary, unit-tests]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Fetch Cached Artifacts
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/nginx-asg-sync
+          key: nginx-asg-sync-${{ github.run_id }}-${{ github.run_number }}
+      - name: Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Build Image Amazon 1
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: rpm_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: amazon-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=amazonlinux:1
+      - name: Run Amazon 1
+        uses: addnab/docker-run-action@v1
+        with:
+          image: amazon-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Amazon 2
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: rpm_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: amazon2-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=amazonlinux:2
+      - name: Run Amazon 2
+        uses: addnab/docker-run-action@v1
+        with:
+          image: amazon2-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Centos 7
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: rpm_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: centos7-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=centos:7
+      - name: Run Centos 7
+        uses: addnab/docker-run-action@v1
+        with:
+          image: centos7-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Ubuntu Xenial
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: deb_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: ubuntu-xenial-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=ubuntu:xenial
+            OS_VERSION=xenial
+      - name: Run Ubuntu Xenial
+        uses: addnab/docker-run-action@v1
+        with:
+          image: ubuntu-xenial-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Ubuntu Bionic
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: deb_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: ubuntu-bionic-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=ubuntu:bionic
+            OS_VERSION=bionic
+      - name: Run Ubuntu Bionic
+        uses: addnab/docker-run-action@v1
+        with:
+          image: ubuntu-bionic-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Ubuntu Focal
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: deb_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: ubuntu-focal-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=ubuntu:focal
+            OS_VERSION=focal
+      - name: Run Ubuntu Focal
+        uses: addnab/docker-run-action@v1
+        with:
+          image: ubuntu-focal-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Ubuntu Groovy
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: deb_based
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: ubuntu-groovy-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=ubuntu:groovy
+            OS_VERSION=groovy
+      - name: Run Ubuntu Groovy
+        uses: addnab/docker-run-action@v1
+        with:
+          image: ubuntu-groovy-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output

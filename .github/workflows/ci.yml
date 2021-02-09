@@ -32,7 +32,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Fetch Cached Artifacts
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: ${{ github.workspace }}/nginx-asg-sync
           key: nginx-asg-sync-${{ github.run_id }}-${{ github.run_number }}
@@ -41,7 +41,7 @@ jobs:
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -78,7 +78,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Fetch Cached Artifacts
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: ${{ github.workspace }}/nginx-asg-sync
           key: nginx-asg-sync-${{ github.run_id }}-${{ github.run_number }}
@@ -87,7 +87,7 @@ jobs:
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}

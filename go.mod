@@ -9,8 +9,7 @@ require (
 	github.com/Azure/go-autorest/autorest/azure/auth v0.4.2
 	github.com/Azure/go-autorest/autorest/to v0.3.0 // indirect
 	github.com/Azure/go-autorest/autorest/validation v0.2.0 // indirect
-	github.com/aws/aws-sdk-go v1.31.2
+	github.com/aws/aws-sdk-go v1.37.7
 	github.com/nginxinc/nginx-plus-go-client v0.6.0
-	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37 // indirect
 	gopkg.in/yaml.v2 v2.3.0
 )

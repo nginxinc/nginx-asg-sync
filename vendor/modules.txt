@@ -84,7 +84,7 @@ github.com/dimchansky/utfbom
 github.com/jmespath/go-jmespath
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
-# github.com/nginxinc/nginx-plus-go-client v0.6.0
+# github.com/nginxinc/nginx-plus-go-client v0.8.0
 ## explicit
 github.com/nginxinc/nginx-plus-go-client/client
 # golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9

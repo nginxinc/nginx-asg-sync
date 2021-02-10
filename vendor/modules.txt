@@ -84,7 +84,7 @@ github.com/form3tech-oss/jwt-go
 github.com/jmespath/go-jmespath
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
-# github.com/nginxinc/nginx-plus-go-client v0.6.0
+# github.com/nginxinc/nginx-plus-go-client v0.8.0
 ## explicit
 github.com/nginxinc/nginx-plus-go-client/client
 # golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad

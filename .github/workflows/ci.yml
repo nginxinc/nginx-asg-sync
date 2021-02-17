@@ -106,7 +106,7 @@ jobs:
           build-args: |
             CONTAINER_VERSION=amazonlinux:1
       - name: Run Amazon 1
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: amazon-builder:${{ github.sha }}
           run: /build.sh
@@ -124,7 +124,7 @@ jobs:
           build-args: |
             CONTAINER_VERSION=amazonlinux:2
       - name: Run Amazon 2
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: amazon2-builder:${{ github.sha }}
           run: /build.sh
@@ -142,7 +142,7 @@ jobs:
           build-args: |
             CONTAINER_VERSION=centos:7
       - name: Run Centos 7
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: centos7-builder:${{ github.sha }}
           run: /build.sh
@@ -161,7 +161,7 @@ jobs:
             CONTAINER_VERSION=ubuntu:xenial
             OS_VERSION=xenial
       - name: Run Ubuntu Xenial
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: ubuntu-xenial-builder:${{ github.sha }}
           run: /build.sh
@@ -180,7 +180,7 @@ jobs:
             CONTAINER_VERSION=ubuntu:bionic
             OS_VERSION=bionic
       - name: Run Ubuntu Bionic
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: ubuntu-bionic-builder:${{ github.sha }}
           run: /build.sh
@@ -199,7 +199,7 @@ jobs:
             CONTAINER_VERSION=ubuntu:focal
             OS_VERSION=focal
       - name: Run Ubuntu Focal
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: ubuntu-focal-builder:${{ github.sha }}
           run: /build.sh
@@ -218,7 +218,7 @@ jobs:
             CONTAINER_VERSION=ubuntu:groovy
             OS_VERSION=groovy
       - name: Run Ubuntu Groovy
-        uses: addnab/docker-run-action@v1
+        uses: addnab/docker-run-action@v2
         with:
           image: ubuntu-groovy-builder:${{ github.sha }}
           run: /build.sh

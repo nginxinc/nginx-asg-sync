@@ -31,6 +31,35 @@ version-resolver:
   default: patch
 exclude-labels:
   - 'skip-changelog'
+autolabeler:
+  - label: 'documentation'
+    files:
+      - '*.md'
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: 'chore'
+    branch:
+      - '/chore\/.+/'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+  - label: 'feature'
+    branch:
+      - '/feat\/.+/'
+      - '/feature\/.+/'
+  - label: 'enhancement'
+    branch:
+      - '/enh\/.+/'
+      - '/enhancement\/.+/'
+  - label: 'dependencies'
+    files:
+      - 'go.mod'
+      - 'go.sum'
+      - 'vendor*'
+    branch:
+      - '/deps\/.+/'
 template: |
   ## New in NGINX Plus Integration with Cloud Autoscaling v$RESOLVED_VERSION
 

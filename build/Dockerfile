@@ -1,9 +1,8 @@
 ARG CONTAINER_VERSION=ubuntu:groovy
-ARG GOLANG_CONTAINER=golang:1.15-alpine
 ARG OS_TYPE=deb_based
 ARG PACKAGE_VERSION=0.4-1
 
-FROM $GOLANG_CONTAINER AS builder
+FROM golang:1.15-alpine AS builder
 WORKDIR /go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync
 COPY . /go/src/github.com/nginxinc/nginx-asg-sync/
 

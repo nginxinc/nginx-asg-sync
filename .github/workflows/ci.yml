@@ -31,31 +31,20 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Fetch Cached Artifacts
+      - name: Setup Golang Environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '${{ env.GOLANG_VERSION }}'
+      - name: Build Binary
+        run: >
+          make build
+        env:
+          GOFLAGS: '-mod=vendor -gcflags=-trimpath=${{ github.workspace }} -asmflags=-trimpath=${{ github.workspace }}'
+      - name: Store Artifacts in Cache
         uses: actions/cache@v2.1.4
         with:
           path: ${{ github.workspace }}/nginx-asg-sync
           key: nginx-asg-sync-${{ github.run_id }}-${{ github.run_number }}
-      - name: Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver-opts: network=host
-      - name: Cache Docker layers
-        uses: actions/cache@v2.1.4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: Build Image
-        uses: docker/build-push-action@v2
-        with:
-          file: build/Dockerfile
-          context: '.'
-          target: builder
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: nginx/nginx-asg-sync:${{ github.sha }}
 
   unit-tests:
     name: Unit Tests
@@ -98,13 +87,14 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: rpm_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: amazon-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=amazonlinux:1
+            OS_TYPE=rpm_based
       - name: Run Amazon 1
         uses: addnab/docker-run-action@v2
         with:
@@ -116,13 +106,14 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: rpm_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: amazon2-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=amazonlinux:2
+            OS_TYPE=rpm_based
       - name: Run Amazon 2
         uses: addnab/docker-run-action@v2
         with:
@@ -134,17 +125,37 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: rpm_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: centos7-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=centos:7
+            OS_TYPE=rpm_based
       - name: Run Centos 7
         uses: addnab/docker-run-action@v2
         with:
           image: centos7-builder:${{ github.sha }}
+          run: /build.sh
+          options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
+      - name: Build Image Centos 8
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          target: local
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: centos8-builder:${{ github.sha }}
+          build-args: |
+            CONTAINER_VERSION=centos:8
+            OS_TYPE=rpm_based
+      - name: Run Centos 8
+        uses: addnab/docker-run-action@v2
+        with:
+          image: centos8-builder:${{ github.sha }}
           run: /build.sh
           options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
       - name: Build Image Ubuntu Xenial
@@ -152,14 +163,14 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: deb_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: ubuntu-xenial-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=ubuntu:xenial
-            OS_VERSION=xenial
+            OS_TYPE=deb_based
       - name: Run Ubuntu Xenial
         uses: addnab/docker-run-action@v2
         with:
@@ -171,14 +182,14 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: deb_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: ubuntu-bionic-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=ubuntu:bionic
-            OS_VERSION=bionic
+            OS_TYPE=deb_based
       - name: Run Ubuntu Bionic
         uses: addnab/docker-run-action@v2
         with:
@@ -190,14 +201,14 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: deb_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: ubuntu-focal-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=ubuntu:focal
-            OS_VERSION=focal
+            OS_TYPE=deb_based
       - name: Run Ubuntu Focal
         uses: addnab/docker-run-action@v2
         with:
@@ -209,14 +220,14 @@ jobs:
         with:
           file: build/Dockerfile
           context: '.'
-          target: deb_based
+          target: local
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: ubuntu-groovy-builder:${{ github.sha }}
           build-args: |
             CONTAINER_VERSION=ubuntu:groovy
-            OS_VERSION=groovy
+            OS_TYPE=deb_based
       - name: Run Ubuntu Groovy
         uses: addnab/docker-run-action@v2
         with:

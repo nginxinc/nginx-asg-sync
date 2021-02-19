@@ -43,8 +43,8 @@ Below you will find documentation on how to use nginx-asg-sync.
 
 We provide packages for the following operating systems:
 
-* Ubuntu: 16.04 (Xenial), 18.04 (Bionic)
-* CentOS/RHEL: 7
+* Ubuntu: 16.04 (Xenial), 18.04 (Bionic), 20.04 (Focal), 20.10 (Groovy)
+* CentOS/RHEL: 7, 8
 * Amazon Linux: 1, 2
 
 Support for other operating systems can be added.
@@ -150,7 +150,7 @@ nginx-asg-sync runs as a system service and supports the start/stop/restart comm
 
 For Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
 
-For Ubuntu 16.04, 18.04, 20.04, CentOS7/RHEL7 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
+For Ubuntu 16.04, 18.04, 20.04, 20.10, CentOS7/RHEL7, CentOS8/RHEL8 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
 
 ## Troubleshooting
 
@@ -161,16 +161,22 @@ If nginx-asg-sync doesn’t work as expected, check its log file available at **
 You can compile nginx-asg-sync and build a software package using the provided Makefile. Before you start building a package, make sure that the following software is installed on your system:
 * make
 * Docker
+* Go (optional, to build the binary locally)
 
 To build a software package, run: `$ make <os>`
 where `<os>` is the target OS. The following values are allowed:
 * `amazon` for Amazon Linux 1
 * `amazon2` for Amazon Linux 2
 * `centos7` for CentOS7/RHEL7
+* `centos8` for CentOS8/RHEL8
 * `ubuntu-xenial` for Ubuntu 16.04
 * `ubuntu-bionic` for Ubuntu 18.04
 * `ubuntu-focal` for Ubuntu 20.04
 * `ubuntu-groovy` for Ubuntu 20.10
+
+by default the nginx-asg-sync binary will be built locally, to build it inside a Docker container add the `TARGET` parameter to `make`, for example:
+
+`$ make ubuntu-focal TARGET=container`
 
 If you run make without any arguments, it will build software packages for all supported OSes.
 

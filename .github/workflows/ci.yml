@@ -21,13 +21,13 @@ on:
 
 env:
   DOCKER_BUILDKIT: 1
-  GOLANG_VERSION: 1.15
+  GOLANG_VERSION: 1.16
 
 jobs:
 
   binary:
     name: Build Binary
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -61,7 +61,7 @@ jobs:
 
   build:
     name: Build Image
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [binary, unit-tests]
     steps:
       - name: Checkout Repository

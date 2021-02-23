@@ -43,7 +43,7 @@ Below you will find documentation on how to use nginx-asg-sync.
 
 We provide packages for the following operating systems:
 
-* Ubuntu/Debian: 16.04 and later, Debian 9/10
+* Ubuntu 16.04 and later, Debian 9/10
 * CentOS/RHEL: 7, 8
 * Amazon Linux: 1, 2
 

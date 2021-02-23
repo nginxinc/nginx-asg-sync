@@ -1,2 +1,3 @@
 /usr/sbin
 /etc/nginx
+/var/log/nginx-asg-sync

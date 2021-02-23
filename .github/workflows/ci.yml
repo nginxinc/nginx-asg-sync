@@ -158,7 +158,7 @@ jobs:
           image: centos8-builder:${{ github.sha }}
           run: /build.sh
           options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
-      - name: Build Image Ubuntu Xenial
+      - name: Build Image Debian
         uses: docker/build-push-action@v2
         with:
           file: build/Dockerfile
@@ -167,70 +167,12 @@ jobs:
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: ubuntu-xenial-builder:${{ github.sha }}
+          tags: debian-builder:${{ github.sha }}
           build-args: |
-            CONTAINER_VERSION=ubuntu:xenial
             OS_TYPE=deb_based
-      - name: Run Ubuntu Xenial
+      - name: Run Debian
         uses: addnab/docker-run-action@v2
         with:
-          image: ubuntu-xenial-builder:${{ github.sha }}
-          run: /build.sh
-          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output
-      - name: Build Image Ubuntu Bionic
-        uses: docker/build-push-action@v2
-        with:
-          file: build/Dockerfile
-          context: '.'
-          target: local
-          load: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: ubuntu-bionic-builder:${{ github.sha }}
-          build-args: |
-            CONTAINER_VERSION=ubuntu:bionic
-            OS_TYPE=deb_based
-      - name: Run Ubuntu Bionic
-        uses: addnab/docker-run-action@v2
-        with:
-          image: ubuntu-bionic-builder:${{ github.sha }}
-          run: /build.sh
-          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output
-      - name: Build Image Ubuntu Focal
-        uses: docker/build-push-action@v2
-        with:
-          file: build/Dockerfile
-          context: '.'
-          target: local
-          load: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: ubuntu-focal-builder:${{ github.sha }}
-          build-args: |
-            CONTAINER_VERSION=ubuntu:focal
-            OS_TYPE=deb_based
-      - name: Run Ubuntu Focal
-        uses: addnab/docker-run-action@v2
-        with:
-          image: ubuntu-focal-builder:${{ github.sha }}
-          run: /build.sh
-          options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output
-      - name: Build Image Ubuntu Groovy
-        uses: docker/build-push-action@v2
-        with:
-          file: build/Dockerfile
-          context: '.'
-          target: local
-          load: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: ubuntu-groovy-builder:${{ github.sha }}
-          build-args: |
-            CONTAINER_VERSION=ubuntu:groovy
-            OS_TYPE=deb_based
-      - name: Run Ubuntu Groovy
-        uses: addnab/docker-run-action@v2
-        with:
-          image: ubuntu-groovy-builder:${{ github.sha }}
+          image: debian-builder:${{ github.sha }}
           run: /build.sh
           options: -v ${{ github.workspace }}/build/package/debian:/debian -v ${{ github.workspace }}/build_output:/build_output

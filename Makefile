@@ -4,7 +4,7 @@ TARGET ?= local
 
 export DOCKER_BUILDKIT = 1
 
-all: amazon centos7 centos8 ubuntu-xenial amazon2 ubuntu-bionic ubuntu-focal ubuntu-groovy
+all: amazon amazon2 centos7 centos8 debian
 
 .PHONY: test
 test:
@@ -35,21 +35,9 @@ centos8: build
 	docker build -t centos8-builder --target ${TARGET} --build-arg CONTAINER_VERSION=centos:8 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
 	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output centos8-builder
 
-ubuntu-xenial: build
-	docker build -t ubuntu-xenial-builder --target ${TARGET} --build-arg CONTAINER_VERSION=ubuntu:xenial --build-arg OS_TYPE=deb_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output ubuntu-xenial-builder
-
-ubuntu-bionic: build
-	docker build -t ubuntu-bionic-builder --target ${TARGET} --build-arg CONTAINER_VERSION=ubuntu:bionic --build-arg OS_TYPE=deb_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output ubuntu-bionic-builder
-
-ubuntu-focal: build
-	docker build -t ubuntu-focal-builder --target ${TARGET} --build-arg CONTAINER_VERSION=ubuntu:focal --build-arg OS_TYPE=deb_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output ubuntu-focal-builder
-
-ubuntu-groovy: build
-	docker build -t ubuntu-groovy-builder --target ${TARGET} --build-arg CONTAINER_VERSION=ubuntu:groovy --build-arg OS_TYPE=deb_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output ubuntu-groovy-builder
+debian: build
+	docker build -t debian-builder --target ${TARGET} --build-arg OS_TYPE=deb_based -f build/Dockerfile .
+	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output debian-builder
 
 .PHONY: clean
 clean:

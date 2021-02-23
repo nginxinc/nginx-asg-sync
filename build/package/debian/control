@@ -1,14 +1,14 @@
 Source: nginx-asg-sync
-Section: misc
+Section: contrib
 Priority: optional
 Maintainer: Michael Pleshakov <michael@nginx.com>
-Build-Depends: debhelper (>= 8.0.0)
-Standards-Version: 3.9.4
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.5.1
 Homepage: https://github.com/nginxinc/nginx-asg-sync
 
 Package: nginx-asg-sync
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Pre-Depends: nginx-plus
 Description: NGINX Plus Integration with Cloud Autoscaling
   This package contains software that integrates NGINX Plus
   with AWS Auto Scaling groups and Azure Virtual Machine Scale Sets

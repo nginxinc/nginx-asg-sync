@@ -19,9 +19,9 @@ License: 2-clause BSD-like license
 Group: System Environment/Daemons
 
 %if %{use_systemd}
-Requires: systemd
+Requires: nginx-plus systemd
 %else
-Requires: upstart >= 0.6.5
+Requires: nginx-plus upstart >= 0.6.5
 %endif
 
 %description

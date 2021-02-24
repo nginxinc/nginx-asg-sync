@@ -1,3 +1,10 @@
+## 0.5.0 (February 24, 2021)
+
+IMPROVEMENTS:
+
+* Add InService option for AWS [#39](https://github.com/nginxinc/nginx-asg-sync/pull/39)
+* Update log format [#42](https://github.com/nginxinc/nginx-asg-sync/pull/42)
+
 ## 0.4-1 (November 22, 2019)
 
 IMPROVEMENTS:

@@ -110,30 +110,25 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
-* Wed Feb 24 2021 Luca Comellini <luca@nginx.com>
+* Wed Feb 24 2021 Luca Comellini <luca@nginx.com> - 0.5.0
 - Add InService option for AWS
 - Update log format
 
-* Fri Nov 22 2019 Raul Marrero <raul.marrero@nginx.com>
-- 0.4-1
+* Fri Nov 22 2019 Raul Marrero <raul.marrero@nginx.com> - 0.4-1
 - Add support to set upstream server parameters (max_conns, max_fails, fail_timeout and slow_start)
 - Add support to use wildcards in AWS autoscaling groups
 - Allow to use the same AWS region as the instance where the nginx-asg-sync is running
 
-* Wed Sep 4 2019 Raul Marrero <raul.marrero@nginx.com>
-- 0.3-1
+* Wed Sep 4 2019 Raul Marrero <raul.marrero@nginx.com> - 0.3-1
 - Add support for Azure Virtual Machine Scale Sets
 
-* Fri Jul 27 2018 Peter Kelly <peter.kelly@nginx.com>
-- 0.2-1
+* Fri Jul 27 2018 Peter Kelly <peter.kelly@nginx.com> - 0.2-1
 - Add supporting guides for contributing and changelog
 - Update package layout
 - Use new NGINX Plus API
 
-* Wed Aug 30 2017 Michael Pleshakov <michael@nginx.com>
-- 0.1-2
+* Wed Aug 30 2017 Michael Pleshakov <michael@nginx.com> - 0.1-2
 - Make sure nginx-asg-sync works with NGINX Plus R13
 
-* Fri Mar 03 2017 Michael Pleshakov <michael@nginx.com>
-- 0.1-1
+* Fri Mar 03 2017 Michael Pleshakov <michael@nginx.com> - 0.1-1
 - First release

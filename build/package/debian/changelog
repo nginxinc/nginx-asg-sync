@@ -1,3 +1,10 @@
+nginx-asg-sync (0.5.0) unstable; urgency=low
+
+  * Add InService option for AWS
+  * Update log format
+
+ -- Luca Comellini <luca@nginx.com>  Wed, 24 Feb 2021 07:55:53 -0800
+
 nginx-asg-sync (0.4-1) unstable; urgency=low
 
   * 0.4-1

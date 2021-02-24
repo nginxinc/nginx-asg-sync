@@ -110,6 +110,10 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
+* Wed Feb 24 2021 Luca Comellini <luca@nginx.com>
+- Add InService option for AWS
+- Update log format
+
 * Fri Nov 22 2019 Raul Marrero <raul.marrero@nginx.com>
 - 0.4-1
 - Add support to set upstream server parameters (max_conns, max_fails, fail_timeout and slow_start)

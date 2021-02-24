@@ -3,7 +3,7 @@
 
 Summary: NGINX Plus Integration with Cloud Autoscaling
 Name: nginx-asg-sync
-Version: 0.4
+Version: 0.5.0
 Release: 1%{?dist}
 Vendor: Nginx Software, Inc.
 URL: https://github.com/nginxinc/nginx-asg-sync

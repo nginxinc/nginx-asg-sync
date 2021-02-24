@@ -43,7 +43,7 @@ Below you will find documentation on how to use nginx-asg-sync.
 
 We provide packages for the following operating systems:
 
-* Ubuntu: 16.04 (Xenial), 18.04 (Bionic), 20.04 (Focal), 20.10 (Groovy)
+* Ubuntu 16.04 and later, Debian 9/10
 * CentOS/RHEL: 7, 8
 * Amazon Linux: 1, 2
 
@@ -56,7 +56,7 @@ Support for other operating systems can be added.
     * For the latest source code from the master branch, build a software package by following [these instructions](#building-a-software-package).
 2. Install the package:
     * For Amazon Linux or CentOS/RHEL, run: `$ sudo rpm -i <package-name>.rpm`
-    * For Ubuntu, run: `$ sudo dpkg -i <package-name>.deb`
+    * For Ubuntu or Debian, run: `$ sudo dpkg -i <package-name>.deb`
 
 ### NGINX Plus Configuration
 
@@ -150,7 +150,7 @@ nginx-asg-sync runs as a system service and supports the start/stop/restart comm
 
 For Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
 
-For Ubuntu 16.04, 18.04, 20.04, 20.10, CentOS7/RHEL7, CentOS8/RHEL8 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
+For Ubuntu >= 16.04, Debian 9/10, CentOS7/RHEL7, CentOS8/RHEL8 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
 
 ## Troubleshooting
 
@@ -169,14 +169,11 @@ where `<os>` is the target OS. The following values are allowed:
 * `amazon2` for Amazon Linux 2
 * `centos7` for CentOS7/RHEL7
 * `centos8` for CentOS8/RHEL8
-* `ubuntu-xenial` for Ubuntu 16.04
-* `ubuntu-bionic` for Ubuntu 18.04
-* `ubuntu-focal` for Ubuntu 20.04
-* `ubuntu-groovy` for Ubuntu 20.10
+* `debian` for Ubuntu >= 16.04 and Debian 9/10
 
 by default the nginx-asg-sync binary will be built locally, to build it inside a Docker container add the `TARGET` parameter to `make`, for example:
 
-`$ make ubuntu-focal TARGET=container`
+`$ make debian TARGET=container`
 
 If you run make without any arguments, it will build software packages for all supported OSes.
 

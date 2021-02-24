@@ -1,18 +1,20 @@
-nginx-asg-sync (0.4-1-%%CODENAME%%) unstable; urgency=low
+nginx-asg-sync (0.4-1) unstable; urgency=low
 
   * 0.4-1
   * Add support to set upstream server parameters (max_conns, max_fails, fail_timeout and slow_start)
   * Add support to use wildcards in AWS autoscaling groups
   * Allow to use the same AWS region as the instance where the nginx-asg-sync is running
 
-nginx-asg-sync (0.3-1-%%CODENAME%%) unstable; urgency=low
+ -- Raul Marrero <raul.marrero@nginx.com>  Fri, 22 Nov 2019 12:06:02 +0000
+
+nginx-asg-sync (0.3-1) unstable; urgency=low
 
   * 0.3-1
   * Add support for Azure Virtual Machine Scale Sets
 
  -- Raul Marrero <raul.marrero@nginx.com> Wed, 4 Sep 2019 14:06:00 +0000
 
-nginx-asg-sync (0.2-1-%%CODENAME%%) unstable; urgency=low
+nginx-asg-sync (0.2-1) unstable; urgency=low
 
   * 0.2-1
   * Add supporting guides for contributing and changelog
@@ -21,14 +23,14 @@ nginx-asg-sync (0.2-1-%%CODENAME%%) unstable; urgency=low
 
  -- Peter Kelly <peter.kelly@nginx.com>  Fri, 27 Jul 2018 13:48:00 +0000
 
-nginx-asg-sync (0.1-2-%%CODENAME%%) unstable; urgency=low
+nginx-asg-sync (0.1-2) unstable; urgency=low
 
   * 0.1-2
   * Make sure nginx-asg-sync works with NGINX Plus R13
 
  -- Michael Pleshakov <michael@nginx.com>  Wed, 30 Aug 2017 21:03:28 +0000
 
-nginx-asg-sync (0.1-1-%%CODENAME%%) unstable; urgency=low
+nginx-asg-sync (0.1-1) unstable; urgency=low
 
   * 0.1-1
   * First release

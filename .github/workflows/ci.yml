@@ -96,7 +96,7 @@ jobs:
             CONTAINER_VERSION=amazonlinux:1
             OS_TYPE=rpm_based
       - name: Run Amazon 1
-        uses: addnab/docker-run-action@v2
+        uses: addnab/docker-run-action@v3
         with:
           image: amazon-builder:${{ github.sha }}
           run: /build.sh
@@ -115,7 +115,7 @@ jobs:
             CONTAINER_VERSION=amazonlinux:2
             OS_TYPE=rpm_based
       - name: Run Amazon 2
-        uses: addnab/docker-run-action@v2
+        uses: addnab/docker-run-action@v3
         with:
           image: amazon2-builder:${{ github.sha }}
           run: /build.sh
@@ -134,7 +134,7 @@ jobs:
             CONTAINER_VERSION=centos:7
             OS_TYPE=rpm_based
       - name: Run Centos 7
-        uses: addnab/docker-run-action@v2
+        uses: addnab/docker-run-action@v3
         with:
           image: centos7-builder:${{ github.sha }}
           run: /build.sh
@@ -153,7 +153,7 @@ jobs:
             CONTAINER_VERSION=centos:8
             OS_TYPE=rpm_based
       - name: Run Centos 8
-        uses: addnab/docker-run-action@v2
+        uses: addnab/docker-run-action@v3
         with:
           image: centos8-builder:${{ github.sha }}
           run: /build.sh
@@ -171,7 +171,7 @@ jobs:
           build-args: |
             OS_TYPE=deb_based
       - name: Run Debian
-        uses: addnab/docker-run-action@v2
+        uses: addnab/docker-run-action@v3
         with:
           image: debian-builder:${{ github.sha }}
           run: /build.sh

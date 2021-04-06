@@ -1,5 +1,3 @@
-GO_DOCKER_RUN = docker run --rm -v $(shell pwd):/go/src/github.com/nginxinc/nginx-asg-sync -v $(shell pwd)/build_output:/build_output -w /go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync
-GOFLAGS ?= -mod=vendor
 TARGET ?= local
 
 export DOCKER_BUILDKIT = 1
@@ -8,7 +6,7 @@ all: amazon amazon2 centos7 centos8 debian
 
 .PHONY: test
 test:
-	GO111MODULE=on GOFLAGS='$(GOFLAGS)' go test ./...
+	GO111MODULE=on go test ./...
 
 lint:
 	golangci-lint run
@@ -16,7 +14,8 @@ lint:
 .PHONY: build
 build:
 ifeq (${TARGET},local)
-	CGO_ENABLED=0 GO111MODULE=on GOFLAGS='$(GOFLAGS)' GOOS=linux go build -installsuffix cgo -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
+	$(eval GOPATH=$(shell go env GOPATH))
+	CGO_ENABLED=0 GO111MODULE=on GOFLAGS="-gcflags=-trimpath=${GOPATH} -asmflags=-trimpath=${GOPATH}" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
 endif
 
 amazon: build
@@ -42,10 +41,11 @@ debian: build
 .PHONY: clean
 clean:
 	-rm -r build_output
+	-rm nginx-asg-sync
 
 .PHONY: deps
 deps:
-	@go mod tidy && go mod verify && go mod vendor
+	@go mod tidy && go mod verify && go mod download
 
 .PHONY: clean-cache
 clean-cache:

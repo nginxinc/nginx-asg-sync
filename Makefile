@@ -8,8 +8,9 @@ all: amazon amazon2 centos7 centos8 debian
 test:
 	GO111MODULE=on go test ./...
 
+.PHONY: lint
 lint:
-	golangci-lint run
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint run
 
 .PHONY: build
 build:

@@ -47,7 +47,7 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 
 		region, err := metaClient.Region()
 		if err != nil {
-			return nil, fmt.Errorf("unable to retreive region from ec2metadata: %v", err)
+			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %v", err)
 		}
 		cfg.Region = region
 	}

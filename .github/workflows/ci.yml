@@ -70,7 +70,7 @@ jobs:
           path: ${{ github.workspace }}/nginx-asg-sync
           key: nginx-asg-sync-${{ github.run_id }}-${{ github.run_number }}
       - name: Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v1.3.0
         with:
           driver-opts: network=host
       - name: Cache Docker layers

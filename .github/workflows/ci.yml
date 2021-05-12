@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Determine Go version from go.mod
         run: echo "GO_VERSION=$(grep "go 1." go.mod | cut -d " " -f 2)" >> $GITHUB_ENV
       - name: Setup Golang Environment
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Setup Golang Environment
         uses: actions/setup-go@v2
         with:
@@ -63,7 +63,7 @@ jobs:
     needs: [binary, unit-tests]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Fetch Cached Artifacts
         uses: actions/cache@v2.1.5
         with:

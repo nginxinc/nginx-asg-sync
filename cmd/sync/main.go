@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 
 	if *logFile != "" {
-		logF, err := os.OpenFile(*logFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+		logF, err := os.OpenFile(*logFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0o600)
 		if err != nil {
 			log.Printf("Couldn't open the log file: %v", err)
 			os.Exit(10)

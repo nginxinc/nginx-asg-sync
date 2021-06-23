@@ -95,7 +95,7 @@ func TestValidateAWSConfigValid(t *testing.T) {
 
 func TestGetUpstreamsAWS(t *testing.T) {
 	cfg := getValidAWSConfig()
-	var upstreams = []awsUpstream{
+	upstreams := []awsUpstream{
 		{
 			Name:        "127.0.0.1",
 			Port:        80,
@@ -184,5 +184,4 @@ func TestPrepareBatches(t *testing.T) {
 			t.Errorf("prepareBatches() returned a batch with len > %v", maxItems)
 		}
 	}
-
 }

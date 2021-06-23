@@ -117,7 +117,7 @@ func TestGetPrimaryIPFromInterfaceIPConfiguration(t *testing.T) {
 func TestGetPrimaryIPFromInterfaceIPConfigurationFail(t *testing.T) {
 	primaryFalse := false
 	primaryTrue := true
-	var tests = []struct {
+	tests := []struct {
 		ipConfig network.InterfaceIPConfiguration
 		msg      string
 	}{
@@ -159,7 +159,7 @@ func TestGetPrimaryIPFromInterfaceIPConfigurationFail(t *testing.T) {
 
 func TestGetUpstreamsAzure(t *testing.T) {
 	cfg := getValidAzureConfig()
-	var upstreams = []azureUpstream{
+	upstreams := []azureUpstream{
 		{
 			Name:        "127.0.0.1",
 			Port:        80,

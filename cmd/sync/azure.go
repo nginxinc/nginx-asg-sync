@@ -114,7 +114,6 @@ func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) 
 
 func (client *AzureClient) configure() error {
 	authorizer, err := auth.NewAuthorizerFromEnvironment()
-
 	if err != nil {
 		return err
 	}

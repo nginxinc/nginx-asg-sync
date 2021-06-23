@@ -22,14 +22,14 @@ func NewAzureClient(data []byte) (*AzureClient, error) {
 	azureClient := &AzureClient{}
 	cfg, err := parseAzureConfig(data)
 	if err != nil {
-		return nil, fmt.Errorf("error validating config: %v", err)
+		return nil, fmt.Errorf("error validating config: %w", err)
 	}
 
 	azureClient.config = cfg
 
 	err = azureClient.configure()
 	if err != nil {
-		return nil, fmt.Errorf("error configuring Azure Client: %v", err)
+		return nil, fmt.Errorf("error configuring Azure Client: %w", err)
 	}
 
 	return azureClient, nil
@@ -106,7 +106,7 @@ func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) 
 	ctx := context.TODO()
 	vmss, err := client.vMSSClient.Get(ctx, client.config.ResourceGroupName, name)
 	if err != nil {
-		return false, fmt.Errorf("couldn't check if a Virtual Machine Scale Set exists: %v", err)
+		return false, fmt.Errorf("couldn't check if a Virtual Machine Scale Set exists: %w", err)
 	}
 
 	return vmss.ID != nil, nil

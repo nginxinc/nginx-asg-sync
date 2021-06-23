@@ -28,7 +28,7 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 	awsClient := &AWSClient{}
 	cfg, err := parseAWSConfig(data)
 	if err != nil {
-		return nil, fmt.Errorf("error validating config: %v", err)
+		return nil, fmt.Errorf("error validating config: %w", err)
 	}
 
 	if cfg.Region == "self" {
@@ -47,7 +47,7 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 
 		region, err := metaClient.Region()
 		if err != nil {
-			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %v", err)
+			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %w", err)
 		}
 		cfg.Region = region
 	}
@@ -56,7 +56,7 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 
 	err = awsClient.configure()
 	if err != nil {
-		return nil, fmt.Errorf("error configuring AWS Client: %v", err)
+		return nil, fmt.Errorf("error configuring AWS Client: %w", err)
 	}
 
 	return awsClient, nil
@@ -129,7 +129,7 @@ func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 
 	response, err := client.svcEC2.DescribeInstances(params)
 	if err != nil {
-		return false, fmt.Errorf("couldn't check if an AutoScaling group exists: %v", err)
+		return false, fmt.Errorf("couldn't check if an AutoScaling group exists: %w", err)
 	}
 
 	return len(response.Reservations) > 0, nil

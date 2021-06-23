@@ -1,7 +1,9 @@
 package main
 
-const defaultFailTimeout = "10s"
-const defaultSlowStart = "0s"
+const (
+	defaultFailTimeout = "10s"
+	defaultSlowStart   = "0s"
+)
 
 func getFailTimeoutOrDefault(failTimeout string) string {
 	if failTimeout == "" {

@@ -17,8 +17,10 @@ var validTimeSuffixes = []string{
 	"y",
 }
 
-var durationEscaped = strings.Join(validTimeSuffixes, "|")
-var validNginxTime = regexp.MustCompile(`^([0-9]+([` + durationEscaped + `]?){0,1} *)+$`)
+var (
+	durationEscaped = strings.Join(validTimeSuffixes, "|")
+	validNginxTime  = regexp.MustCompile(`^([0-9]+([` + durationEscaped + `]?){0,1} *)+$`)
+)
 
 func isValidTime(time string) bool {
 	if time == "" {

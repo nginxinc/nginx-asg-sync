@@ -89,13 +89,13 @@ func TestValidateAWSConfigValid(t *testing.T) {
 
 	err := validateAWSConfig(cfg)
 	if err != nil {
-		t.Errorf("validateAWSConfig() failed for the valid config: %v", err)
+		t.Errorf("validateAWSConfig() failed for the valid config: %w", err)
 	}
 }
 
 func TestGetUpstreamsAWS(t *testing.T) {
 	cfg := getValidAWSConfig()
-	var upstreams = []awsUpstream{
+	upstreams := []awsUpstream{
 		{
 			Name:        "127.0.0.1",
 			Port:        80,
@@ -184,5 +184,4 @@ func TestPrepareBatches(t *testing.T) {
 			t.Errorf("prepareBatches() returned a batch with len > %v", maxItems)
 		}
 	}
-
 }

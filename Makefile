@@ -6,7 +6,7 @@ all: amazon amazon2 centos7 centos8 debian
 
 .PHONY: test
 test:
-	GO111MODULE=on go test ./...
+	go test ./...
 
 .PHONY: lint
 lint:
@@ -16,7 +16,7 @@ lint:
 build:
 ifeq (${TARGET},local)
 	$(eval GOPATH=$(shell go env GOPATH))
-	CGO_ENABLED=0 GO111MODULE=on GOFLAGS="-gcflags=-trimpath=${GOPATH} -asmflags=-trimpath=${GOPATH}" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
+	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=${GOPATH} -asmflags=-trimpath=${GOPATH}" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
 endif
 
 amazon: build

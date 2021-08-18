@@ -104,7 +104,7 @@ func getPrimaryIPFromInterfaceIPConfiguration(ipConfig network.InterfaceIPConfig
 // CheckIfScalingGroupExists checks if the Virtual Machine Scale Set exists
 func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	ctx := context.TODO()
-	vmss, err := client.vMSSClient.Get(ctx, client.config.ResourceGroupName, name)
+	vmss, err := client.vMSSClient.Get(ctx, client.config.ResourceGroupName, name, "userData")
 	if err != nil {
 		return false, fmt.Errorf("couldn't check if a Virtual Machine Scale Set exists: %w", err)
 	}

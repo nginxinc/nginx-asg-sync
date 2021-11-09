@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/Azure/azure-sdk-for-go v56.3.0+incompatible
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.8
-	github.com/aws/aws-sdk-go v1.41.0
+	github.com/aws/aws-sdk-go v1.42.0
 	github.com/nginxinc/nginx-plus-go-client v0.9.0
 	gopkg.in/yaml.v2 v2.4.0
 )

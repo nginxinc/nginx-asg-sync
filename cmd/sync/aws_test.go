@@ -89,7 +89,7 @@ func TestValidateAWSConfigValid(t *testing.T) {
 
 	err := validateAWSConfig(cfg)
 	if err != nil {
-		t.Errorf("validateAWSConfig() failed for the valid config: %w", err)
+		t.Errorf("validateAWSConfig() failed for the valid config: %v", err)
 	}
 }
 

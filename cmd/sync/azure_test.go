@@ -95,7 +95,7 @@ func TestValidateAzureConfigValid(t *testing.T) {
 
 	err := validateAzureConfig(cfg)
 	if err != nil {
-		t.Errorf("validateAzureConfig() failed for the valid config: %w", err)
+		t.Errorf("validateAzureConfig() failed for the valid config: %v", err)
 	}
 }
 

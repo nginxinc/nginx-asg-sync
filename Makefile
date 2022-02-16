@@ -2,7 +2,7 @@ TARGET ?= local
 
 export DOCKER_BUILDKIT = 1
 
-all: amazon amazon2 centos7 centos8 debian
+all: amazon2 centos7 centos8 debian
 
 .PHONY: test
 test:
@@ -18,10 +18,6 @@ ifeq (${TARGET},local)
 	$(eval GOPATH=$(shell go env GOPATH))
 	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=${GOPATH} -asmflags=-trimpath=${GOPATH}" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
 endif
-
-amazon: build
-	docker build -t amazon-builder --target ${TARGET} --build-arg CONTAINER_VERSION=amazonlinux:1 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output amazon-builder
 
 amazon2: build
 	docker build -t amazon2-builder --target ${TARGET} --build-arg CONTAINER_VERSION=amazonlinux:2 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .

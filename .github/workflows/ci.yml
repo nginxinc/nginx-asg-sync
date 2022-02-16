@@ -111,7 +111,7 @@ jobs:
           image: centos7-builder:${{ github.sha }}
           run: /build.sh
           options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
-      - name: Build Image Centos 8
+      - name: Build Image Centos stream 8
         uses: docker/build-push-action@v2
         with:
           file: build/Dockerfile
@@ -120,14 +120,14 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: centos8-builder:${{ github.sha }}
+          tags: centosstream8-builder:${{ github.sha }}
           build-args: |
-            CONTAINER_VERSION=centos:8
+            CONTAINER_VERSION=quay.io/centos/centos:stream8
             OS_TYPE=rpm_based
-      - name: Run Centos 8
+      - name: Run Centos stream 8
         uses: addnab/docker-run-action@v3
         with:
-          image: centos8-builder:${{ github.sha }}
+          image: centosstream8-builder:${{ github.sha }}
           run: /build.sh
           options: -v ${{ github.workspace }}/build/package/rpm:/rpm -v ${{ github.workspace }}/build_output:/build_output
       - name: Build Image Debian

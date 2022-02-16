@@ -165,7 +165,7 @@ To build a software package, run: `$ make <os>`
 where `<os>` is the target OS. The following values are allowed:
 * `amazon2` for Amazon Linux 2
 * `centos7` for CentOS7/RHEL7
-* `centos8` for CentOS8/RHEL8
+* `centosstream8` for CentOS Stream 8/RHEL8
 * `debian` for Ubuntu >= 16.04 and Debian 9/10
 
 by default the nginx-asg-sync binary will be built locally, to build it inside a Docker container add the `TARGET` parameter to `make`, for example:

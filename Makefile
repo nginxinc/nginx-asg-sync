@@ -2,7 +2,7 @@ TARGET ?= local
 
 export DOCKER_BUILDKIT = 1
 
-all: amazon2 centos7 centos8 debian
+all: amazon2 centos7 centosstream8 debian
 
 .PHONY: test
 test:
@@ -27,9 +27,9 @@ centos7: build
 	docker build -t centos7-builder --target ${TARGET} --build-arg CONTAINER_VERSION=centos:7 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
 	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output centos7-builder
 
-centos8: build
-	docker build -t centos8-builder --target ${TARGET} --build-arg CONTAINER_VERSION=centos:8 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output centos8-builder
+centosstream8: build
+	docker build -t centosstream8-builder --target ${TARGET} --build-arg CONTAINER_VERSION=quay.io/centos/centos:stream8 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
+	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output centosstream8-builder
 
 debian: build
 	docker build -t debian-builder --target ${TARGET} --build-arg OS_TYPE=deb_based -f build/Dockerfile .

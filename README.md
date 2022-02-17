@@ -45,7 +45,7 @@ We provide packages for the following operating systems:
 
 * Ubuntu 16.04 and later, Debian 9/10
 * CentOS/RHEL: 7, 8
-* Amazon Linux: 1, 2
+* Amazon Linux: 2
 
 Support for other operating systems can be added.
 
@@ -148,9 +148,7 @@ See the example for your cloud provider: [AWS](examples/aws.md), [Azure](example
 
 nginx-asg-sync runs as a system service and supports the start/stop/restart commands.
 
-For Amazon Linux 1, run: `$ sudo start|stop|restart nginx-asg-sync`
-
-For Ubuntu >= 16.04, Debian 9/10, CentOS7/RHEL7, CentOS8/RHEL8 and Amazon Linux 2, run: `$ sudo service nginx-asg-sync start|stop|restart`
+`$ sudo service nginx-asg-sync start|stop|restart`
 
 ## Troubleshooting
 
@@ -165,7 +163,6 @@ You can compile nginx-asg-sync and build a software package using the provided M
 
 To build a software package, run: `$ make <os>`
 where `<os>` is the target OS. The following values are allowed:
-* `amazon` for Amazon Linux 1
 * `amazon2` for Amazon Linux 2
 * `centos7` for CentOS7/RHEL7
 * `centos8` for CentOS8/RHEL8

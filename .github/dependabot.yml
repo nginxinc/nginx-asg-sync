@@ -27,4 +27,3 @@ updates:
       interval: daily
     reviewers:
       - "nginxinc/kic"
-      - "vepatel"

@@ -260,7 +260,7 @@ func validateAWSConfig(cfg *awsConfig) error {
 	}
 
 	if len(cfg.Upstreams) == 0 {
-		return fmt.Errorf("There are no upstreams found in the config file")
+		return fmt.Errorf("there are no upstreams found in the config file")
 	}
 
 	for _, ups := range cfg.Upstreams {

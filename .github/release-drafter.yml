@@ -13,6 +13,9 @@ categories:
   - title: '📝 Documentation'
     labels:
       - "documentation"
+  - title: '🧪 Tests'
+    labels:
+      - "tests"
   - title: '🔨 Maintenance'
     labels:
       - "chore"

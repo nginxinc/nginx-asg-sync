@@ -53,7 +53,7 @@ Support for other operating systems can be added.
 
 1. Get a software package for your OS:
     * For a stable release, download a package from the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
-    * For the latest source code from the master branch, build a software package by following [these instructions](#building-a-software-package).
+    * For the latest source code from the main branch, build a software package by following [these instructions](#building-a-software-package).
 2. Install the package:
     * For Amazon Linux or CentOS/RHEL, run: `$ sudo rpm -i <package-name>.rpm`
     * For Ubuntu or Debian, run: `$ sudo dpkg -i <package-name>.deb`

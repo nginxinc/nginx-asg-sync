@@ -14,7 +14,7 @@ The following is a set of guidelines for contributing to the NGINX AWS Auto-Scal
   * [Git Style Guide](#git-style-guide)
   * [Go Style Guide](#go-style-guide)
 
-[Code of Conduct](https://github.com/nginxinc/nginx-asg-sync/blob/master/CODE_OF_CONDUCT.md)
+[Code of Conduct](https://github.com/nginxinc/nginx-asg-sync/blob/main/CODE_OF_CONDUCT.md)
 
 ## Ask a Question
 
@@ -23,7 +23,7 @@ We will have a public forum soon where you can come and ask questions and have a
 
 ## Getting Started
 
-Read the installation, configuration and building steps in the [README](https://github.com/nginxinc/nginx-asg-sync/blob/master/README.md).
+Read the installation, configuration and building steps in the [README](https://github.com/nginxinc/nginx-asg-sync/blob/main/README.md).
 
 ### Project Structure
 
@@ -46,7 +46,7 @@ To suggest an enhancement, please create an issue on GitHub with the label `enha
 ### Open a Pull Request
 
 * Fork the repo, create a branch, submit a PR when your changes are tested and ready for review
-* Fill in [our pull request template](https://github.com/nginxinc/nginx-asg-sync/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
+* Fill in [our pull request template](https://github.com/nginxinc/nginx-asg-sync/blob/main/.github/PULL_REQUEST_TEMPLATE.md)
 
 Note: if you’d like to implement a new feature, please consider creating a feature request issue first to start a discussion about the feature.
 

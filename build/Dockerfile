@@ -1,7 +1,7 @@
 ARG CONTAINER_VERSION=amazonlinux:2
 ARG OS_TYPE=deb_based
 
-FROM golang:1.17-alpine AS builder
+FROM golang:1.18-alpine AS builder
 WORKDIR /go/src/github.com/nginxinc/nginx-asg-sync/cmd/sync
 COPY go.mod go.sum /go/src/github.com/nginxinc/nginx-asg-sync/
 RUN go mod download

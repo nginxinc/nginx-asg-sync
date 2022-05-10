@@ -3,7 +3,7 @@ module github.com/nginxinc/nginx-asg-sync
 go 1.18
 
 require (
-	github.com/Azure/azure-sdk-for-go v63.4.0+incompatible
+	github.com/Azure/azure-sdk-for-go v64.0.0+incompatible
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.11
 	github.com/aws/aws-sdk-go v1.44.4
 	github.com/nginxinc/nginx-plus-go-client v0.9.0

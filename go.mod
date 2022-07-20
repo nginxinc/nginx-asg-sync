@@ -6,7 +6,7 @@ require (
 	github.com/Azure/azure-sdk-for-go v66.0.0+incompatible
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.11
 	github.com/aws/aws-sdk-go v1.44.4
-	github.com/nginxinc/nginx-plus-go-client v0.9.0
+	github.com/nginxinc/nginx-plus-go-client v0.10.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 

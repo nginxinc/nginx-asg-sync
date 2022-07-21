@@ -1,0 +1,92 @@
+env:
+  - CGO_ENABLED=0
+
+before:
+  hooks:
+  - make LICENSES
+
+builds:
+  - id: nginx-asg-sync
+    goos:
+      - linux
+    goarch:
+      - 386
+      - amd64
+      - arm64
+      - s390x
+    flags:
+      - -trimpath
+    gcflags:
+      - all=-trimpath={{.Env.GOPATH}}
+    asmflags:
+      - all=-trimpath={{.Env.GOPATH}}
+    main: ./cmd/sync
+    binary: nginx-asg-sync
+
+archives:
+  - files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+      - build/config.yaml.example
+
+sboms:
+  - artifacts: archive
+
+changelog:
+  skip: true
+
+nfpms:
+  - file_name_template: "{{ .ConventionalFileName }}"
+    vendor: NGINX Inc.
+    homepage: https://github.com/nginxinc/nginx-asg-sync
+    maintainer: NGINX Inc. <integrations@nginx.com>
+    description: |-
+      NGINX Plus Integration with Cloud Autoscaling.
+      This package contains software that integrates NGINX Plus
+      with AWS Auto Scaling groups and Azure Virtual Machine Scale Set
+    license: BSD-2-Clause
+    dependencies:
+      - nginx-plus
+      - systemd
+    suggests:
+      - logrotate
+    formats:
+      - deb
+      - rpm
+    release: 1
+    section: utils
+    priority: optional
+    bindir: /usr/sbin
+    contents:
+      - src: build/config.yaml.example
+        dst: /etc/nginx/config.yaml.example
+        type: "config|noreplace"
+      - src: build/logrotate
+        dst: /etc/logrotate.d/nginx-asg-sync
+        type: "config|noreplace"
+      - dst: /var/log/nginx-asg-sync
+        type: dir
+      - src: build/nginx-asg-sync.service
+        dst: /lib/systemd/system/nginx-asg-sync.service
+      - src: LICENSE
+        dst: /usr/share/doc/nginx-asg-sync/copyright
+        packager: deb
+      - src: LICENSES
+        dst: /usr/share/doc/nginx-asg-sync/LICENSES
+        packager: deb
+      - src: LICENSE
+        dst: /usr/share/licenses/nginx-asg-sync/LICENSE
+        packager: rpm
+      - src: LICENSES
+        dst: /usr/share/licenses/nginx-asg-sync/LICENSES
+        packager: rpm
+      - src: README.md
+        dst: /usr/share/doc/nginx-asg-sync/README
+        type: doc
+    overrides:
+      rpm:
+        scripts:
+          postinstall: "build/postinstall.sh"
+          preremove: "build/preremove.sh"
+          postremove: "build/postremove.sh"

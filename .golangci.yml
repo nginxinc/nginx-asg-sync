@@ -32,7 +32,6 @@ linters-settings:
 linters:
     enable:
     - asciicheck
-    - deadcode
     - errcheck
     - errorlint
     - gofmt
@@ -49,12 +48,10 @@ linters:
     - predeclared
     - revive
     - staticcheck
-    - structcheck
     - typecheck
     - unconvert
     - unparam
     - unused
-    - varcheck
     - wastedassign
     disable-all: true
 issues:

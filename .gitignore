@@ -1,3 +1,10 @@
-/build_output
 .DS_Store
+
+# binaries
 nginx-asg-sync
+/build_output
+dist
+
+# IDEs
+.vscode
+.idea

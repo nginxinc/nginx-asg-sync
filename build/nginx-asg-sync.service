@@ -10,7 +10,8 @@ Group=nginx
 ExecStartPre=/bin/mkdir -p /var/log/nginx-asg-sync
 ExecStartPre=/bin/chown nginx:nginx /var/log/nginx-asg-sync
 ExecStart=/usr/sbin/nginx-asg-sync -log_path=/var/log/nginx-asg-sync/nginx-asg-sync.log
-ExecStop=/bin/kill $MAINPID
+Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

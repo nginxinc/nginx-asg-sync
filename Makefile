@@ -1,8 +1,4 @@
-TARGET ?= local
-
-export DOCKER_BUILDKIT = 1
-
-all: amazon2 centos7 centosstream8 debian
+.DEFAULT_GOAL := build-goreleaser
 
 .PHONY: test
 test:
@@ -12,28 +8,19 @@ test:
 lint:
 	docker run --pull always --rm -v $(shell pwd):/nginx-asg-sync -w /nginx-asg-sync -v $(shell go env GOCACHE):/cache/go -e GOCACHE=/cache/go -e GOLANGCI_LINT_CACHE=/cache/go -v $(shell go env GOPATH)/pkg:/go/pkg golangci/golangci-lint:latest golangci-lint --color always run
 
-.PHONY: build
-build:
-ifeq (${TARGET},local)
-	$(eval GOPATH=$(shell go env GOPATH))
-	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=${GOPATH} -asmflags=-trimpath=${GOPATH}" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
-endif
+nginx-asg-sync:
+	@go version || (code=$$?; printf "\033[0;31mError\033[0m: unable to build locally, try using the parameter TARGET=container or TARGET=download\n"; exit $$code)
+	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=$(shell go env GOPATH) -asmflags=-trimpath=$(shell go env GOPATH)" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
 
-amazon2: build
-	docker build -t amazon2-builder --target ${TARGET} --build-arg CONTAINER_VERSION=amazonlinux:2 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output amazon2-builder
+.PHONY: build-goreleaser
+build-goreleaser:
+	@goreleaser -v || (code=$$?; printf "\033[0;31mError\033[0m: there was a problem with GoReleaser. Follow the docs to install it https://goreleaser.com/install\n"; exit $$code)
+	@GOPATH=$(shell go env GOPATH) goreleaser release --rm-dist --snapshot
 
-centos7: build
-	docker build -t centos7-builder --target ${TARGET} --build-arg CONTAINER_VERSION=centos:7 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output centos7-builder
-
-centosstream8: build
-	docker build -t centosstream8-builder --target ${TARGET} --build-arg CONTAINER_VERSION=quay.io/centos/centos:stream8 --build-arg OS_TYPE=rpm_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/rpm:/rpm -v $(shell pwd)/build_output:/build_output centosstream8-builder
-
-debian: build
-	docker build -t debian-builder --target ${TARGET} --build-arg OS_TYPE=deb_based -f build/Dockerfile .
-	docker run --rm -v $(shell pwd)/build/package/debian:/debian -v $(shell pwd)/build_output:/build_output debian-builder
+.PHONY: build-goreleaser-docker
+build-goreleaser-docker:
+	@docker -v || (code=$$?; printf "\033[0;31mError\033[0m: there was a problem with Docker\n"; exit $$code)
+	@docker run --rm --privileged -v $(PWD):/go/src/github.com/nginxinc/nginx-asg-sync -v /var/run/docker.sock:/var/run/docker.sock -w /go/src/github.com/nginxinc/nginx-asg-sync goreleaser/goreleaser release --snapshot --rm-dist
 
 .PHONY: clean
 clean:
@@ -41,8 +28,11 @@ clean:
 	-rm nginx-asg-sync
 
 .PHONY: deps
-deps:
+deps: go.mod go.sum
 	@go mod tidy && go mod verify && go mod download
+
+LICENSES: go.mod go.sum
+	go run github.com/google/go-licenses@latest csv ./... > $@
 
 .PHONY: clean-cache
 clean-cache:

@@ -39,15 +39,11 @@ Below you will find documentation on how to use nginx-asg-sync.
   - [Building a Software Package](#building-a-software-package)
   - [Support](#support)
 
-## Supported Operating Systems
+## Supported Operating Systems and Architectures
 
-We provide packages for the following operating systems:
+We provide `.rpm` and `.deb` packages for `386`, `amd64`, `arm64`, and `s390x`.
 
-* Ubuntu 16.04 and later, Debian 9/10
-* CentOS/RHEL: 7, 8
-* Amazon Linux: 2
-
-Support for other operating systems can be added.
+Support for other operating systems or architectures can be added.
 
 ## Installation
 
@@ -55,8 +51,8 @@ Support for other operating systems can be added.
     * For a stable release, download a package from the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
     * For the latest source code from the main branch, build a software package by following [these instructions](#building-a-software-package).
 2. Install the package:
-    * For Amazon Linux or CentOS/RHEL, run: `$ sudo rpm -i <package-name>.rpm`
-    * For Ubuntu or Debian, run: `$ sudo dpkg -i <package-name>.deb`
+    * For CentOS/RHEL based OSs, run: `$ sudo rpm -i <package-name>.rpm`
+    * For Debian based OSs, run: `$ sudo dpkg -i <package-name>.deb`
 
 ### NGINX Plus Configuration
 
@@ -160,19 +156,24 @@ You can compile nginx-asg-sync and build a software package using the provided M
 * make
 * Docker
 * Go (optional, to build the binary locally)
+* [GoReleaser](https://goreleaser.com/) (optional, to build the binaries and packages locally)
 
-To build a software package, run: `$ make <os>`
-where `<os>` is the target OS. The following values are allowed:
-* `amazon2` for Amazon Linux 2
-* `centos7` for CentOS7/RHEL7
-* `centosstream8` for CentOS Stream 8/RHEL8
-* `debian` for Ubuntu >= 16.04 and Debian 9/10
+To build the binary locally, and only for the host architecture, run `$ make nginx-asg-sync`.
 
-by default the nginx-asg-sync binary will be built locally, to build it inside a Docker container add the `TARGET` parameter to `make`, for example:
+To build the binaries and packages for all the supported architectures, run `$ make build-goreleaser`.
 
-`$ make debian TARGET=container`
+To build the binaries and packages for all the supported architectures in Docker, run `$ make build-goreleaser-docker`.
 
-If you run make without any arguments, it will build software packages for all supported OSes.
+**Note: When building with GoReleaser the resulting binaries and packages are located in the `dist` folder.**
+
+## Contacts
+
+We’d like to hear your feedback! If you have any suggestions or experience issues with the NGINX Plus Integration with Cloud Autoscaling, please create an issue or send a pull request on GitHub.
+You can contact us directly via integrations@nginx.com or on the [NGINX Community Slack](https://nginxcommunity.slack.com).
+
+## Contributing
+
+If you'd like to contribute to the project, please read our [Contributing guide](CONTRIBUTING.md).
 
 ## Support
 

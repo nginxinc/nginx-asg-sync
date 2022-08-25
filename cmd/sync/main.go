@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -37,7 +36,7 @@ func main() {
 
 	log.Printf("nginx-asg-sync version %s", version)
 
-	cfgData, err := ioutil.ReadFile(*configFile)
+	cfgData, err := os.ReadFile(*configFile)
 	if err != nil {
 		log.Printf("Couldn't read the config file %v: %v", *configFile, err)
 		os.Exit(10)

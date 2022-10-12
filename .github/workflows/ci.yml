@@ -21,7 +21,7 @@ on:
 jobs:
   binary:
     name: Build Binary
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -44,7 +44,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -58,7 +58,7 @@ jobs:
 
   build:
     name: Build Packages
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [binary, unit-tests]
     steps:
       - name: Checkout Repository

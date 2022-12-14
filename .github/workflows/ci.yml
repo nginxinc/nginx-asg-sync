@@ -34,7 +34,7 @@ jobs:
         id: go
         run: echo "::set-output name=go_path::$(go env GOPATH)"
       - name: Build binary
-        uses: goreleaser/goreleaser-action@v3
+        uses: goreleaser/goreleaser-action@v4
         with:
           version: latest
           args: build --snapshot --rm-dist --single-target
@@ -83,7 +83,7 @@ jobs:
       - name: Download Syft
         uses: anchore/sbom-action/download-syft@v0.13.1
       - name: Build binaries
-        uses: goreleaser/goreleaser-action@v3
+        uses: goreleaser/goreleaser-action@v4
         with:
           version: latest
           args: release ${{ startsWith(github.ref, 'refs/tags/') && '' || '--snapshot' }} --rm-dist

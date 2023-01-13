@@ -83,7 +83,6 @@ nfpms:
         packager: rpm
       - src: README.md
         dst: /usr/share/doc/nginx-asg-sync/README
-        type: doc
     overrides:
       rpm:
         scripts:

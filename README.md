@@ -14,7 +14,9 @@ nginx-asg-sync is an agent process that runs on the same instance as NGINX Plus.
 
 When it sees that a scaling event has happened, it adds or removes the corresponding backend instances from the NGINX Plus configuration via the NGINX Plus API.
 
-**Note:** nginx-asg-sync does not scale cloud scaling groups, it only gets the IP addresses of the instances in the groups.
+> **Note**
+>
+> nginx-asg-sync does not scale cloud scaling groups, it only gets the IP addresses of the instances in the groups.
 
 In the example below (AWS), NGINX Plus is configured to load balance among the instances of two AWS Auto Scaling groups -- Backend One and Backend Two.
 nginx-asg-sync, running on the same instance as NGINX Plus, ensures that whenever you scale the Auto Scaling groups, the corresponding instances are added (or removed) from the NGINX Plus configuration.
@@ -24,7 +26,9 @@ nginx-asg-sync, running on the same instance as NGINX Plus, ensures that wheneve
 Below you will find documentation on how to use nginx-asg-sync.
 
 ## Documentation
-**Note:** the documentation for **the latest stable release** is available via a link in the description of the release. See the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
+> **Note**
+>
+> The documentation for **the latest stable release** is available via a link in the description of the release. See the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
 
 **Contents:**
 - [NGINX Plus Integration with Cloud Autoscaling -- nginx-asg-sync](#nginx-plus-integration-with-cloud-autoscaling----nginx-asg-sync)
@@ -134,7 +138,9 @@ Small timeouts ensure that a health check will fail fast if the backend instance
 
 When using AWS it's possible to filter out the instances that are not in a `InService` state of the [Lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html) with the parameter `in_service` set to `true`. This will ensure that the IP won't be added until the instance is ready to accept requests.
 This also works when an instance is being terminated: the asg-sync will remove the IP of an instance that went from  the `InService` state to one of the terminating states.
-**Note**: because the asg-sync works on a polling-based model, there will be a delay between the instance  going to a terminating state and the asg-sync removing its IP from NGINX Plus. To guarantee that NGINX Plus doesn't send any requests to a terminated instance, make sure the instance goes to the `Terminating:Wait` state for a period greater than the interval `sync_interval_in_seconds`.
+> **Note**
+>
+> Because the asg-sync works on a polling-based model, there will be a delay between the instance  going to a terminating state and the asg-sync removing its IP from NGINX Plus. To guarantee that NGINX Plus doesn't send any requests to a terminated instance, make sure the instance goes to the `Terminating:Wait` state for a period greater than the interval `sync_interval_in_seconds`.
 
 ### Configuration for Cloud Providers
 
@@ -164,7 +170,9 @@ To build the binaries and packages for all the supported architectures, run `$ m
 
 To build the binaries and packages for all the supported architectures in Docker, run `$ make build-goreleaser-docker`.
 
-**Note: When building with GoReleaser the resulting binaries and packages are located in the `dist` folder.**
+> **Note**
+>
+> When building with GoReleaser the resulting binaries and packages are located in the `dist` folder.
 
 ## Contacts
 

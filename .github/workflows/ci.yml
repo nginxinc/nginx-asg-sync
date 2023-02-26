@@ -32,7 +32,7 @@ jobs:
           cache: true
       - name: Determine GOPATH
         id: go
-        run: echo "::set-output name=go_path::$(go env GOPATH)"
+        run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
       - name: Build binary
         uses: goreleaser/goreleaser-action@v4
         with:
@@ -72,7 +72,7 @@ jobs:
           cache: true
       - name: Determine GOPATH
         id: go
-        run: echo "::set-output name=go_path::$(go env GOPATH)"
+        run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
       - name: Publish Release Notes
         uses: release-drafter/release-drafter@v5
         with:

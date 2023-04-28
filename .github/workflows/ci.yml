@@ -25,14 +25,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
       - name: Setup Golang Environment
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
           cache: true
+
       - name: Determine GOPATH
         id: go
         run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
+
       - name: Build binary
         uses: goreleaser/goreleaser-action@v4
         with:
@@ -48,11 +51,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
       - name: Setup Golang Environment
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
           cache: true
+
       - name: Run Tests
         run: make test
 
@@ -65,23 +70,32 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Setup Golang Environment
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
           cache: true
+
       - name: Determine GOPATH
         id: go
         run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
-      - name: Publish Release Notes
-        uses: release-drafter/release-drafter@v5
+
+      - name: Draft Release Notes
+        uses: lucacome/draft-release@v0.2.0
         with:
-            publish: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+          minor-label: 'enhancement'
+          major-label: 'change'
+          publish: ${{ startsWith(github.ref, 'refs/tags/') }}
+          notes-footer: |
+            ## Resources
+
+            - Documentation -- https://github.com/nginxinc/nginx-asg-sync/blob/{{version}}/README.md
+        if: github.event_name != 'pull_request'
+
       - name: Download Syft
         uses: anchore/sbom-action/download-syft@v0.14.1
+
       - name: Build binaries
         uses: goreleaser/goreleaser-action@v4
         with:

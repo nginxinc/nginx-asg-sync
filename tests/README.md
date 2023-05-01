@@ -10,8 +10,8 @@ Below you will find the instructions on how to run the tests against a cloud pro
 
 ### Prerequisites:
 
-* AWS stack prepared. 
-* AWS access key and AWS secret access key. 
+* AWS stack prepared.
+* AWS access key and AWS secret access key.
 * Python3 or Docker.
 
 #### Step 1 - Set up the environment
@@ -19,7 +19,7 @@ Below you will find the instructions on how to run the tests against a cloud pro
 * Either create|update ~/.aws/credentials file or set the AWS_SHARED_CREDENTIALS_FILE environment variable pointing to your own location. This file is an INI formatted file with section names corresponding to profiles. Tests use 'default' profile. The file [credentials](data/credentials) is a minimal example of such a file.
 
 #### Step 2 - Run the Tests
- 
+
 Run the tests:
 * Use local Python3 installation:
     ```bash

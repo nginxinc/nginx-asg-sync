@@ -13,7 +13,12 @@ def pytest_addoption(parser) -> None:
     :return:
     """
     parser.addoption("--nginx-api", action="store", default="", help="The NGINX Plus API url.")
-    parser.addoption("--aws-region", action="store", default=DEFAULT_AWS_REGION, help="The AWS region name.")
+    parser.addoption(
+        "--aws-region",
+        action="store",
+        default=DEFAULT_AWS_REGION,
+        help="The AWS region name.",
+    )
 
 
 class CLIArguments:
@@ -24,6 +29,7 @@ class CLIArguments:
         nginx_api (str): NGINX Plus API url
         aws_region (str): AWS region name
     """
+
     def __init__(self, nginx_api: str, aws_region: str):
         self.nginx_api = nginx_api
         self.aws_region = aws_region
@@ -57,6 +63,5 @@ def autoscaling_client(cli_arguments) -> BaseClient:
     :param cli_arguments: a set of command-line arguments
     :return:
     """
-    session = Session(profile_name='default',
-                      region_name=cli_arguments.aws_region)
-    return session.client('autoscaling')
+    session = Session(profile_name="default", region_name=cli_arguments.aws_region)
+    return session.client("autoscaling")

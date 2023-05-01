@@ -3,29 +3,17 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: daily
-    reviewers:
-      - "nginxinc/kic"
+      interval: weekly
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
     ignore:
       - dependency-name: "*/aws-sdk-go"
         update-types: ["version-update:semver-patch"]
       - dependency-name: "boto3"
         update-types: ["version-update:semver-patch"]
-    reviewers:
-      - "nginxinc/kic"
-  - package-ecosystem: "docker"
-    directory: "/build"
-    schedule:
-      interval: daily
-    reviewers:
-      - "nginxinc/kic"
   - package-ecosystem: "pip"
     directory: "/tests"
     schedule:
-      interval: daily
-    reviewers:
-      - "nginxinc/kic"
+      interval: weekly

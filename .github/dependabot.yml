@@ -17,3 +17,7 @@ updates:
     directory: "/tests"
     schedule:
       interval: weekly
+  - package-ecosystem: "docker"
+    directory: "/tests/docker"
+    schedule:
+      interval: weekly

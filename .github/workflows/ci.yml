@@ -82,7 +82,7 @@ jobs:
         run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
 
       - name: Draft Release Notes
-        uses: lucacome/draft-release@v0.2.1
+        uses: lucacome/draft-release@v0.2.2
         with:
           minor-label: 'enhancement'
           major-label: 'change'

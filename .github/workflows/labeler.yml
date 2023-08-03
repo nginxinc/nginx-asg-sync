@@ -9,9 +9,10 @@ jobs:
   triage:
     permissions:
       contents: read
-      pull-requests: write
-    runs-on: ubuntu-latest
+      pull-requests: write # for actions/labeler to add labels
+    runs-on: ubuntu-22.04
     steps:
-    - uses: joshdales/labeler@3352df1f2b0ef052cea774a5eaff917ea700a1b4 # if https://github.com/actions/labeler/pull/203 is merged, use the official action actions/labeler
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - uses: actions/labeler@4f052778de9a9b80cb16cfb9079b02287285a4cb # v5.0.0-alpha.1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true

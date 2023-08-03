@@ -13,6 +13,7 @@ builds:
       - 386
       - amd64
       - arm64
+      - ppc64le
       - s390x
     flags:
       - -trimpath
@@ -22,19 +23,6 @@ builds:
       - all=-trimpath={{.Env.GOPATH}}
     main: ./cmd/sync
     binary: nginx-asg-sync
-
-archives:
-  - files:
-      - README.md
-      - LICENSE
-      - CHANGELOG.md
-      - build/config.yaml.example
-
-sboms:
-  - artifacts: archive
-
-changelog:
-  skip: true
 
 nfpms:
   - file_name_template: "{{ .ConventionalFileName }}"
@@ -89,3 +77,42 @@ nfpms:
           postinstall: "build/postinstall.sh"
           preremove: "build/preremove.sh"
           postremove: "build/postremove.sh"
+
+changelog:
+  skip: true
+
+archives:
+  - files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+      - build/config.yaml.example
+
+sboms:
+  - artifacts: archive
+    documents:
+      - "${artifact}.spdx.json"
+
+signs:
+  - cmd: cosign
+    artifacts: checksum
+    output: true
+    certificate: '${artifact}.pem'
+    args:
+      - sign-blob
+      - "--output-signature=${signature}"
+      - "--output-certificate=${certificate}"
+      - "${artifact}"
+      - "--yes"
+
+announce:
+  slack:
+    enabled: true
+    channel: '#announcements'
+    message_template: 'NGINX Plus Integration with Cloud Autoscaling {{ .Tag }} is out! Check it out: {{ .ReleaseURL }}'
+
+milestones:
+  - close: true
+
+snapshot:
+  name_template: 'edge'

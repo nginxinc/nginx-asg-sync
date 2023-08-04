@@ -59,7 +59,7 @@ Below you will find documentation on how to use nginx-asg-sync.
 
 ## Supported Operating Systems and Architectures
 
-We provide `.rpm` and `.deb` packages for `386`, `amd64`, `arm64`, and `s390x`.
+We provide `.rpm` and `.deb` packages for `386`, `amd64`, `arm64`, `ppc64le` and `s390x`.
 
 Support for other operating systems or architectures can be added.
 
@@ -70,8 +70,8 @@ Support for other operating systems or architectures can be added.
     - For the latest source code from the main branch, build a software package by following [these
       instructions](#building-a-software-package).
 2. Install the package:
-    - For CentOS/RHEL based OSs, run: `$ sudo rpm -i <package-name>.rpm`
-    - For Debian based OSs, run: `$ sudo dpkg -i <package-name>.deb`
+    - For CentOS/RHEL based OSs, run: `sudo rpm -i <package-name>.rpm`
+    - For Debian based OSs, run: `sudo dpkg -i <package-name>.deb`
 
 ### NGINX Plus Configuration
 

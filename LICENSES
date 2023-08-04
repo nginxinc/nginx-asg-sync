@@ -1,7 +1,7 @@
-github.com/Azure/azure-sdk-for-go,https://github.com/Azure/azure-sdk-for-go/blob/v66.0.0/LICENSE.txt,MIT
+github.com/Azure/azure-sdk-for-go,https://github.com/Azure/azure-sdk-for-go/blob/v68.0.0/LICENSE.txt,MIT
 github.com/Azure/go-autorest/autorest,https://github.com/Azure/go-autorest/blob/autorest/v0.11.24/autorest/LICENSE,Apache-2.0
 github.com/Azure/go-autorest/autorest/adal,https://github.com/Azure/go-autorest/blob/autorest/adal/v0.9.18/autorest/adal/LICENSE,Apache-2.0
-github.com/Azure/go-autorest/autorest/azure/auth,https://github.com/Azure/go-autorest/blob/autorest/azure/auth/v0.5.11/autorest/azure/auth/LICENSE,Apache-2.0
+github.com/Azure/go-autorest/autorest/azure/auth,https://github.com/Azure/go-autorest/blob/autorest/azure/auth/v0.5.12/autorest/azure/auth/LICENSE,Apache-2.0
 github.com/Azure/go-autorest/autorest/azure/cli,https://github.com/Azure/go-autorest/blob/autorest/azure/cli/v0.4.5/autorest/azure/cli/LICENSE,Apache-2.0
 github.com/Azure/go-autorest/autorest/date,https://github.com/Azure/go-autorest/blob/autorest/date/v0.3.0/autorest/date/LICENSE,Apache-2.0
 github.com/Azure/go-autorest/autorest/to,https://github.com/Azure/go-autorest/blob/autorest/to/v0.4.0/autorest/to/LICENSE,Apache-2.0
@@ -16,5 +16,5 @@ github.com/jmespath/go-jmespath,https://github.com/jmespath/go-jmespath/blob/v0.
 github.com/mitchellh/go-homedir,https://github.com/mitchellh/go-homedir/blob/v1.1.0/LICENSE,MIT
 github.com/nginxinc/nginx-asg-sync/cmd/sync,https://github.com/nginxinc/nginx-asg-sync/blob/HEAD/LICENSE,BSD-2-Clause
 github.com/nginxinc/nginx-plus-go-client/client,https://github.com/nginxinc/nginx-plus-go-client/blob/v0.10.0/LICENSE,Apache-2.0
-golang.org/x/crypto/pkcs12,https://cs.opensource.google/go/x/crypto/+/e495a2d5:LICENSE,BSD-3-Clause
+golang.org/x/crypto/pkcs12,https://cs.opensource.google/go/x/crypto/+/v0.1.0:LICENSE,BSD-3-Clause
 gopkg.in/yaml.v2,https://github.com/go-yaml/yaml/blob/v2.4.0/LICENSE,Apache-2.0

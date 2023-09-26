@@ -63,7 +63,7 @@ func main() {
 	}
 
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
-	nginxClient, err := nginx.NewNginxClient(httpClient, commonConfig.APIEndpoint)
+	nginxClient, err := nginx.NewNginxClient(commonConfig.APIEndpoint, nginx.WithHTTPClient(httpClient))
 	if err != nil {
 		log.Printf("Couldn't create NGINX client: %v", err)
 		os.Exit(10)

@@ -11,16 +11,20 @@ chore:
   - head-branch: ['^chore/']
 
 tests:
-  - any:
-    - head-branch: ['^tests/', '^test/']
-    - changed-files: ['tests/**/*']
-  - all:
-    - changed-files: ['!tests/requirements.txt']
+- any:
+  - head-branch: ['^tests/', '^test/']
+  - changed-files:
+      - any-glob-to-any-file: 'tests/**/*'
+- all:
+  - changed-files:
+      - all-globs-to-all-files: ['!tests/requirements.txt']
 
 documentation:
   - head-branch: ['^docs/', '^doc/']
-  - changed-files: '**/*.md'
+  - changed-files:
+    - any-glob-to-any-file: '**/*.md'
 
 dependencies:
-  - head-branch: ['^deps/', '^dep/', '^dependabot/']
-  - changed-files: ['go.mod', 'go.sum']
+  - head-branch: ['^deps/', '^dep/', '^dependabot/', 'pre-commit-ci-update-config']
+  - changed-files:
+    - any-glob-to-any-file: ['go.mod', 'go.sum']

@@ -1,6 +1,6 @@
 <!-- markdownlint-disable-next-line first-line-h1 -->
 [![OpenSSFScorecard](https://api.securityscorecards.dev/projects/github.com/nginxinc/nginx-asg-sync/badge)](https://api.securityscorecards.dev/projects/github.com/nginxinc/nginx-asg-sync)
-[![Build Status](https://github.com/nginxinc/nginx-asg-sync/workflows/Continuous%20Integration/badge.svg)](https://github.com/nginxinc/nginx-asg-sync/actions?query=workflow%3A%22Continuous+Integration%22)
+[![CI](https://github.com/nginxinc/nginx-asg-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/nginxinc/nginx-asg-sync/actions/workflows/ci.yml)
 [![FOSSAStatus](https://app.fossa.com/api/projects/custom%2B5618%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync.svg?type=shield)](https://app.fossa.com/projects/custom%2B5618%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync?ref=badge_shield)
 [![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
 

@@ -65,6 +65,8 @@ Support for other operating systems or architectures can be added.
 
 ## Installation
 
+### Manual Installation
+
 1. Get a software package for your OS:
     - For a stable release, download a package from the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
     - For the latest source code from the main branch, build a software package by following [these
@@ -72,6 +74,14 @@ Support for other operating systems or architectures can be added.
 2. Install the package:
     - For CentOS/RHEL based OSs, run: `sudo rpm -i <package-name>.rpm`
     - For Debian based OSs, run: `sudo dpkg -i <package-name>.deb`
+
+### Snap Installation
+
+You can install the NGINX Plus Integration with Cloud Autoscaling from the [Snap Store](https://snapcraft.io/nginx-asg-sync).
+
+```console
+sudo snap install nginx-asg-sync
+```
 
 ### NGINX Plus Configuration
 

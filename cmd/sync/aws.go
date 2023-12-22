@@ -1,25 +1,25 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"reflect"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/ec2metadata"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/autoscaling"
-	"github.com/aws/aws-sdk-go/service/autoscaling/autoscalingiface"
-	"github.com/aws/aws-sdk-go/service/ec2"
-	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/feature/ec2/imds"
+	"github.com/aws/aws-sdk-go-v2/service/autoscaling"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	yaml "gopkg.in/yaml.v2"
 )
 
 // AWSClient allows you to get the list of IP addresses of instances of an Auto Scaling group. It implements the CloudProvider interface
 type AWSClient struct {
-	svcEC2         ec2iface.EC2API
-	svcAutoscaling autoscalingiface.AutoScalingAPI
+	svcEC2         *ec2.Client
+	svcAutoscaling *autoscaling.Client
 	config         *awsConfig
 }
 
@@ -33,23 +33,21 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 
 	if cfg.Region == "self" {
 		httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
-		params := &aws.Config{HTTPClient: httpClient}
 
-		metaSession, err := session.NewSession(params)
+		conf, err := config.LoadDefaultConfig(context.TODO())
 		if err != nil {
 			return nil, err
 		}
 
-		metaClient := ec2metadata.New(metaSession)
-		if !metaClient.Available() {
-			return nil, fmt.Errorf("ec2metadata service is unavailable")
-		}
+		client := imds.NewFromConfig(conf, func(o *imds.Options) {
+			o.HTTPClient = httpClient
+		})
 
-		region, err := metaClient.Region()
+		response, err := client.GetRegion(context.TODO(), &imds.GetRegionInput{})
 		if err != nil {
 			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %w", err)
 		}
-		cfg.Region = region
+		cfg.Region = response.Region
 	}
 
 	awsClient.config = cfg
@@ -85,15 +83,21 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 // configure configures the AWSClient with necessary parameters
 func (client *AWSClient) configure() error {
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
-	cfg := &aws.Config{Region: aws.String(client.config.Region), HTTPClient: httpClient}
 
-	session, err := session.NewSession(cfg)
+	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return err
 	}
 
-	client.svcEC2 = ec2.New(session)
-	client.svcAutoscaling = autoscaling.New(session)
+	client.svcEC2 = ec2.NewFromConfig(cfg, func(o *ec2.Options) {
+		o.Region = client.config.Region
+		o.HTTPClient = httpClient
+	})
+
+	client.svcAutoscaling = autoscaling.NewFromConfig(cfg, func(o *autoscaling.Options) {
+		o.Region = client.config.Region
+		o.HTTPClient = httpClient
+	})
 
 	return nil
 }
@@ -117,17 +121,17 @@ func parseAWSConfig(data []byte) (*awsConfig, error) {
 // CheckIfScalingGroupExists checks if the Auto Scaling group exists
 func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	params := &ec2.DescribeInstancesInput{
-		Filters: []*ec2.Filter{
+		Filters: []types.Filter{
 			{
 				Name: aws.String("tag:aws:autoscaling:groupName"),
-				Values: []*string{
-					aws.String(name),
+				Values: []string{
+					name,
 				},
 			},
 		},
 	}
 
-	response, err := client.svcEC2.DescribeInstances(params)
+	response, err := client.svcEC2.DescribeInstances(context.Background(), params)
 	if err != nil {
 		return false, fmt.Errorf("couldn't check if an AutoScaling group exists: %w", err)
 	}
@@ -145,17 +149,17 @@ func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, er
 		}
 	}
 	params := &ec2.DescribeInstancesInput{
-		Filters: []*ec2.Filter{
+		Filters: []types.Filter{
 			{
 				Name: aws.String("tag:aws:autoscaling:groupName"),
-				Values: []*string{
-					aws.String(name),
+				Values: []string{
+					name,
 				},
 			},
 		},
 	}
 
-	response, err := client.svcEC2.DescribeInstances(params)
+	response, err := client.svcEC2.DescribeInstances(context.Background(), params)
 	if err != nil {
 		return nil, err
 	}
@@ -193,10 +197,10 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 	const maxItems = 50
 	var result []string
 	keys := reflect.ValueOf(insIDtoIP).MapKeys()
-	instanceIds := make([]*string, len(keys))
+	instanceIds := make([]string, len(keys))
 
 	for i := 0; i < len(keys); i++ {
-		instanceIds[i] = aws.String(keys[i].String())
+		instanceIds[i] = keys[i].String()
 	}
 
 	batches := prepareBatches(maxItems, instanceIds)
@@ -204,7 +208,7 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 		params := &autoscaling.DescribeAutoScalingInstancesInput{
 			InstanceIds: batch,
 		}
-		response, err := client.svcAutoscaling.DescribeAutoScalingInstances(params)
+		response, err := client.svcAutoscaling.DescribeAutoScalingInstances(context.Background(), params)
 		if err != nil {
 			return nil, err
 		}
@@ -219,8 +223,8 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 	return result, nil
 }
 
-func prepareBatches(maxItems int, items []*string) [][]*string {
-	var batches [][]*string
+func prepareBatches(maxItems int, items []string) [][]string {
+	var batches [][]string
 
 	min := func(a, b int) int {
 		if a <= b {

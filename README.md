@@ -3,6 +3,10 @@
 [![CI](https://github.com/nginxinc/nginx-asg-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/nginxinc/nginx-asg-sync/actions/workflows/ci.yml)
 [![FOSSAStatus](https://app.fossa.com/api/projects/custom%2B5618%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync.svg?type=shield)](https://app.fossa.com/projects/custom%2B5618%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync?ref=badge_shield)
 [![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
+![GitHub all releases](https://img.shields.io/github/downloads/nginxinc/nginx-asg-sync/total?logo=github)
+![GitHub release (latest by SemVer)](https://img.shields.io/github/downloads/nginxinc/nginx-asg-sync/latest/total?sort=semver&logo=github)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/nginxinc/nginx-asg-sync?logo=github&sort=semver)](https://github.com/nginxinc/nginx-asg-sync/releases/latest)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/nginxinc/nginx-asg-sync?logo=go)
 
 # NGINX Plus Integration with Cloud Autoscaling -- nginx-asg-sync
 

@@ -116,3 +116,18 @@ milestones:
 
 snapshot:
   name_template: 'edge'
+
+snapcrafts:
+  - summary: NGINX Plus Integration with Cloud Autoscaling
+    description: |
+      This package contains software that integrates NGINX Plus
+      with AWS Auto Scaling groups and Azure Virtual Machine Scale Set
+    grade: devel
+    confinement: strict
+    publish: true
+    license: 'BSD 2-Clause'
+    apps:
+      nginx-asg-sync:
+        command: nginx-asg-sync
+        plugs: ["network", "network-bind"]
+    disable: "{{ if .IsSnapshot }}true{{ end }}"

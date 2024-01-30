@@ -1,4 +1,5 @@
 """Describe overall framework configuration."""
+
 import pytest
 from boto3 import Session
 from botocore.client import BaseClient

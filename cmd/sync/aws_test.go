@@ -167,10 +167,10 @@ func areEqualUpstreamsAWS(u1 awsUpstream, u2 Upstream) bool {
 func TestPrepareBatches(t *testing.T) {
 	const maxItems = 3
 	ids := []string{"i-394ujfs", "i-dfdinf", "i-fsfsf", "i-8hr83hfwif", "i-nsnsnan"}
-	instanceIds := make([]*string, len(ids))
+	instanceIds := make([]string, len(ids))
 
 	for i := 0; i < len(ids); i++ {
-		instanceIds[i] = &ids[i]
+		instanceIds[i] = ids[i]
 	}
 
 	batches := prepareBatches(maxItems, instanceIds)

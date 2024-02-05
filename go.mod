@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.26.6
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.14.11
 	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.37.0
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.142.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.146.0
 	github.com/nginxinc/nginx-plus-go-client v1.2.0
 	gopkg.in/yaml.v2 v2.4.0
 )

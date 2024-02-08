@@ -160,7 +160,6 @@ func main() {
 						upstream.Name, upstream.ScalingGroup, addedAddresses, removedAddresses, updatedAddresses)
 				}
 			}
-
 		}
 
 		select {

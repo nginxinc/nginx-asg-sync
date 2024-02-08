@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -34,18 +35,18 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 	if cfg.Region == "self" {
 		httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
 
-		conf, err := config.LoadDefaultConfig(context.TODO())
-		if err != nil {
-			return nil, err
+		conf, loadErr := config.LoadDefaultConfig(context.TODO())
+		if loadErr != nil {
+			return nil, loadErr
 		}
 
 		client := imds.NewFromConfig(conf, func(o *imds.Options) {
 			o.HTTPClient = httpClient
 		})
 
-		response, err := client.GetRegion(context.TODO(), &imds.GetRegionInput{})
-		if err != nil {
-			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %w", err)
+		response, regionErr := client.GetRegion(context.TODO(), &imds.GetRegionInput{})
+		if regionErr != nil {
+			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %w", regionErr)
 		}
 		cfg.Region = response.Region
 	}
@@ -197,13 +198,13 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 	const maxItems = 50
 	var result []string
 	keys := reflect.ValueOf(insIDtoIP).MapKeys()
-	instanceIds := make([]string, len(keys))
+	instanceIDs := make([]string, len(keys))
 
 	for i := 0; i < len(keys); i++ {
-		instanceIds[i] = keys[i].String()
+		instanceIDs[i] = keys[i].String()
 	}
 
-	batches := prepareBatches(maxItems, instanceIds)
+	batches := prepareBatches(maxItems, instanceIDs)
 	for _, batch := range batches {
 		params := &autoscaling.DescribeAutoScalingInstancesInput{
 			InstanceIds: batch,
@@ -249,13 +250,13 @@ type awsConfig struct {
 type awsUpstream struct {
 	Name             string
 	AutoscalingGroup string `yaml:"autoscaling_group"`
-	Port             int
 	Kind             string
-	MaxConns         int    `yaml:"max_conns"`
-	MaxFails         int    `yaml:"max_fails"`
 	FailTimeout      string `yaml:"fail_timeout"`
 	SlowStart        string `yaml:"slow_start"`
-	InService        bool   `yaml:"in_service"`
+	Port             int
+	MaxConns         int  `yaml:"max_conns"`
+	MaxFails         int  `yaml:"max_fails"`
+	InService        bool `yaml:"in_service"`
 }
 
 func validateAWSConfig(cfg *awsConfig) error {
@@ -264,12 +265,12 @@ func validateAWSConfig(cfg *awsConfig) error {
 	}
 
 	if len(cfg.Upstreams) == 0 {
-		return fmt.Errorf("there are no upstreams found in the config file")
+		return errors.New("there are no upstreams found in the config file")
 	}
 
 	for _, ups := range cfg.Upstreams {
 		if ups.Name == "" {
-			return fmt.Errorf(upstreamNameErrorMsg)
+			return errors.New(upstreamNameErrorMsg)
 		}
 		if ups.AutoscalingGroup == "" {
 			return fmt.Errorf(upstreamErrorMsgFormat, "autoscaling_group", ups.Name)

@@ -28,10 +28,15 @@ linters-settings:
       - name: unused-parameter
       - name: var-declaration
       - name: var-naming
+  govet:
+    check-shadowing: true
+    enable-all: true
 
 linters:
-    enable:
+  enable:
     - asciicheck
+    - bidichk
+    - dupword
     - errcheck
     - errorlint
     - gofmt
@@ -45,15 +50,21 @@ linters:
     - misspell
     - nilerr
     - noctx
+    - perfsprint
     - predeclared
+    - reassign
     - revive
     - staticcheck
+    - tagalign
+    - tparallel
     - typecheck
     - unconvert
     - unparam
     - unused
+    - usestdlibvars
     - wastedassign
-    disable-all: true
+    - whitespace
+  disable-all: true
 issues:
   max-issues-per-linter: 0
   max-same-issues: 0

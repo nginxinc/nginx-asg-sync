@@ -167,13 +167,11 @@ func areEqualUpstreamsAWS(u1 awsUpstream, u2 Upstream) bool {
 func TestPrepareBatches(t *testing.T) {
 	const maxItems = 3
 	ids := []string{"i-394ujfs", "i-dfdinf", "i-fsfsf", "i-8hr83hfwif", "i-nsnsnan"}
-	instanceIds := make([]string, len(ids))
+	instanceIDs := make([]string, len(ids))
 
-	for i := 0; i < len(ids); i++ {
-		instanceIds[i] = ids[i]
-	}
+	copy(instanceIDs, ids)
 
-	batches := prepareBatches(maxItems, instanceIds)
+	batches := prepareBatches(maxItems, instanceIDs)
 
 	if len(batches) > len(ids)/maxItems+1 {
 		t.Error("prepareBatches() didn't split the slice correctly")

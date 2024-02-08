@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -10,8 +11,8 @@ import (
 // commonConfig stores the configuration parameters common to all providers
 type commonConfig struct {
 	APIEndpoint           string        `yaml:"api_endpoint"`
-	SyncIntervalInSeconds time.Duration `yaml:"sync_interval_in_seconds"`
 	CloudProvider         string        `yaml:"cloud_provider"`
+	SyncIntervalInSeconds time.Duration `yaml:"sync_interval_in_seconds"`
 }
 
 func parseCommonConfig(data []byte) (*commonConfig, error) {
@@ -35,7 +36,7 @@ func validateCommonConfig(cfg *commonConfig) error {
 	}
 
 	if cfg.SyncIntervalInSeconds == 0 {
-		return fmt.Errorf(intervalErrorMsg)
+		return errors.New(intervalErrorMsg)
 	}
 
 	if cfg.CloudProvider == "" {
@@ -51,13 +52,13 @@ func validateCommonConfig(cfg *commonConfig) error {
 
 // Upstream is the cloud agnostic representation of an Upstream (eg, common fields for every cloud provider)
 type Upstream struct {
-	Name         string
-	Port         int
-	ScalingGroup string
-	Kind         string
 	MaxConns     *int
 	MaxFails     *int
+	Name         string
+	ScalingGroup string
+	Kind         string
 	FailTimeout  string
 	SlowStart    string
+	Port         int
 	InService    bool
 }

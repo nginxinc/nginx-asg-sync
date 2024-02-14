@@ -3,7 +3,7 @@ env:
 
 before:
   hooks:
-  - make LICENSES
+    - make LICENSES
 
 builds:
   - id: nginx-asg-sync
@@ -97,7 +97,7 @@ signs:
   - cmd: cosign
     artifacts: checksum
     output: true
-    certificate: '${artifact}.pem'
+    certificate: "${artifact}.pem"
     args:
       - sign-blob
       - "--output-signature=${signature}"
@@ -108,14 +108,14 @@ signs:
 announce:
   slack:
     enabled: true
-    channel: '#announcements'
-    message_template: 'NGINX Plus Integration with Cloud Autoscaling {{ .Tag }} is out! Check it out: {{ .ReleaseURL }}'
+    channel: "#announcements"
+    message_template: "NGINX Plus Integration with Cloud Autoscaling {{ .Tag }} is out! Check it out: {{ .ReleaseURL }}"
 
 milestones:
   - close: true
 
 snapshot:
-  name_template: 'edge'
+  name_template: "edge"
 
 snapcrafts:
   - summary: NGINX Plus Integration with Cloud Autoscaling
@@ -125,7 +125,7 @@ snapcrafts:
     grade: devel
     confinement: strict
     publish: true
-    license: 'BSD 2-Clause'
+    license: "BSD 2-Clause"
     apps:
       nginx-asg-sync:
         command: nginx-asg-sync

@@ -26,20 +26,10 @@ repos:
       - id: fix-byte-order-marker
       - id: detect-private-key
 
-  - repo: local
-    hooks:
-      - id: golang-diff
-        name: create-go-diff
-        entry: bash -c 'git diff -p origin/main > /tmp/diff.patch'
-        language: system
-        types: [go]
-        pass_filenames: false
-
   - repo: https://github.com/golangci/golangci-lint
     rev: v1.56.1
     hooks:
-      - id: golangci-lint
-        args: [--new-from-patch=/tmp/diff.patch]
+      - id: golangci-lint-full
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.15.0
@@ -59,7 +49,7 @@ repos:
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.12.1
     hooks:
-    - id: markdownlint-cli2
+      - id: markdownlint-cli2
 
 ci:
-  skip: [golang-diff, golangci-lint]
+  skip: [golangci-lint-full]

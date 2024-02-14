@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
@@ -154,12 +155,12 @@ type azureConfig struct {
 type azureUpstream struct {
 	Name        string
 	VMScaleSet  string `yaml:"virtual_machine_scale_set"`
-	Port        int
 	Kind        string
-	MaxConns    int    `yaml:"max_conns"`
-	MaxFails    int    `yaml:"max_fails"`
 	FailTimeout string `yaml:"fail_timeout"`
 	SlowStart   string `yaml:"slow_start"`
+	Port        int
+	MaxConns    int `yaml:"max_conns"`
+	MaxFails    int `yaml:"max_fails"`
 }
 
 func validateAzureConfig(cfg *azureConfig) error {
@@ -172,12 +173,12 @@ func validateAzureConfig(cfg *azureConfig) error {
 	}
 
 	if len(cfg.Upstreams) == 0 {
-		return fmt.Errorf("there are no upstreams found in the config file")
+		return errors.New("there are no upstreams found in the config file")
 	}
 
 	for _, ups := range cfg.Upstreams {
 		if ups.Name == "" {
-			return fmt.Errorf(upstreamNameErrorMsg)
+			return errors.New(upstreamNameErrorMsg)
 		}
 		if ups.VMScaleSet == "" {
 			return fmt.Errorf(upstreamErrorMsgFormat, "virtual_machine_scale_set", ups.Name)

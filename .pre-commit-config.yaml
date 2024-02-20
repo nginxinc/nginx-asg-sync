@@ -27,12 +27,12 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/golangci/golangci-lint
-    rev: v1.56.1
+    rev: v1.56.2
     hooks:
       - id: golangci-lint-full
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    rev: v3.15.1
     hooks:
       - id: pyupgrade
 

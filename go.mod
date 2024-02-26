@@ -5,7 +5,7 @@ go 1.21.3
 require (
 	github.com/Azure/azure-sdk-for-go v68.0.0+incompatible
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.12
-	github.com/aws/aws-sdk-go-v2 v1.25.0
+	github.com/aws/aws-sdk-go-v2 v1.25.2
 	github.com/aws/aws-sdk-go-v2/config v1.27.0
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.15.0
 	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.39.0
@@ -33,7 +33,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.19.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.22.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.27.0 // indirect
-	github.com/aws/smithy-go v1.20.0 // indirect
+	github.com/aws/smithy-go v1.20.1 // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
 	github.com/golang-jwt/jwt/v4 v4.2.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect

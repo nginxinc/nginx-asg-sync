@@ -1,3 +1,3 @@
 boto3==1.34.59
-pytest==8.0.2
+pytest==8.1.1
 requests==2.31.0

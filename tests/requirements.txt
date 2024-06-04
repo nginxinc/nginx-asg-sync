@@ -1,3 +1,3 @@
 boto3==1.34.110
 pytest==8.2.1
-requests==2.32.2
+requests==2.32.3

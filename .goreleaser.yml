@@ -1,3 +1,4 @@
+version: 2
 env:
   - CGO_ENABLED=0
 
@@ -79,7 +80,7 @@ nfpms:
           postremove: "build/postremove.sh"
 
 changelog:
-  skip: true
+  disable: true
 
 archives:
   - files:

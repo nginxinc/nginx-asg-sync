@@ -23,4 +23,6 @@ jobs:
           stale-issue-label: "stale"
           stale-pr-label: "stale"
           exempt-all-pr-assignees: true
+          exempt-all-issue-milestones: true
+          exempt-issue-labels: "proposal, backlog, backlog candidate, epic"
           operations-per-run: 100

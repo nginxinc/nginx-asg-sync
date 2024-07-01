@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   lint:
-    name: Lint
+    name: Go Lint
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
@@ -62,7 +62,8 @@ jobs:
     name: YAML lint
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Checkout Repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Lint YAML
         uses: reviewdog/action-yamllint@508148c0d959b166798f9792d1b29dddcac37348 # v1.16.0

@@ -51,5 +51,10 @@ repos:
     hooks:
       - id: markdownlint-cli2
 
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+
 ci:
   skip: [golangci-lint-full]

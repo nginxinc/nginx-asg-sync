@@ -1,5 +1,14 @@
 # Configuration for AWS
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Setting up Access to AWS API](#setting-up-access-to-aws-api)
+- [nginx-asg-sync Configuration](#nginx-asg-sync-configuration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Setting up Access to AWS API
 
 nginx-asg-sync uses the AWS API to get the list of IP addresses of the instances of an Auto Scaling group. To access the

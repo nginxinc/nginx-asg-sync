@@ -3,20 +3,23 @@
 The following is a set of guidelines for contributing to the NGINX AWS Auto-Scale Group Sync tool. We really appreciate
 that you are considering contributing!
 
-## Table Of Contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
 
-[Ask a Question](#ask-a-question)
+- [Ask a Question](#ask-a-question)
+- [Getting Started](#getting-started)
+  - [Project Structure](#project-structure)
+- [Contributing](#contributing)
+  - [Report a Bug](#report-a-bug)
+  - [Suggest an Enhancement](#suggest-an-enhancement)
+  - [Open a Pull Request](#open-a-pull-request)
+  - [Issue lifecycle](#issue-lifecycle)
+- [Style Guides](#style-guides)
+  - [Git Style Guide](#git-style-guide)
+  - [Go Style Guide](#go-style-guide)
 
-[Getting Started](#getting-started)
-
-[Contributing](#contributing)
-
-[Style Guides](#style-guides)
-
-- [Git Style Guide](#git-style-guide)
-- [Go Style Guide](#go-style-guide)
-
-[Code of Conduct](CODE_OF_CONDUCT.md)
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Ask a Question
 

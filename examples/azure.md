@@ -1,5 +1,14 @@
 # Configuration for Azure
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Setting up Access to Azure API](#setting-up-access-to-azure-api)
+- [nginx-asg-sync Configuration](#nginx-asg-sync-configuration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Setting up Access to Azure API
 
 nginx-asg-sync uses the Azure API to get the list of IP addresses of the instances of a Virtual Machine Scale Set. To

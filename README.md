@@ -19,6 +19,27 @@ scaling group of a cloud provider. The following providers are supported:
 When the number of instances changes, nginx-asg-sync adds the new instances to the NGINX Plus configuration and removes
 the terminated ones.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [How It Works](#how-it-works)
+- [Documentation](#documentation)
+- [Supported Operating Systems and Architectures](#supported-operating-systems-and-architectures)
+- [Installation](#installation)
+  - [Manual Installation](#manual-installation)
+  - [Snap Installation](#snap-installation)
+  - [NGINX Plus Configuration](#nginx-plus-configuration)
+  - [Configuration for Cloud Providers](#configuration-for-cloud-providers)
+- [Usage](#usage)
+- [Troubleshooting](#troubleshooting)
+- [Building a Software Package](#building-a-software-package)
+- [Contacts](#contacts)
+- [Contributing](#contributing)
+- [Support](#support)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## How It Works
 
 nginx-asg-sync is an agent process that runs on the same instance as NGINX Plus. It polls for changes to the backend
@@ -41,25 +62,8 @@ Below you will find documentation on how to use nginx-asg-sync.
 
 ## Documentation
 
-> **Note**
->
-> The documentation for **the latest stable release** is available via a link in the description of the release. See the
-> [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
-
-**Contents:**
-
-- [NGINX Plus Integration with Cloud Autoscaling --
-  nginx-asg-sync](#nginx-plus-integration-with-cloud-autoscaling----nginx-asg-sync)
-  - [How It Works](#how-it-works)
-  - [Documentation](#documentation)
-  - [Supported Operating Systems](#supported-operating-systems-and-architectures)
-  - [Installation](#installation)
-    - [NGINX Plus Configuration](#nginx-plus-configuration)
-    - [Configuration for Cloud Providers](#configuration-for-cloud-providers)
-  - [Usage](#usage)
-  - [Troubleshooting](#troubleshooting)
-  - [Building a Software Package](#building-a-software-package)
-  - [Support](#support)
+The documentation for **the latest stable release** is available via a link in the description of the release. See the
+[releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
 
 ## Supported Operating Systems and Architectures
 

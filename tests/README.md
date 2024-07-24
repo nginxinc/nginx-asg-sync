@@ -8,6 +8,18 @@ Note: for now this is for internal use only, as AWS stack configuration is done 
 
 Below you will find the instructions on how to run the tests against a cloud provider.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Running Tests](#running-tests)
+  - [Prerequisites](#prerequisites)
+    - [Step 1 - Set up the environment](#step-1---set-up-the-environment)
+    - [Step 2 - Run the Tests](#step-2---run-the-tests)
+- [Configuring the Tests](#configuring-the-tests)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Running Tests
 
 ### Prerequisites

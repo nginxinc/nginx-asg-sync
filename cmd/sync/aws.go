@@ -85,7 +85,9 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 func (client *AWSClient) configure() error {
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
 
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+	cfg, err := config.LoadDefaultConfig(context.TODO(),
+		config.WithSharedConfigProfile(client.config.Profile),
+	)
 	if err != nil {
 		return err
 	}
@@ -241,9 +243,9 @@ func prepareBatches(maxItems int, items []string) [][]string {
 }
 
 // Configuration for AWS Cloud Provider
-
 type awsConfig struct {
 	Region    string
+	Profile   string
 	Upstreams []awsUpstream
 }
 

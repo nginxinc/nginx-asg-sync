@@ -27,6 +27,7 @@ region: us-west-2
 api_endpoint: http://127.0.0.1:8080/api
 sync_interval: 5s
 cloud_provider: AWS
+profile: default
 upstreams:
  - name: backend-one
    autoscaling_group: backend-one-group
@@ -54,6 +55,7 @@ upstreams:
   empty if using AWS. Possible values are: `AWS`, `Azure`.
 - The `region` key defines the AWS region where we deploy NGINX Plus and the Auto Scaling groups. Setting `region` to
   `self` will use the EC2 Metadata service to retrieve the region of the current instance.
+- The optional `profile` key specifies the AWS profile to use.
 - The `upstreams` key defines the list of upstream groups. For each upstream group we specify:
   - `name` – The name we specified for the upstream block in the NGINX Plus configuration.
   - `autoscaling_group` – The name of the corresponding Auto Scaling group. Use of wildcards is supported. For example,

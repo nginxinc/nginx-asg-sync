@@ -15,8 +15,8 @@ type testInputCommon struct {
 
 func getValidCommonConfig() *commonConfig {
 	return &commonConfig{
-		APIEndpoint:           "http://127.0.0.1:8080/api",
-		SyncIntervalInSeconds: 1,
+		APIEndpoint:  "http://127.0.0.1:8080/api",
+		SyncInterval: 1,
 	}
 }
 
@@ -27,14 +27,15 @@ func getInvalidCommonConfigInput() []*testInputCommon {
 	invalidAPIEndpointCfg.APIEndpoint = ""
 	input = append(input, &testInputCommon{invalidAPIEndpointCfg, "invalid api_endpoint"})
 
-	invalidSyncIntervalInSecondsCfg := getValidCommonConfig()
-	invalidSyncIntervalInSecondsCfg.SyncIntervalInSeconds = 0
-	input = append(input, &testInputCommon{invalidSyncIntervalInSecondsCfg, "invalid sync_interval_in_seconds"})
+	invalidSyncIntervalCfg := getValidCommonConfig()
+	invalidSyncIntervalCfg.SyncInterval = 0
+	input = append(input, &testInputCommon{invalidSyncIntervalCfg, "invalid sync_interval_in_seconds"})
 
 	return input
 }
 
 func TestValidateCommonConfigNotValid(t *testing.T) {
+	t.Parallel()
 	input := getInvalidCommonConfigInput()
 
 	for _, item := range input {
@@ -46,6 +47,7 @@ func TestValidateCommonConfigNotValid(t *testing.T) {
 }
 
 func TestValidateCommonConfigValid(t *testing.T) {
+	t.Parallel()
 	cfg := getValidCommonConfig()
 
 	err := validateCommonConfig(cfg)
@@ -55,6 +57,7 @@ func TestValidateCommonConfigValid(t *testing.T) {
 }
 
 func TestParseCommonConfig(t *testing.T) {
+	t.Parallel()
 	_, err := parseCommonConfig(validYaml)
 	if err != nil {
 		t.Errorf("parseCommonConfig() failed for the valid config yaml: %v", string(validYaml))

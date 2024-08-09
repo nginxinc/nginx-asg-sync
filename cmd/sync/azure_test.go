@@ -80,6 +80,7 @@ func getInvalidAzureConfigInput() []*testInputAzure {
 }
 
 func TestValidateAzureConfigNotValid(t *testing.T) {
+	t.Parallel()
 	input := getInvalidAzureConfigInput()
 
 	for _, item := range input {
@@ -91,6 +92,7 @@ func TestValidateAzureConfigNotValid(t *testing.T) {
 }
 
 func TestValidateAzureConfigValid(t *testing.T) {
+	t.Parallel()
 	cfg := getValidAzureConfig()
 
 	err := validateAzureConfig(cfg)
@@ -100,6 +102,7 @@ func TestValidateAzureConfigValid(t *testing.T) {
 }
 
 func TestGetPrimaryIPFromInterfaceIPConfiguration(t *testing.T) {
+	t.Parallel()
 	primary := true
 	address := "127.0.0.1"
 	ipConfig := network.InterfaceIPConfiguration{
@@ -115,6 +118,7 @@ func TestGetPrimaryIPFromInterfaceIPConfiguration(t *testing.T) {
 }
 
 func TestGetPrimaryIPFromInterfaceIPConfigurationFail(t *testing.T) {
+	t.Parallel()
 	primaryFalse := false
 	primaryTrue := true
 	tests := []struct {
@@ -158,6 +162,7 @@ func TestGetPrimaryIPFromInterfaceIPConfigurationFail(t *testing.T) {
 }
 
 func TestGetUpstreamsAzure(t *testing.T) {
+	t.Parallel()
 	cfg := getValidAzureConfig()
 	upstreams := []azureUpstream{
 		{

@@ -5,6 +5,7 @@ import (
 )
 
 func TestGetFailTimeoutOrDefault(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		input    string
 		expected string
@@ -28,6 +29,7 @@ func TestGetFailTimeoutOrDefault(t *testing.T) {
 }
 
 func TestGetSlowStartOrDefault(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		input    string
 		expected string

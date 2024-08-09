@@ -3,6 +3,7 @@ package main
 import "testing"
 
 func TestValidateCloudProviderValid(t *testing.T) {
+	t.Parallel()
 	provider := "AWS"
 	valid := validateCloudProvider(provider)
 	if !valid {
@@ -11,6 +12,7 @@ func TestValidateCloudProviderValid(t *testing.T) {
 }
 
 func TestValidateCloudProviderInvalid(t *testing.T) {
+	t.Parallel()
 	provider := "invalid"
 	valid := validateCloudProvider(provider)
 	if valid {

@@ -11,14 +11,14 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-// AzureClient allows you to get the list of IP addresses of VirtualMachines of a VirtualMachine Scale Set. It implements the CloudProvider interface
+// AzureClient allows you to get the list of IP addresses of VirtualMachines of a VirtualMachine Scale Set. It implements the CloudProvider interface.
 type AzureClient struct {
 	config      *azureConfig
 	vMSSClient  compute.VirtualMachineScaleSetsClient
 	iFaceClient network.InterfacesClient
 }
 
-// NewAzureClient creates an AzureClient
+// NewAzureClient creates an AzureClient.
 func NewAzureClient(data []byte) (*AzureClient, error) {
 	azureClient := &AzureClient{}
 	cfg, err := parseAzureConfig(data)
@@ -36,12 +36,12 @@ func NewAzureClient(data []byte) (*AzureClient, error) {
 	return azureClient, nil
 }
 
-// parseAzureConfig parses and validates AzureClient config
+// parseAzureConfig parses and validates AzureClient config.
 func parseAzureConfig(data []byte) (*azureConfig, error) {
 	cfg := &azureConfig{}
 	err := yaml.Unmarshal(data, cfg)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("couldn't unmarshal Azure config: %w", err)
 	}
 
 	err = validateAzureConfig(cfg)
@@ -52,7 +52,7 @@ func parseAzureConfig(data []byte) (*azureConfig, error) {
 	return cfg, nil
 }
 
-// GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Virtual Machine Scale Set
+// GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Virtual Machine Scale Set.
 func (client *AzureClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
 	var ips []string
 
@@ -60,7 +60,7 @@ func (client *AzureClient) GetPrivateIPsForScalingGroup(name string) ([]string, 
 
 	for iFaces, err := client.iFaceClient.ListVirtualMachineScaleSetNetworkInterfaces(ctx, client.config.ResourceGroupName, name); iFaces.NotDone() || err != nil; err = iFaces.NextWithContext(ctx) {
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("couldn't get the list of network interfaces: %w", err)
 		}
 
 		for _, iFace := range iFaces.Values() {
@@ -102,7 +102,7 @@ func getPrimaryIPFromInterfaceIPConfiguration(ipConfig network.InterfaceIPConfig
 	return *ipConfig.InterfaceIPConfigurationPropertiesFormat.PrivateIPAddress
 }
 
-// CheckIfScalingGroupExists checks if the Virtual Machine Scale Set exists
+// CheckIfScalingGroupExists checks if the Virtual Machine Scale Set exists.
 func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	ctx := context.TODO()
 	vmss, err := client.vMSSClient.Get(ctx, client.config.ResourceGroupName, name, "userData")
@@ -116,7 +116,7 @@ func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) 
 func (client *AzureClient) configure() error {
 	authorizer, err := auth.NewAuthorizerFromEnvironment()
 	if err != nil {
-		return err
+		return fmt.Errorf("couldn't create authorizer: %w", err)
 	}
 
 	client.vMSSClient = compute.NewVirtualMachineScaleSetsClient(client.config.SubscriptionID)
@@ -127,10 +127,10 @@ func (client *AzureClient) configure() error {
 	return nil
 }
 
-// GetUpstreams returns the Upstreams list
+// GetUpstreams returns the Upstreams list.
 func (client *AzureClient) GetUpstreams() []Upstream {
-	var upstreams []Upstream
-	for i := 0; i < len(client.config.Upstreams); i++ {
+	upstreams := make([]Upstream, 0, len(client.config.Upstreams))
+	for i := range len(client.config.Upstreams) {
 		u := Upstream{
 			Name:         client.config.Upstreams[i].Name,
 			Port:         client.config.Upstreams[i].Port,

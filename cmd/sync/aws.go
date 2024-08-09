@@ -17,14 +17,14 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-// AWSClient allows you to get the list of IP addresses of instances of an Auto Scaling group. It implements the CloudProvider interface
+// AWSClient allows you to get the list of IP addresses of instances of an Auto Scaling group. It implements the CloudProvider interface.
 type AWSClient struct {
 	svcEC2         *ec2.Client
 	svcAutoscaling *autoscaling.Client
 	config         *awsConfig
 }
 
-// NewAWSClient creates and configures an AWSClient
+// NewAWSClient creates and configures an AWSClient.
 func NewAWSClient(data []byte) (*AWSClient, error) {
 	awsClient := &AWSClient{}
 	cfg, err := parseAWSConfig(data)
@@ -37,7 +37,7 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 
 		conf, loadErr := config.LoadDefaultConfig(context.TODO())
 		if loadErr != nil {
-			return nil, loadErr
+			return nil, fmt.Errorf("unable to load default AWS config: %w", loadErr)
 		}
 
 		client := imds.NewFromConfig(conf, func(o *imds.Options) {
@@ -61,10 +61,10 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 	return awsClient, nil
 }
 
-// GetUpstreams returns the Upstreams list
+// GetUpstreams returns the Upstreams list.
 func (client *AWSClient) GetUpstreams() []Upstream {
-	var upstreams []Upstream
-	for i := 0; i < len(client.config.Upstreams); i++ {
+	upstreams := make([]Upstream, 0, len(client.config.Upstreams))
+	for i := range len(client.config.Upstreams) {
 		u := Upstream{
 			Name:         client.config.Upstreams[i].Name,
 			Port:         client.config.Upstreams[i].Port,
@@ -81,13 +81,13 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 	return upstreams
 }
 
-// configure configures the AWSClient with necessary parameters
+// configure configures the AWSClient with necessary parameters.
 func (client *AWSClient) configure() error {
 	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
 
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
-		return err
+		return fmt.Errorf("unable to load default AWS config: %w", err)
 	}
 
 	client.svcEC2 = ec2.NewFromConfig(cfg, func(o *ec2.Options) {
@@ -103,12 +103,12 @@ func (client *AWSClient) configure() error {
 	return nil
 }
 
-// parseAWSConfig parses and validates AWSClient config
+// parseAWSConfig parses and validates AWSClient config.
 func parseAWSConfig(data []byte) (*awsConfig, error) {
 	cfg := &awsConfig{}
 	err := yaml.Unmarshal(data, cfg)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error unmarshalling AWS config: %w", err)
 	}
 
 	err = validateAWSConfig(cfg)
@@ -119,7 +119,7 @@ func parseAWSConfig(data []byte) (*awsConfig, error) {
 	return cfg, nil
 }
 
-// CheckIfScalingGroupExists checks if the Auto Scaling group exists
+// CheckIfScalingGroupExists checks if the Auto Scaling group exists.
 func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	params := &ec2.DescribeInstancesInput{
 		Filters: []types.Filter{
@@ -140,7 +140,7 @@ func (client *AWSClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	return len(response.Reservations) > 0, nil
 }
 
-// GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Auto Scaling group
+// GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Auto Scaling group.
 func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
 	var onlyInService bool
 	for _, u := range client.GetUpstreams() {
@@ -162,7 +162,7 @@ func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, er
 
 	response, err := client.svcEC2.DescribeInstances(context.Background(), params)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("couldn't describe instances: %w", err)
 	}
 
 	if len(response.Reservations) == 0 {
@@ -193,14 +193,14 @@ func (client *AWSClient) GetPrivateIPsForScalingGroup(name string) ([]string, er
 	return result, nil
 }
 
-// getInstancesInService returns the list of instances that have LifecycleState == InService
+// getInstancesInService returns the list of instances that have LifecycleState == InService.
 func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]string, error) {
 	const maxItems = 50
 	var result []string
 	keys := reflect.ValueOf(insIDtoIP).MapKeys()
 	instanceIDs := make([]string, len(keys))
 
-	for i := 0; i < len(keys); i++ {
+	for i := range len(keys) {
 		instanceIDs[i] = keys[i].String()
 	}
 
@@ -211,7 +211,7 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 		}
 		response, err := client.svcAutoscaling.DescribeAutoScalingInstances(context.Background(), params)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("couldn't describe AutoScaling instances: %w", err)
 		}
 
 		for _, ins := range response.AutoScalingInstances {

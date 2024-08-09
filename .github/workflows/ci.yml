@@ -119,3 +119,4 @@ jobs:
           GOPATH: ${{ steps.go.outputs.go_path }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_COMMUNITY }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
+          NGINX_GITHUB_TOKEN: ${{ secrets.NGINX_PAT }}

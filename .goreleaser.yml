@@ -132,3 +132,16 @@ snapcrafts:
         command: nginx-asg-sync
         plugs: ["network", "network-bind"]
     disable: "{{ if .IsSnapshot }}true{{ end }}"
+
+brews:
+  - repository:
+      owner: nginxinc
+      name: homebrew-tap
+      token: "{{ .Env.NGINX_GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: https://github.com/nginxinc/nginx-asg-sync
+    description: NGINX Plus Integration with Cloud Autoscaling
+    license: "BSD 2-Clause"
+    commit_author:
+      name: nginx-bot
+      email: integrations@nginx.com

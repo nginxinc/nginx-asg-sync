@@ -74,6 +74,7 @@ func getInvalidAWSConfigInput() []*testInputAWS {
 }
 
 func TestValidateAWSConfigNotValid(t *testing.T) {
+	t.Parallel()
 	input := getInvalidAWSConfigInput()
 
 	for _, item := range input {
@@ -85,6 +86,7 @@ func TestValidateAWSConfigNotValid(t *testing.T) {
 }
 
 func TestValidateAWSConfigValid(t *testing.T) {
+	t.Parallel()
 	cfg := getValidAWSConfig()
 
 	err := validateAWSConfig(cfg)
@@ -94,6 +96,7 @@ func TestValidateAWSConfigValid(t *testing.T) {
 }
 
 func TestGetUpstreamsAWS(t *testing.T) {
+	t.Parallel()
 	cfg := getValidAWSConfig()
 	upstreams := []awsUpstream{
 		{
@@ -165,6 +168,7 @@ func areEqualUpstreamsAWS(u1 awsUpstream, u2 Upstream) bool {
 }
 
 func TestPrepareBatches(t *testing.T) {
+	t.Parallel()
 	const maxItems = 3
 	ids := []string{"i-394ujfs", "i-dfdinf", "i-fsfsf", "i-8hr83hfwif", "i-nsnsnan"}
 	instanceIDs := make([]string, len(ids))

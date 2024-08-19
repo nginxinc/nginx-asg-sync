@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // commonConfig stores the configuration parameters common to all providers.

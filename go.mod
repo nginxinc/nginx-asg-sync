@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.43.4
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.175.1
 	github.com/nginxinc/nginx-plus-go-client v1.3.0
-	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

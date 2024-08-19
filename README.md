@@ -29,8 +29,9 @@ the terminated ones.
 - [Installation](#installation)
   - [Manual Installation](#manual-installation)
   - [Snap Installation](#snap-installation)
-  - [NGINX Plus Configuration](#nginx-plus-configuration)
-  - [Configuration for Cloud Providers](#configuration-for-cloud-providers)
+  - [Homebrew Installation](#homebrew-installation)
+- [NGINX Plus Configuration](#nginx-plus-configuration)
+- [Configuration for Cloud Providers](#configuration-for-cloud-providers)
 - [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
 - [Building a Software Package](#building-a-software-package)
@@ -91,7 +92,21 @@ You can install the NGINX Plus Integration with Cloud Autoscaling from the [Snap
 sudo snap install nginx-asg-sync
 ```
 
-### NGINX Plus Configuration
+### Homebrew Installation
+
+You can add the NGINX homebrew tap with
+
+```console
+brew tap nginxinc/tap
+```
+
+and then install the formula with
+
+```console
+brew install nginx-asg-sync
+```
+
+## NGINX Plus Configuration
 
 As an example, we configure NGINX Plus to load balance two groups of instances -- backend-group-one and
 backend-group-two. NGINX Plus routes requests to the appropriate group based on the request URI:
@@ -193,7 +208,7 @@ This also works when an instance is being terminated: the asg-sync will remove t
 > requests to a terminated instance, make sure the instance goes to the `Terminating:Wait` state for a period greater
 > than the interval `sync_interval_in_seconds`.
 
-### Configuration for Cloud Providers
+## Configuration for Cloud Providers
 
 See the example for your cloud provider: [AWS](examples/aws.md), [Azure](examples/azure.md).
 

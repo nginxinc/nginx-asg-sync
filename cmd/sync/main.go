@@ -163,7 +163,7 @@ func main() {
 		}
 
 		select {
-		case <-time.After(commonConfig.SyncIntervalInSeconds * time.Second):
+		case <-time.After(commonConfig.SyncInterval * time.Second): //nolint:durationcheck
 		case <-sigterm:
 			log.Println("Terminating...")
 			return
@@ -172,7 +172,7 @@ func main() {
 }
 
 func getUpstreamServerAddresses(server []nginx.UpstreamServer) []string {
-	var upstreamServerAddr []string
+	upstreamServerAddr := make([]string, 0, len(server))
 	for _, s := range server {
 		upstreamServerAddr = append(upstreamServerAddr, s.Server)
 	}
@@ -180,7 +180,7 @@ func getUpstreamServerAddresses(server []nginx.UpstreamServer) []string {
 }
 
 func getStreamUpstreamServerAddresses(server []nginx.StreamUpstreamServer) []string {
-	var streamUpstreamServerAddr []string
+	streamUpstreamServerAddr := make([]string, 0, len(server))
 	for _, s := range server {
 		streamUpstreamServerAddr = append(streamUpstreamServerAddr, s.Server)
 	}

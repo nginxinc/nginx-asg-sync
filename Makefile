@@ -2,7 +2,7 @@
 
 .PHONY: test
 test:
-	go test ./...
+	go test -v -shuffle=on -race ./...
 
 .PHONY: lint
 lint:

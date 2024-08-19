@@ -7,6 +7,11 @@
   "automerge": true,
   "rebaseWhen": "auto",
   "postUpdateOptions": [
-    "gomodTidy"
-  ]
+    "gomodTidy",
+    "gomodUpdateImportPaths"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "prConcurrentLimit": 0
 }

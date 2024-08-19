@@ -2,8 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-	"docker:enableMajor"
+    "docker:enableMajor"
   ],
   "automerge": true,
-  "rebaseWhen": "auto"
+  "rebaseWhen": "auto",
+  "postUpdateOptions": [
+    "gomodTidy"
+  ]
 }

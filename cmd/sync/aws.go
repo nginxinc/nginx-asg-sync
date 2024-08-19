@@ -225,18 +225,17 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 }
 
 func prepareBatches(maxItems int, items []string) [][]string {
-	var batches [][]string
-
-	min := func(a, b int) int {
-		if a <= b {
-			return a
-		}
-		return b
-	}
+	totalBatches := (len(items) + maxItems - 1) / maxItems
+	batches := make([][]string, 0, totalBatches)
 
 	for i := 0; i < len(items); i += maxItems {
-		batches = append(batches, items[i:min(i+maxItems, len(items))])
+		end := i + maxItems
+		if end > len(items) {
+			end = len(items)
+		}
+		batches = append(batches, items[i:end])
 	}
+
 	return batches
 }
 

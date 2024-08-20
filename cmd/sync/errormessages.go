@@ -2,7 +2,7 @@ package main
 
 const (
 	errorMsgFormat                 = "the mandatory field %v is either empty or missing in the config file"
-	intervalErrorMsg               = "the mandatory field sync_interval_in_seconds is either 0 or missing in the config file"
+	intervalErrorMsg               = "the mandatory field sync_interval is either 0, negative or missing in the config file"
 	cloudProviderErrorMsg          = "the field cloud_provider has invalid value %v in the config file"
 	defaultCloudProvider           = "AWS"
 	upstreamNameErrorMsg           = "the mandatory field name is either empty or missing for an upstream in the config file"

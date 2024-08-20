@@ -12,7 +12,7 @@ import (
 type commonConfig struct {
 	APIEndpoint   string        `yaml:"api_endpoint"`
 	CloudProvider string        `yaml:"cloud_provider"`
-	SyncInterval  time.Duration `yaml:"sync_interval_in_seconds"`
+	SyncInterval  time.Duration `yaml:"sync_interval"`
 }
 
 func parseCommonConfig(data []byte) (*commonConfig, error) {
@@ -35,7 +35,7 @@ func validateCommonConfig(cfg *commonConfig) error {
 		return fmt.Errorf(errorMsgFormat, "api_endpoint")
 	}
 
-	if cfg.SyncInterval == 0 {
+	if cfg.SyncInterval <= 0 {
 		return errors.New(intervalErrorMsg)
 	}
 

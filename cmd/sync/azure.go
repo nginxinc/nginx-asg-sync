@@ -147,20 +147,20 @@ func (client *AzureClient) GetUpstreams() []Upstream {
 }
 
 type azureConfig struct {
-	SubscriptionID    string `yaml:"subscription_id"`
-	ResourceGroupName string `yaml:"resource_group_name"`
-	Upstreams         []azureUpstream
+	SubscriptionID    string          `yaml:"subscription_id"`
+	ResourceGroupName string          `yaml:"resource_group_name"`
+	Upstreams         []azureUpstream `yaml:"upstreams"`
 }
 
 type azureUpstream struct {
-	Name        string
+	Name        string `yaml:"name"`
 	VMScaleSet  string `yaml:"virtual_machine_scale_set"`
-	Kind        string
+	Kind        string `yaml:"kind"`
 	FailTimeout string `yaml:"fail_timeout"`
 	SlowStart   string `yaml:"slow_start"`
-	Port        int
-	MaxConns    int `yaml:"max_conns"`
-	MaxFails    int `yaml:"max_fails"`
+	Port        int    `yaml:"port"`
+	MaxConns    int    `yaml:"max_conns"`
+	MaxFails    int    `yaml:"max_fails"`
 }
 
 func validateAzureConfig(cfg *azureConfig) error {

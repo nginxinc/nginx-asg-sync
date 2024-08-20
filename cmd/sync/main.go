@@ -163,7 +163,7 @@ func main() {
 		}
 
 		select {
-		case <-time.After(commonConfig.SyncInterval * time.Second): //nolint:durationcheck
+		case <-time.After(commonConfig.SyncInterval):
 		case <-sigterm:
 			log.Println("Terminating...")
 			return

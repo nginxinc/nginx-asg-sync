@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := build-goreleaser
 # renovate: datasource=github-releases depName=golangci/golangci-lint
-GOLANGCI_LINT_VERSION = v1.60.1
+GOLANGCI_LINT_VERSION = v1.60.2
 
 .PHONY: test
 test:

@@ -30,7 +30,7 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/golangci/golangci-lint
-    rev: v1.60.1
+    rev: v1.60.2
     hooks:
       - id: golangci-lint-full
 

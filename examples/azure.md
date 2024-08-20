@@ -26,7 +26,7 @@ nginx-asg-sync is configured in **/etc/nginx/config.yaml**.
 
 ```yaml
 api_endpoint: http://127.0.0.1:8080/api
-sync_interval_in_seconds: 5
+sync_interval: 5s
 cloud_provider: Azure
 subscription_id: my_subscription_id
 resource_group_name: my_resource_group
@@ -50,8 +50,8 @@ upstreams:
 ```
 
 - The `api_endpoint` key defines the NGINX Plus API endpoint.
-- The `sync_interval_in_seconds` key defines the synchronization interval: nginx-asg-sync checks for scaling updates
-  every 5 seconds.
+- The `sync_interval` key defines the synchronization interval: nginx-asg-sync checks for scaling updates
+  every 5 seconds. The value is a string that represents a duration (e.g., `5s`). The maximum unit is hours.
 - The `cloud_provider` key defines a Cloud Provider that will be used. The default is `AWS`. This means the key can be
   empty if using AWS. Possible values are: `AWS`, `Azure`.
 - The `subscription_id` key defines the Azure unique subscription id that identifies your Azure subscription.

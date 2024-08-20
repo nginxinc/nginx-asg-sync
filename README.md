@@ -206,7 +206,7 @@ This also works when an instance is being terminated: the asg-sync will remove t
 > Because the asg-sync works on a polling-based model, there will be a delay between the instance  going to a
 > terminating state and the asg-sync removing its IP from NGINX Plus. To guarantee that NGINX Plus doesn't send any
 > requests to a terminated instance, make sure the instance goes to the `Terminating:Wait` state for a period greater
-> than the interval `sync_interval_in_seconds`.
+> than the interval `sync_interval`.
 
 ## Configuration for Cloud Providers
 

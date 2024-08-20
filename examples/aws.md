@@ -25,7 +25,7 @@ nginx-asg-sync is configured in **/etc/nginx/config.yaml**.
 ```yaml
 region: us-west-2
 api_endpoint: http://127.0.0.1:8080/api
-sync_interval_in_seconds: 5
+sync_interval: 5s
 cloud_provider: AWS
 upstreams:
  - name: backend-one
@@ -48,8 +48,8 @@ upstreams:
 ```
 
 - The `api_endpoint` key defines the NGINX Plus API endpoint.
-- The `sync_interval_in_seconds` key defines the synchronization interval: nginx-asg-sync checks for scaling updates
-  every 5 seconds.
+- The `sync_interval` key defines the synchronization interval: nginx-asg-sync checks for scaling updates
+  every 5 seconds. The value is a string that represents a duration (e.g., `5s`). The maximum unit is hours.
 - The `cloud_provider` key defines a cloud provider that will be used. The default is `AWS`. This means the key can be
   empty if using AWS. Possible values are: `AWS`, `Azure`.
 - The `region` key defines the AWS region where we deploy NGINX Plus and the Auto Scaling groups. Setting `region` to

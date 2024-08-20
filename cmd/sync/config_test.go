@@ -5,7 +5,7 @@ import "testing"
 var validYaml = []byte(`
 cloud_provider: AWS
 api_endpoint: http://127.0.0.1:8080/api
-sync_interval_in_seconds: 5
+sync_interval: 5s
 `)
 
 type testInputCommon struct {
@@ -29,7 +29,7 @@ func getInvalidCommonConfigInput() []*testInputCommon {
 
 	invalidSyncIntervalCfg := getValidCommonConfig()
 	invalidSyncIntervalCfg.SyncInterval = 0
-	input = append(input, &testInputCommon{invalidSyncIntervalCfg, "invalid sync_interval_in_seconds"})
+	input = append(input, &testInputCommon{invalidSyncIntervalCfg, "invalid sync_interval"})
 
 	return input
 }

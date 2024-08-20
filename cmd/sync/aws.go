@@ -242,20 +242,20 @@ func prepareBatches(maxItems int, items []string) [][]string {
 // Configuration for AWS Cloud Provider
 
 type awsConfig struct {
-	Region    string
-	Upstreams []awsUpstream
+	Region    string        `yaml:"region"`
+	Upstreams []awsUpstream `yaml:"upstreams"`
 }
 
 type awsUpstream struct {
-	Name             string
+	Name             string `yaml:"name"`
 	AutoscalingGroup string `yaml:"autoscaling_group"`
-	Kind             string
+	Kind             string `yaml:"kind"`
 	FailTimeout      string `yaml:"fail_timeout"`
 	SlowStart        string `yaml:"slow_start"`
-	Port             int
-	MaxConns         int  `yaml:"max_conns"`
-	MaxFails         int  `yaml:"max_fails"`
-	InService        bool `yaml:"in_service"`
+	Port             int    `yaml:"port"`
+	MaxConns         int    `yaml:"max_conns"`
+	MaxFails         int    `yaml:"max_fails"`
+	InService        bool   `yaml:"in_service"`
 }
 
 func validateAWSConfig(cfg *awsConfig) error {

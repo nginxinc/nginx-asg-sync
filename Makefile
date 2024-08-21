@@ -1,6 +1,10 @@
 .DEFAULT_GOAL := build-goreleaser
-# renovate: datasource=github-releases depName=golangci/golangci-lint
+# renovate: datasource=docker depName=golangci/golangci-lint
 GOLANGCI_LINT_VERSION = v1.60.2
+# renovate: datasource=docker depName=goreleaser/goreleaser
+GORELEASER_VERSION = v2.2.0
+# renovate: datasource=go depName=google/go-licenses
+GO_LICENSES = v1.6.0
 
 .PHONY: test
 test:
@@ -22,7 +26,7 @@ build-goreleaser:
 .PHONY: build-goreleaser-docker
 build-goreleaser-docker:
 	@docker -v || (code=$$?; printf "\033[0;31mError\033[0m: there was a problem with Docker\n"; exit $$code)
-	@docker run --rm --privileged -v $(PWD):/go/src/github.com/nginxinc/nginx-asg-sync -v /var/run/docker.sock:/var/run/docker.sock -w /go/src/github.com/nginxinc/nginx-asg-sync goreleaser/goreleaser release --snapshot --clean
+	@docker run --pull always --rm --privileged -v $(PWD):/go/src/github.com/nginxinc/nginx-asg-sync -v /var/run/docker.sock:/var/run/docker.sock -w /go/src/github.com/nginxinc/nginx-asg-sync goreleaser/goreleaser:$(GORELEASER_VERSION) release --snapshot --clean
 
 .PHONY: clean
 clean:
@@ -34,7 +38,7 @@ deps: go.mod go.sum
 	@go mod tidy && go mod verify && go mod download
 
 LICENSES: go.mod go.sum
-	go run github.com/google/go-licenses@latest csv ./... > $@
+	go run github.com/google/go-licenses@$(GO_LICENSES) csv ./... > $@
 
 .PHONY: clean-cache
 clean-cache:

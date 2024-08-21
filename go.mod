@@ -1,5 +1,6 @@
 module github.com/nginxinc/nginx-asg-sync
 
+// renovate: datasource=golang-version depName=golang
 go 1.22.5
 
 require (

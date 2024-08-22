@@ -16,6 +16,9 @@ repos:
       - id: check-symlinks
       - id: check-case-conflict
       - id: check-vcs-permalinks
+      - id: check-json
+      - id: pretty-format-json
+        args: [--autofix, --no-ensure-ascii]
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: name-tests-test
@@ -27,7 +30,7 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/golangci/golangci-lint
-    rev: v1.60.1
+    rev: v1.60.2
     hooks:
       - id: golangci-lint-full
 
@@ -64,3 +67,4 @@ repos:
 
 ci:
   skip: [golangci-lint-full]
+  autoupdate_schedule: quarterly # We use renovate for more frequent updates and there's no way to disable autoupdate

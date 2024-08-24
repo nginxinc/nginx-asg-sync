@@ -5,17 +5,17 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network"
-	"github.com/Azure/go-autorest/autorest/azure/auth"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v6"
 	yaml "gopkg.in/yaml.v3"
 )
 
 // AzureClient allows you to get the list of IP addresses of VirtualMachines of a VirtualMachine Scale Set. It implements the CloudProvider interface.
 type AzureClient struct {
 	config      *azureConfig
-	vMSSClient  compute.VirtualMachineScaleSetsClient
-	iFaceClient network.InterfacesClient
+	vMSSClient  *armcompute.VirtualMachineScaleSetsClient
+	iFaceClient *armnetwork.InterfacesClient
 }
 
 // NewAzureClient creates an AzureClient.
@@ -52,60 +52,70 @@ func parseAzureConfig(data []byte) (*azureConfig, error) {
 	return cfg, nil
 }
 
+func (client *AzureClient) listScaleSetsNetworkInterfaces(ctx context.Context, resourceGroupName, vmssName string) ([]*armnetwork.Interface, error) {
+	var result []*armnetwork.Interface
+	pager := client.iFaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(resourceGroupName, vmssName, nil)
+	for pager.More() {
+		resp, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("listing network interfaces: %w", err)
+		}
+		result = append(result, resp.Value...)
+	}
+	return result, nil
+}
+
 // GetPrivateIPsForScalingGroup returns the list of IP addresses of instances of the Virtual Machine Scale Set.
 func (client *AzureClient) GetPrivateIPsForScalingGroup(name string) ([]string, error) {
 	var ips []string
 
 	ctx := context.TODO()
 
-	for iFaces, err := client.iFaceClient.ListVirtualMachineScaleSetNetworkInterfaces(ctx, client.config.ResourceGroupName, name); iFaces.NotDone() || err != nil; err = iFaces.NextWithContext(ctx) {
-		if err != nil {
-			return nil, fmt.Errorf("couldn't get the list of network interfaces: %w", err)
-		}
+	iFaces, err := client.listScaleSetsNetworkInterfaces(ctx, client.config.ResourceGroupName, name)
+	if err != nil {
+		return nil, err
+	}
 
-		for _, iFace := range iFaces.Values() {
-			if iFace.VirtualMachine != nil && iFace.VirtualMachine.ID != nil && iFace.IPConfigurations != nil {
-				for _, n := range *iFace.IPConfigurations {
-					ip := getPrimaryIPFromInterfaceIPConfiguration(n)
-					if ip != "" {
-						ips = append(ips, *n.InterfaceIPConfigurationPropertiesFormat.PrivateIPAddress)
-						break
-					}
+	for _, iFace := range iFaces {
+		if iFace.Properties.VirtualMachine != nil && iFace.Properties.VirtualMachine.ID != nil && iFace.Properties.IPConfigurations != nil {
+			for _, n := range iFace.Properties.IPConfigurations {
+				ip := getPrimaryIPFromInterfaceIPConfiguration(n)
+				if ip != "" {
+					ips = append(ips, *n.Properties.PrivateIPAddress)
+					break
 				}
 			}
 		}
 	}
+
 	return ips, nil
 }
 
-func getPrimaryIPFromInterfaceIPConfiguration(ipConfig network.InterfaceIPConfiguration) string {
-	if ipConfig == (network.InterfaceIPConfiguration{}) {
+func getPrimaryIPFromInterfaceIPConfiguration(ipConfig *armnetwork.InterfaceIPConfiguration) string {
+	if ipConfig.Properties == nil {
 		return ""
 	}
 
-	if ipConfig.Primary == nil {
+	if ipConfig.Properties.Primary == nil {
 		return ""
 	}
 
-	if !*ipConfig.Primary {
+	if !*ipConfig.Properties.Primary {
 		return ""
 	}
 
-	if ipConfig.InterfaceIPConfigurationPropertiesFormat == nil {
+	if ipConfig.Properties.PrivateIPAddress == nil {
 		return ""
 	}
 
-	if ipConfig.InterfaceIPConfigurationPropertiesFormat.PrivateIPAddress == nil {
-		return ""
-	}
-
-	return *ipConfig.InterfaceIPConfigurationPropertiesFormat.PrivateIPAddress
+	return *ipConfig.Properties.PrivateIPAddress
 }
 
 // CheckIfScalingGroupExists checks if the Virtual Machine Scale Set exists.
 func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) {
 	ctx := context.TODO()
-	vmss, err := client.vMSSClient.Get(ctx, client.config.ResourceGroupName, name, "userData")
+	expandType := armcompute.ExpandTypesForGetVMScaleSetsUserData
+	vmss, err := client.vMSSClient.Get(ctx, client.config.ResourceGroupName, name, &armcompute.VirtualMachineScaleSetsClientGetOptions{Expand: &expandType})
 	if err != nil {
 		return false, fmt.Errorf("couldn't check if a Virtual Machine Scale Set exists: %w", err)
 	}
@@ -114,16 +124,23 @@ func (client *AzureClient) CheckIfScalingGroupExists(name string) (bool, error) 
 }
 
 func (client *AzureClient) configure() error {
-	authorizer, err := auth.NewAuthorizerFromEnvironment()
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return fmt.Errorf("couldn't create authorizer: %w", err)
 	}
 
-	client.vMSSClient = compute.NewVirtualMachineScaleSetsClient(client.config.SubscriptionID)
-	client.vMSSClient.Authorizer = authorizer
+	computeClientFactory, err := armcompute.NewClientFactory(client.config.SubscriptionID, cred, nil)
+	if err != nil {
+		return fmt.Errorf("couldn't create client factory: %w", err)
+	}
+	client.vMSSClient = computeClientFactory.NewVirtualMachineScaleSetsClient()
 
-	client.iFaceClient = network.NewInterfacesClient(client.config.SubscriptionID)
-	client.iFaceClient.Authorizer = authorizer
+	iclient, err := armnetwork.NewInterfacesClient(client.config.SubscriptionID, cred, nil)
+	if err != nil {
+		return fmt.Errorf("couldn't create interfaces client: %w", err)
+	}
+	client.iFaceClient = iclient
+
 	return nil
 }
 

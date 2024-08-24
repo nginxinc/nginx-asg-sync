@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network"
+	network "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v6"
 )
 
 type testInputAzure struct {
@@ -105,8 +105,8 @@ func TestGetPrimaryIPFromInterfaceIPConfiguration(t *testing.T) {
 	t.Parallel()
 	primary := true
 	address := "127.0.0.1"
-	ipConfig := network.InterfaceIPConfiguration{
-		InterfaceIPConfigurationPropertiesFormat: &network.InterfaceIPConfigurationPropertiesFormat{
+	ipConfig := &network.InterfaceIPConfiguration{
+		Properties: &network.InterfaceIPConfigurationPropertiesFormat{
 			Primary:          &primary,
 			PrivateIPAddress: &address,
 		},
@@ -122,30 +122,30 @@ func TestGetPrimaryIPFromInterfaceIPConfigurationFail(t *testing.T) {
 	primaryFalse := false
 	primaryTrue := true
 	tests := []struct {
-		ipConfig network.InterfaceIPConfiguration
+		ipConfig *network.InterfaceIPConfiguration
 		msg      string
 	}{
 		{
-			ipConfig: network.InterfaceIPConfiguration{},
+			ipConfig: &network.InterfaceIPConfiguration{},
 			msg:      "empty primary",
 		},
 		{
-			ipConfig: network.InterfaceIPConfiguration{
-				InterfaceIPConfigurationPropertiesFormat: &network.InterfaceIPConfigurationPropertiesFormat{
+			ipConfig: &network.InterfaceIPConfiguration{
+				Properties: &network.InterfaceIPConfigurationPropertiesFormat{
 					Primary: &primaryFalse,
 				},
 			},
 			msg: "not primary interface",
 		},
 		{
-			ipConfig: network.InterfaceIPConfiguration{
-				InterfaceIPConfigurationPropertiesFormat: nil,
+			ipConfig: &network.InterfaceIPConfiguration{
+				Properties: nil,
 			},
 			msg: "no interface properties",
 		},
 		{
-			ipConfig: network.InterfaceIPConfiguration{
-				InterfaceIPConfigurationPropertiesFormat: &network.InterfaceIPConfigurationPropertiesFormat{
+			ipConfig: &network.InterfaceIPConfiguration{
+				Properties: &network.InterfaceIPConfigurationPropertiesFormat{
 					Primary:          &primaryTrue,
 					PrivateIPAddress: nil,
 				},

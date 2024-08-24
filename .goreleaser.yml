@@ -115,9 +115,6 @@ announce:
 milestones:
   - close: true
 
-snapshot:
-  name_template: "edge"
-
 snapcrafts:
   - summary: NGINX Plus Integration with Cloud Autoscaling
     description: |

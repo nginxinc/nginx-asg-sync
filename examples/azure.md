@@ -31,22 +31,22 @@ cloud_provider: Azure
 subscription_id: my_subscription_id
 resource_group_name: my_resource_group
 upstreams:
- - name: backend-one
-   virtual_machine_scale_set: backend-one-group
-   port: 80
-   kind: http
-   max_conns: 0
-   max_fails: 1
-   fail_timeout: 10s
-   slow_start: 0s
- - name: backend-two
-   virtual_machine_scale_set: backend-two-group
-   port: 80
-   kind: http
-   max_conns: 0
-   max_fails: 1
-   fail_timeout: 10s
-   slow_start: 0s
+  - name: backend-one
+    virtual_machine_scale_set: backend-one-group
+    port: 80
+    kind: http
+    max_conns: 0
+    max_fails: 1
+    fail_timeout: 10s
+    slow_start: 0s
+  - name: backend-two
+    virtual_machine_scale_set: backend-two-group
+    port: 80
+    kind: http
+    max_conns: 0
+    max_fails: 1
+    fail_timeout: 10s
+    slow_start: 0s
 ```
 
 - The `api_endpoint` key defines the NGINX Plus API endpoint.

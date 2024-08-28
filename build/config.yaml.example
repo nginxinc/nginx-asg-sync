@@ -5,16 +5,16 @@
 # api_endpoint: http://127.0.0.1:8080/api
 # sync_interval: 5s
 # upstreams:
-#   - name: backend1
-#     autoscaling_group: backend-group-1
+#   - name: backend-one
+#     autoscaling_group: backend-one-group
 #     port: 80
 #     kind: http
-#   - name: backend2
-#     autoscaling_group: backend-group-2
+#   - name: backend-two
+#     autoscaling_group: backend-two-group
 #     port: 80
 #     kind: http
 #   - name: tcp-backend
-#     autoscaling_group: backend-group-3
+#     autoscaling_group: backend-three-group
 #     port: 80
 #     kind: stream
 
@@ -26,15 +26,15 @@
 # api_endpoint: http://127.0.0.1:8080/api
 # sync_interval: 5s
 # upstreams:
-#   - name: backend1
-#     virtual_machine_scale_set: backend-group-1
+#   - name: backend-one
+#     virtual_machine_scale_set: backend-one-group
 #     port: 80
 #     kind: http
-#   - name: backend2
-#     virtual_machine_scale_set: backend-group-2
+#   - name: backend-two
+#     virtual_machine_scale_set: backend-two-group
 #     port: 80
 #     kind: http
 #   - name: tcp-backend
-#     virtual_machine_scale_set: backend-group-3
+#     virtual_machine_scale_set: backend-three-group
 #     port: 80
 #     kind: stream

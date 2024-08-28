@@ -17,7 +17,7 @@ import (
 var (
 	configFile = flag.String("config_path", "/etc/nginx/config.yaml", "Path to the config file")
 	logFile    = flag.String("log_path", "", "Path to the log file. If the file doesn't exist, it will be created")
-	version    = "0.5.0"
+	version    string
 )
 
 const connTimeoutInSecs = 10

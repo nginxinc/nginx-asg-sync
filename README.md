@@ -77,12 +77,12 @@ Support for other operating systems or architectures can be added.
 ### Manual Installation
 
 1. Get a software package for your OS:
-    - For a stable release, download a package from the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
-    - For the latest source code from the main branch, build a software package by following [these
-      instructions](#building-a-software-package).
+   - For a stable release, download a package from the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
+   - For the latest source code from the main branch, build a software package by following [these
+     instructions](#building-a-software-package).
 2. Install the package:
-    - For CentOS/RHEL based OSs, run: `sudo rpm -i <package-name>.rpm`
-    - For Debian based OSs, run: `sudo dpkg -i <package-name>.deb`
+   - For CentOS/RHEL based OSs, run: `sudo rpm -i <package-name>.rpm`
+   - For Debian based OSs, run: `sudo dpkg -i <package-name>.deb`
 
 ### Snap Installation
 
@@ -198,12 +198,12 @@ parameter ensures NGINX Plus won't consider a newly added instance healthy until
 When using AWS it's possible to filter out the instances that are not in a `InService` state of the
 [Lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html) with the parameter
 `in_service` set to `true`. This will ensure that the IP won't be added until the instance is ready to accept requests.
-This also works when an instance is being terminated: the asg-sync will remove the IP of an instance that went from  the
+This also works when an instance is being terminated: the asg-sync will remove the IP of an instance that went from the
 `InService` state to one of the terminating states.
 
 > **Note**
 >
-> Because the asg-sync works on a polling-based model, there will be a delay between the instance  going to a
+> Because the asg-sync works on a polling-based model, there will be a delay between the instance going to a
 > terminating state and the asg-sync removing its IP from NGINX Plus. To guarantee that NGINX Plus doesn't send any
 > requests to a terminated instance, make sure the instance goes to the `Terminating:Wait` state for a period greater
 > than the interval `sync_interval`.

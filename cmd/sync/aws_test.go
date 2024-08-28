@@ -22,6 +22,7 @@ func getValidAWSConfig() *awsConfig {
 	cfg := awsConfig{
 		Region:    "us-west-2",
 		Upstreams: upstreams,
+		Profile:   "default",
 	}
 
 	return &cfg

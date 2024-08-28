@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net/http"
 	"reflect"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/aws/transport/http"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/ec2/imds"
 	"github.com/aws/aws-sdk-go-v2/service/autoscaling"
@@ -31,26 +31,6 @@ func NewAWSClient(data []byte) (*AWSClient, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error validating config: %w", err)
 	}
-
-	if cfg.Region == "self" {
-		httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
-
-		conf, loadErr := config.LoadDefaultConfig(context.TODO())
-		if loadErr != nil {
-			return nil, fmt.Errorf("unable to load default AWS config: %w", loadErr)
-		}
-
-		client := imds.NewFromConfig(conf, func(o *imds.Options) {
-			o.HTTPClient = httpClient
-		})
-
-		response, regionErr := client.GetRegion(context.TODO(), &imds.GetRegionInput{})
-		if regionErr != nil {
-			return nil, fmt.Errorf("unable to retrieve region from ec2metadata: %w", regionErr)
-		}
-		cfg.Region = response.Region
-	}
-
 	awsClient.config = cfg
 
 	err = awsClient.configure()
@@ -83,22 +63,40 @@ func (client *AWSClient) GetUpstreams() []Upstream {
 
 // configure configures the AWSClient with necessary parameters.
 func (client *AWSClient) configure() error {
-	httpClient := &http.Client{Timeout: connTimeoutInSecs * time.Second}
+	httpClient := http.NewBuildableClient().WithTimeout(connTimeoutInSecs * time.Second)
 
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if client.config.Region == "self" {
+		conf, loadErr := config.LoadDefaultConfig(
+			context.TODO(),
+			config.WithSharedConfigProfile(client.config.Profile),
+			config.WithHTTPClient(httpClient),
+		)
+		if loadErr != nil {
+			return fmt.Errorf("unable to load default AWS config: %w", loadErr)
+		}
+
+		imdClient := imds.NewFromConfig(conf)
+
+		response, regionErr := imdClient.GetRegion(context.TODO(), &imds.GetRegionInput{})
+		if regionErr != nil {
+			return fmt.Errorf("unable to retrieve region from ec2metadata: %w", regionErr)
+		}
+		client.config.Region = response.Region
+	}
+
+	cfg, err := config.LoadDefaultConfig(
+		context.TODO(),
+		config.WithSharedConfigProfile(client.config.Profile),
+		config.WithRegion(client.config.Region),
+		config.WithHTTPClient(httpClient),
+	)
 	if err != nil {
 		return fmt.Errorf("unable to load default AWS config: %w", err)
 	}
 
-	client.svcEC2 = ec2.NewFromConfig(cfg, func(o *ec2.Options) {
-		o.Region = client.config.Region
-		o.HTTPClient = httpClient
-	})
+	client.svcEC2 = ec2.NewFromConfig(cfg)
 
-	client.svcAutoscaling = autoscaling.NewFromConfig(cfg, func(o *autoscaling.Options) {
-		o.Region = client.config.Region
-		o.HTTPClient = httpClient
-	})
+	client.svcAutoscaling = autoscaling.NewFromConfig(cfg)
 
 	return nil
 }
@@ -239,10 +237,10 @@ func prepareBatches(maxItems int, items []string) [][]string {
 	return batches
 }
 
-// Configuration for AWS Cloud Provider
-
+// Configuration for AWS Cloud Provider.
 type awsConfig struct {
 	Region    string        `yaml:"region"`
+	Profile   string        `yaml:"profile"`
 	Upstreams []awsUpstream `yaml:"upstreams"`
 }
 

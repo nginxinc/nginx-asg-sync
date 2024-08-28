@@ -3,5 +3,13 @@
   "extends": [
     "github>nginxinc/k8s-common",
     "schedule:earlyMondays"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "golang-version"
+      ],
+      "rangeStrategy": "bump"
+    }
   ]
 }

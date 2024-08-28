@@ -123,7 +123,7 @@ snapcrafts:
     grade: devel
     confinement: strict
     publish: true
-    license: "BSD 2-Clause"
+    license: BSD-2-Clause
     apps:
       nginx-asg-sync:
         command: nginx-asg-sync
@@ -138,7 +138,7 @@ brews:
     directory: Formula
     homepage: https://github.com/nginxinc/nginx-asg-sync
     description: NGINX Plus Integration with Cloud Autoscaling
-    license: "BSD 2-Clause"
+    license: BSD-2-Clause
     commit_author:
       name: nginx-bot
       email: integrations@nginx.com

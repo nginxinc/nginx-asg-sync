@@ -57,7 +57,7 @@ In the example below (AWS), NGINX Plus is configured to load balance among the i
 -- Backend One and Backend Two. nginx-asg-sync, running on the same instance as NGINX Plus, ensures that whenever you
 scale the Auto Scaling groups, the corresponding instances are added (or removed) from the NGINX Plus configuration.
 
-![nginx-asg-sync-architecture](https://cdn-1.wp.nginx.com/wp-content/uploads/2017/03/aws-auto-scaling-group-asg-sync.png)
+![nginx-asg-sync-architecture](aws-auto-scaling-group-asg-sync.png)
 
 Below you will find documentation on how to use nginx-asg-sync.
 

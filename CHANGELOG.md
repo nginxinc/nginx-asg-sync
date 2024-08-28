@@ -1,5 +1,7 @@
 # Changelog
 
+Starting with version 1.0.0 an automatically generated list of changes can be found on the [GitHub Releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
+
 ## 0.5.0 (February 24, 2021)
 
 IMPROVEMENTS:
@@ -56,8 +58,8 @@ recommended steps to follow:
    status API.
 3. Reload NGINX Plus to apply the updated configuration
 4. Modify the /etc/nginx/aws.yaml file:
-    - Remove the `upstream_conf_endpoint` and `status_endpoint` fields.
-    - Add the `api_endpoint` field. See an example in the configuration section of the README.md
+   - Remove the `upstream_conf_endpoint` and `status_endpoint` fields.
+   - Add the `api_endpoint` field. See an example in the configuration section of the README.md
 5. Download the Release 0.2 nginx-asg-sync package for your OS and upgrade the package using the OS tools (dpkg or rpm).
 6. Check the logs of nginx-asg-sync to make sure that it is working properly after the upgrade.
 7. Finally remove the upstream_conf and the status API from NGINX Plus configuration.

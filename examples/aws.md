@@ -29,23 +29,23 @@ sync_interval: 5s
 cloud_provider: AWS
 profile: default
 upstreams:
- - name: backend-one
-   autoscaling_group: backend-one-group
-   port: 80
-   kind: http
-   max_conns: 0
-   max_fails: 1
-   fail_timeout: 10s
-   slow_start: 0s
- - name: backend-two
-   autoscaling_group: backend-two-group
-   port: 80
-   kind: http
-   max_conns: 0
-   max_fails: 1
-   fail_timeout: 10s
-   slow_start: 0s
-   in_service: true
+  - name: backend-one
+    autoscaling_group: backend-one-group
+    port: 80
+    kind: http
+    max_conns: 0
+    max_fails: 1
+    fail_timeout: 10s
+    slow_start: 0s
+  - name: backend-two
+    autoscaling_group: backend-two-group
+    port: 80
+    kind: http
+    max_conns: 0
+    max_fails: 1
+    fail_timeout: 10s
+    slow_start: 0s
+    in_service: true
 ```
 
 - The `api_endpoint` key defines the NGINX Plus API endpoint.

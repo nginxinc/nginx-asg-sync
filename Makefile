@@ -16,7 +16,7 @@ lint:
 
 nginx-asg-sync:
 	@go version || (code=$$?; printf "\033[0;31mError\033[0m: unable to build locally, try using the parameter TARGET=container or TARGET=download\n"; exit $$code)
-	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=$(shell go env GOPATH) -asmflags=-trimpath=$(shell go env GOPATH)" GOOS=linux go build -trimpath -ldflags "-s -w" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
+	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=$(shell go env GOPATH) -asmflags=-trimpath=$(shell go env GOPATH)" GOOS=linux go build -trimpath -ldflags "-s -w -X main.version=devel" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
 
 .PHONY: build-goreleaser
 build-goreleaser:

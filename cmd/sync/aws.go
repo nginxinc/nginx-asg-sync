@@ -198,7 +198,7 @@ func (client *AWSClient) getInstancesInService(insIDtoIP map[string]string) ([]s
 	keys := reflect.ValueOf(insIDtoIP).MapKeys()
 	instanceIDs := make([]string, len(keys))
 
-	for i := range len(keys) {
+	for i := range keys {
 		instanceIDs[i] = keys[i].String()
 	}
 

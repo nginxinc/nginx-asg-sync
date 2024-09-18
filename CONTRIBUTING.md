@@ -15,6 +15,7 @@ that you are considering contributing!
   - [Suggest an Enhancement](#suggest-an-enhancement)
   - [Open a Pull Request](#open-a-pull-request)
   - [Issue lifecycle](#issue-lifecycle)
+  - [F5 Contributor License Agreement (CLA)](#f5-contributor-license-agreement-cla)
 - [Style Guides](#style-guides)
   - [Git Style Guide](#git-style-guide)
   - [Go Style Guide](#go-style-guide)
@@ -68,6 +69,15 @@ issue template.
 - When an issue or PR is created, it will be triaged by the core development team and assigned a label to indicate the
   type of issue it is (bug, feature request, etc) and to determine the milestone. Please see the [Issue
   Lifecycle](ISSUE_LIFECYCLE.md) document for more information.
+
+### F5 Contributor License Agreement (CLA)
+
+F5 requires all external contributors to agree to the terms of the F5 CLA (available [here](https://github.com/f5/.github/blob/main/CLA/cla-markdown.md))
+before any of their changes can be incorporated into an F5 Open Source repository.
+
+If you have not yet agreed to the F5 CLA terms and submit a PR to this repository, a bot will prompt you to view and
+agree to the F5 CLA. You will have to agree to the F5 CLA terms through a comment in the PR before any of your changes
+can be merged. Your agreement signature will be safely stored by F5 and no longer be required in future PRs.
 
 ## Style Guides
 

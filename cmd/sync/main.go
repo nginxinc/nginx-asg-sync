@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"io"
@@ -76,10 +77,11 @@ func main() {
 	}
 
 	for _, ups := range upstreams {
+		ctx := context.TODO()
 		if ups.Kind == "http" {
-			err = nginxClient.CheckIfUpstreamExists(ups.Name)
+			err = nginxClient.CheckIfUpstreamExists(ctx, ups.Name)
 		} else {
-			err = nginxClient.CheckIfStreamUpstreamExists(ups.Name)
+			err = nginxClient.CheckIfStreamUpstreamExists(ctx, ups.Name)
 		}
 
 		if err != nil {
@@ -106,6 +108,7 @@ func main() {
 				log.Printf("Couldn't get the IP addresses for %v: %v", upstream.ScalingGroup, err)
 				continue
 			}
+			ctx := context.TODO()
 
 			if upstream.Kind == "http" {
 				var upsServers []nginx.UpstreamServer
@@ -120,7 +123,7 @@ func main() {
 					})
 				}
 
-				added, removed, updated, err := nginxClient.UpdateHTTPServers(upstream.Name, upsServers)
+				added, removed, updated, err := nginxClient.UpdateHTTPServers(ctx, upstream.Name, upsServers)
 				if err != nil {
 					log.Printf("Couldn't update HTTP servers in NGINX: %v", err)
 					continue
@@ -146,7 +149,7 @@ func main() {
 					})
 				}
 
-				added, removed, updated, err := nginxClient.UpdateStreamServers(upstream.Name, upsServers)
+				added, removed, updated, err := nginxClient.UpdateStreamServers(ctx, upstream.Name, upsServers)
 				if err != nil {
 					log.Printf("Couldn't update Steam servers in NGINX: %v", err)
 					continue

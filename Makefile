@@ -21,7 +21,7 @@ nginx-asg-sync:
 .PHONY: build-goreleaser
 build-goreleaser:
 	@goreleaser -v || (code=$$?; printf "\033[0;31mError\033[0m: there was a problem with GoReleaser. Follow the docs to install it https://goreleaser.com/install\n"; exit $$code)
-	@GOPATH=$(shell go env GOPATH) goreleaser release --clean --snapshot
+	@goreleaser release --clean --snapshot
 
 .PHONY: build-goreleaser-docker
 build-goreleaser-docker:

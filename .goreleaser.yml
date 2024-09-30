@@ -18,10 +18,6 @@ builds:
       - s390x
     flags:
       - -trimpath
-    gcflags:
-      - all=-trimpath={{.Env.GOPATH}}
-    asmflags:
-      - all=-trimpath={{.Env.GOPATH}}
     main: ./cmd/sync
     binary: nginx-asg-sync
 

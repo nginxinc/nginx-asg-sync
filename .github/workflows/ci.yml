@@ -32,10 +32,6 @@ jobs:
         with:
           go-version: stable
 
-      - name: Determine GOPATH
-        id: go
-        run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
-
       - name: Build binary
         uses: goreleaser/goreleaser-action@286f3b13b1b49da4ac219696163fb8c1c93e1200 # v6.0.0
         with:
@@ -43,7 +39,6 @@ jobs:
           args: build --snapshot --clean --single-target
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GOPATH: ${{ steps.go.outputs.go_path }}
 
   unit-tests:
     name: Unit Tests
@@ -77,10 +72,6 @@ jobs:
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
           go-version: stable
-
-      - name: Determine GOPATH
-        id: go
-        run: echo "go_path=$(go env GOPATH)" >> $GITHUB_OUTPUT
 
       - name: Draft Release Notes
         uses: lucacome/draft-release@5d29432a46bff6c122cd4b07a1fb94e1bb158d34 # v1.1.1
@@ -117,7 +108,6 @@ jobs:
           args: ${{ github.ref_type == 'tag' && 'release' || 'build --snapshot' }} --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GOPATH: ${{ steps.go.outputs.go_path }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_COMMUNITY }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
           NGINX_GITHUB_TOKEN: ${{ secrets.NGINX_PAT }}

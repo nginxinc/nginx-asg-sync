@@ -7,10 +7,10 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6 v6.1.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v6 v6.1.0
 	github.com/aws/aws-sdk-go-v2 v1.32.2
-	github.com/aws/aws-sdk-go-v2/config v1.27.43
+	github.com/aws/aws-sdk-go-v2/config v1.28.0
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.17
-	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.45.2
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.182.0
+	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.46.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.186.0
 	github.com/nginxinc/nginx-plus-go-client/v2 v2.0.1
 	gopkg.in/yaml.v3 v3.0.1
 )

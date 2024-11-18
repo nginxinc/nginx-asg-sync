@@ -1,6 +1,6 @@
 module github.com/nginxinc/nginx-asg-sync
 
-go 1.23.2
+go 1.23.3
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.8.0

@@ -1,4 +1,4 @@
-module github.com/nginxinc/nginx-asg-sync
+module github.com/nginx/nginx-asg-sync
 
 go 1.23.4
 
@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.23
 	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.51.4
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.199.0
-	github.com/nginxinc/nginx-plus-go-client/v2 v2.1.0
+	github.com/nginx/nginx-plus-go-client/v2 v2.2.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -34,9 +34,9 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/net v0.29.0 // indirect
+	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 )

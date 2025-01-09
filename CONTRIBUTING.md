@@ -24,7 +24,7 @@ that you are considering contributing!
 
 ## Ask a Question
 
-To ask a question please use [Github Discussions](https://github.com/nginxinc/nginx-asg-sync/discussions).
+To ask a question please use [Github Discussions](https://github.com/nginx/nginx-asg-sync/discussions).
 
 You can also join our [Community Slack](https://community.nginx.org/joinslack) which has a wider NGINX audience.
 
@@ -99,6 +99,6 @@ can be merged. Your agreement signature will be safely stored by F5 and no longe
 - Run `gofmt` over your code to automatically resolve a lot of style issues. Most editors support this running
   automatically when saving a code file.
 - Run `go lint` and `go vet` on your code too to catch any other issues.
-- Follow this guide on some good practice and idioms for Go -  <https://github.com/golang/go/wiki/CodeReviewComments>
+- Follow this guide on some good practice and idioms for Go - <https://github.com/golang/go/wiki/CodeReviewComments>
 - To check for extra issues, install [golangci-lint](https://github.com/golangci/golangci-lint) and run `make lint` or
   `golangci-lint run`

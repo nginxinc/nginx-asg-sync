@@ -16,7 +16,7 @@ lint:
 
 nginx-asg-sync:
 	@go version || (code=$$?; printf "\033[0;31mError\033[0m: unable to build locally, try using the parameter TARGET=container or TARGET=download\n"; exit $$code)
-	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=$(shell go env GOPATH) -asmflags=-trimpath=$(shell go env GOPATH)" GOOS=linux go build -trimpath -ldflags "-s -w -X main.version=devel" -o nginx-asg-sync github.com/nginxinc/nginx-asg-sync/cmd/sync
+	CGO_ENABLED=0 GOFLAGS="-gcflags=-trimpath=$(shell go env GOPATH) -asmflags=-trimpath=$(shell go env GOPATH)" GOOS=linux go build -trimpath -ldflags "-s -w -X main.version=devel" -o nginx-asg-sync github.com/nginx/nginx-asg-sync/cmd/sync
 
 .PHONY: build-goreleaser
 build-goreleaser:
@@ -26,7 +26,7 @@ build-goreleaser:
 .PHONY: build-goreleaser-docker
 build-goreleaser-docker:
 	@docker -v || (code=$$?; printf "\033[0;31mError\033[0m: there was a problem with Docker\n"; exit $$code)
-	@docker run --pull always --rm --privileged -v $(PWD):/go/src/github.com/nginxinc/nginx-asg-sync -v /var/run/docker.sock:/var/run/docker.sock -w /go/src/github.com/nginxinc/nginx-asg-sync goreleaser/goreleaser:$(GORELEASER_VERSION) release --snapshot --clean
+	@docker run --pull always --rm --privileged -v $(PWD):/go/src/github.com/nginx/nginx-asg-sync -v /var/run/docker.sock:/var/run/docker.sock -w /go/src/github.com/nginx/nginx-asg-sync goreleaser/goreleaser:$(GORELEASER_VERSION) release --snapshot --clean
 
 .PHONY: clean
 clean:

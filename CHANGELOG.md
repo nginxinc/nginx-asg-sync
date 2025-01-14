@@ -1,30 +1,30 @@
 # Changelog
 
-Starting with version 1.0.0 an automatically generated list of changes can be found on the [GitHub Releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
+Starting with version 1.0.0 an automatically generated list of changes can be found on the [GitHub Releases page](https://github.com/nginx/nginx-asg-sync/releases).
 
 ## 0.5.0 (February 24, 2021)
 
 IMPROVEMENTS:
 
-- Add InService option for AWS [#39](https://github.com/nginxinc/nginx-asg-sync/pull/39)
-- Update log format [#42](https://github.com/nginxinc/nginx-asg-sync/pull/42)
+- Add InService option for AWS [#39](https://github.com/nginx/nginx-asg-sync/pull/39)
+- Update log format [#42](https://github.com/nginx/nginx-asg-sync/pull/42)
 
 ## 0.4-1 (November 22, 2019)
 
 IMPROVEMENTS:
 
 - Add support to set upstream server parameters: `max_conns`, `max_fails`, `fail_timeout` and `slow_start` in the
-  configuration file. <https://github.com/nginxinc/nginx-asg-sync/pull/33>
+  configuration file. <https://github.com/nginx/nginx-asg-sync/pull/33>
 - Add support to use wildcards in the names of AWS Auto Scaling groups.
-  <https://github.com/nginxinc/nginx-asg-sync/pull/29/>
+  <https://github.com/nginx/nginx-asg-sync/pull/29/>
 - Allow nginx-asg-sync to detect the region where it is running (use `region: self` in the configuration file).
-  <https://github.com/nginxinc/nginx-asg-sync/pull/27>
+  <https://github.com/nginx/nginx-asg-sync/pull/27>
 
 ## 0.3-1 (September 4, 2019)
 
 IMPROVEMENTS:
 
-- Add support for Azure Virtual Machine Scale Sets <https://github.com/nginxinc/nginx-asg-sync/pull/24>
+- Add support for Azure Virtual Machine Scale Sets <https://github.com/nginx/nginx-asg-sync/pull/24>
 - Create separate documentation for the configuration for different cloud providers: [aws](examples/aws.md) and
   [azure](examples/azure.md).
 - Ubuntu 14.04 (Trusty) is no longer supported.
@@ -43,9 +43,9 @@ Note: the supported versions of NGINX Plus are R18 and higher.
 
 IMPROVEMENTS:
 
-- Add supporting documentation for the project <https://github.com/nginxinc/nginx-asg-sync/pull/10>
-- Update package layout <https://github.com/nginxinc/nginx-asg-sync/pull/9>
-- Use new NGINX Plus API <https://github.com/nginxinc/nginx-asg-sync/pull/7>
+- Add supporting documentation for the project <https://github.com/nginx/nginx-asg-sync/pull/10>
+- Update package layout <https://github.com/nginx/nginx-asg-sync/pull/9>
+- Use new NGINX Plus API <https://github.com/nginx/nginx-asg-sync/pull/7>
 
 UPGRADE:
 

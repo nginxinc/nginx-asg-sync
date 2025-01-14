@@ -1,12 +1,12 @@
 <!-- markdownlint-disable-next-line first-line-h1 -->
-[![OpenSSFScorecard](https://api.securityscorecards.dev/projects/github.com/nginxinc/nginx-asg-sync/badge)](https://scorecard.dev/viewer/?uri=github.com/nginxinc/nginx-asg-sync)
-[![CI](https://github.com/nginxinc/nginx-asg-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/nginxinc/nginx-asg-sync/actions/workflows/ci.yml)
-[![FOSSAStatus](https://app.fossa.com/api/projects/custom%2B5618%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync.svg?type=shield)](https://app.fossa.com/projects/custom%2B5618%2Fgithub.com%2Fnginxinc%2Fnginx-asg-sync?ref=badge_shield)
-[![Go Report Card](https://goreportcard.com/badge/github.com/nginxinc/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginxinc/nginx-asg-sync)
-![GitHub all releases](https://img.shields.io/github/downloads/nginxinc/nginx-asg-sync/total?logo=github)
-![GitHub release (latest by SemVer)](https://img.shields.io/github/downloads/nginxinc/nginx-asg-sync/latest/total?sort=semver&logo=github)
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/nginxinc/nginx-asg-sync?logo=github&sort=semver)](https://github.com/nginxinc/nginx-asg-sync/releases/latest)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/nginxinc/nginx-asg-sync?logo=go)
+[![OpenSSFScorecard](https://api.securityscorecards.dev/projects/github.com/nginx/nginx-asg-sync/badge)](https://scorecard.dev/viewer/?uri=github.com/nginx/nginx-asg-sync)
+[![CI](https://github.com/nginx/nginx-asg-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/nginx/nginx-asg-sync/actions/workflows/ci.yml)
+[![FOSSAStatus](https://app.fossa.com/api/projects/custom%2B5618%2Fgithub.com%2Fnginx%2Fnginx-asg-sync.svg?type=shield)](https://app.fossa.com/projects/custom%2B5618%2Fgithub.com%2Fnginx%2Fnginx-asg-sync?ref=badge_shield)
+[![Go Report Card](https://goreportcard.com/badge/github.com/nginx/nginx-asg-sync)](https://goreportcard.com/report/github.com/nginx/nginx-asg-sync)
+![GitHub all releases](https://img.shields.io/github/downloads/nginx/nginx-asg-sync/total?logo=github)
+![GitHub release (latest by SemVer)](https://img.shields.io/github/downloads/nginx/nginx-asg-sync/latest/total?sort=semver&logo=github)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/nginx/nginx-asg-sync?logo=github&sort=semver)](https://github.com/nginx/nginx-asg-sync/releases/latest)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/nginx/nginx-asg-sync?logo=go)
 [![nginx-asg-sync](https://snapcraft.io/nginx-asg-sync/badge.svg)](https://snapcraft.io/nginx-asg-sync)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
@@ -66,7 +66,7 @@ Below you will find documentation on how to use nginx-asg-sync.
 ## Documentation
 
 The documentation for **the latest stable release** is available via a link in the description of the release. See the
-[releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
+[releases page](https://github.com/nginx/nginx-asg-sync/releases).
 
 ## Supported Operating Systems and Architectures
 
@@ -79,7 +79,7 @@ Support for other operating systems or architectures can be added.
 ### Manual Installation
 
 1. Get a software package for your OS:
-   - For a stable release, download a package from the [releases page](https://github.com/nginxinc/nginx-asg-sync/releases).
+   - For a stable release, download a package from the [releases page](https://github.com/nginx/nginx-asg-sync/releases).
    - For the latest source code from the main branch, build a software package by following [these
      instructions](#building-a-software-package).
 2. Install the package:
@@ -99,7 +99,7 @@ sudo snap install nginx-asg-sync
 You can add the NGINX homebrew tap with
 
 ```console
-brew tap nginxinc/tap
+brew tap nginx/tap
 ```
 
 and then install the formula with

@@ -24,7 +24,7 @@ builds:
 nfpms:
   - file_name_template: "{{ .ConventionalFileName }}"
     vendor: NGINX Inc.
-    homepage: https://github.com/nginxinc/nginx-asg-sync
+    homepage: https://github.com/nginx/nginx-asg-sync
     maintainer: NGINX Inc. <integrations@nginx.com>
     description: |-
       NGINX Plus Integration with Cloud Autoscaling.
@@ -128,11 +128,11 @@ snapcrafts:
 
 brews:
   - repository:
-      owner: nginxinc
+      owner: nginx
       name: homebrew-tap
       token: "{{ .Env.NGINX_GITHUB_TOKEN }}"
     directory: Formula
-    homepage: https://github.com/nginxinc/nginx-asg-sync
+    homepage: https://github.com/nginx/nginx-asg-sync
     description: NGINX Plus Integration with Cloud Autoscaling
     license: BSD-2-Clause
     commit_author:

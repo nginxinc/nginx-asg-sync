@@ -83,7 +83,7 @@ jobs:
           notes-footer: |
             ## Resources
 
-            - Documentation -- https://github.com/nginxinc/nginx-asg-sync/blob/{{version}}/README.md
+            - Documentation -- https://github.com/nginx/nginx-asg-sync/blob/{{version}}/README.md
         if: github.event_name != 'pull_request'
 
       - name: Download Syft

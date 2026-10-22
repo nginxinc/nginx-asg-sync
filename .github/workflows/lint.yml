@@ -54,4 +54,4 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Lint YAML
-        uses: reviewdog/action-yamllint@e02a49fdf53f51ddd8dfa89b09aa975043aeba38 # v1.23.0
+        uses: reviewdog/action-yamllint@8f84f0fb670d777d3e584ef50faf60eb61605b2a # v1.25.3
